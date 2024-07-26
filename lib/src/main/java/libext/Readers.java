@@ -73,14 +73,14 @@ public class Readers {
     return null;
   }
 
-  public static boolean readAll(Collection<String> c, BufferedReader reader) {
-    Objects.requireNonNull(c, "no valid collection provided");
+  public static boolean addAll(Collection<String> col, BufferedReader reader) {
+    Objects.requireNonNull(col, "no valid collection provided");
     Objects.requireNonNull(reader, "no valid reader provided");
     String line, token = null;
     boolean result = false;
     while ((line = readLine(reader)) != null) {
       while ((token = readToken(line)) != null) {
-        result |= c.add(token);
+        result |= col.add(token);
       }
     }
     return result;

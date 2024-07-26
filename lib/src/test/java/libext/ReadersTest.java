@@ -7,7 +7,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import org.junit.jupiter.api.Test;
 
 class ReadersTest {
@@ -23,7 +22,7 @@ class ReadersTest {
     BufferedReader bufferedReader = Readers.newBufferedReader(inputStream);
     assertNotNull(bufferedReader);
     var input = new ArrayList<String>();
-    final boolean b = Readers.readAll(input, bufferedReader);
+    final boolean b = Readers.addAll(input, bufferedReader);
     assertTrue(b);
     final var expected = Arrays.asList("one", "two", "three", "four",
         "five", "six", "seven", "eight", "nine", "ten");
