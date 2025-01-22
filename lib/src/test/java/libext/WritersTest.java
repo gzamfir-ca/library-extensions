@@ -3,17 +3,18 @@ package libext;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class WritersTest {
 
   @Test
-  void newPrintWriter() {
+  void newPrintWriterToStream() {
     OutputStream outputStream = new ByteArrayOutputStream();
     PrintWriter writer = Writers.newPrintWriter(outputStream);
     assertNotNull(writer);
@@ -23,5 +24,25 @@ class WritersTest {
     final var output = Arrays.asList(outputStream.toString().split("\n"));
     assertIterableEquals(expected, output);
     writer.close();
+  }
+
+  @Test
+  void newPrintWriterToPath() throws IOException {
+    Path path = Files.createTempFile(
+          Path.of("src/test/resources"), "writersTest", ".txt");
+    if (path != null) {
+      path.toFile().deleteOnExit();
+      PrintWriter writer = Writers.newPrintWriter(path);
+      assertNotNull(writer);
+      final var expected = Arrays.asList("1", "2", "3", "4", "5", "6", "7",
+          "8", "9");
+      expected.forEach(writer::println);
+      final var output = Arrays.asList(Files.readString(path).split("\n"));
+      assertIterableEquals(expected, output);
+      writer.close();
+    }
+    else {
+      throw new RuntimeException();
+    }
   }
 }
