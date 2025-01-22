@@ -32,11 +32,13 @@ public class Readers {
 
   public static BufferedReader newBufferedReader(Path path) {
     Objects.requireNonNull(path, "no valid path provided");
-    try (InputStream inputStream = Files.newInputStream(path)) {
-      return newBufferedReader(inputStream);
+    InputStream inputStream = null;
+    try {
+      inputStream = Files.newInputStream(path);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+    return newBufferedReader(inputStream);
   }
 
   public static String readLine(BufferedReader reader) {

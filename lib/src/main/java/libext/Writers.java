@@ -31,10 +31,12 @@ public class Writers {
 
   public static PrintWriter newPrintWriter(Path path) {
     Objects.requireNonNull(path, "no valid path provided");
-    try (OutputStream outputStream = Files.newOutputStream(path)) {
-      return newPrintWriter(outputStream);
+    OutputStream outputStream = null;
+    try {
+      outputStream = Files.newOutputStream(path);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+    return newPrintWriter(outputStream);
   }
 }
