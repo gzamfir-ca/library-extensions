@@ -79,4 +79,38 @@ class ListsTest {
       throw new RuntimeException(e);
     }
   }
+
+  @Test
+  void newLinkedHashSetFromStream() {
+    String s = """
+                            one   two three
+                                    four             five six seven
+                                                     eight nine              ten
+                                                                    \s""";
+    InputStream inputStream = new ByteArrayInputStream(s.getBytes());
+    try(BufferedReader bufferedReader = Readers.newBufferedReader(inputStream)) {
+      assertNotNull(bufferedReader);
+      var input = Lists.newLinkedHashSet(bufferedReader);
+      var expected = Arrays.asList("one", "two", "three", "four",
+          "five", "six", "seven", "eight", "nine", "ten");
+      assertIterableEquals(expected, input);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Test
+  void newLinkedHashSetFromPath() {
+    Path path = Path.of("src/test/resources/readersTest.txt");
+    assertNotNull(path);
+    try(BufferedReader bufferedReader = Readers.newBufferedReader(path)) {
+      assertNotNull(bufferedReader);
+      var input = Lists.newLinkedHashSet(bufferedReader);
+      var expected = Arrays.asList("one", "two", "three", "four",
+          "five", "six", "seven", "eight", "nine", "ten");
+      assertIterableEquals(expected, input);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }
