@@ -134,7 +134,7 @@ public class ValueListMap<K, V> implements Map<K, List<V>> {
 
   @Override
   public String toString() {
-    return "MultipleValuesMap{" +
+    return "ValueListMap{" +
         "map=" + map +
         '}';
   }
