@@ -15,8 +15,8 @@ public class Lists {
     Objects.requireNonNull(reader, "no valid reader provided");
     ArrayList<String> list = new ArrayList<>();
     boolean success = Readers.addAll(list, reader);
-    if(!success) {
-      throw new RuntimeException("failed to add any element");
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
     }
     return list;
   }
@@ -25,8 +25,8 @@ public class Lists {
     Objects.requireNonNull(reader, "no valid reader provided");
     LinkedList<String> list = new LinkedList<>();
     boolean success = Readers.addAll(list, reader);
-    if(!success) {
-      throw new RuntimeException("failed to add any element");
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
     }
     return list;
   }
@@ -35,8 +35,47 @@ public class Lists {
     Objects.requireNonNull(reader, "no valid reader provided");
     LinkedHashSet<String> list = new LinkedHashSet<>();
     boolean success = Readers.addAll(list, reader);
-    if(!success) {
-      throw new RuntimeException("failed to add any element");
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
+  public static <T extends Copyable<T>> ArrayList<T> newArrayList(Iterable<T> iterable) {
+    Objects.requireNonNull(iterable, "no valid iterable provided");
+    ArrayList<T> list = new ArrayList<>();
+    boolean success = false;
+    for (T element : iterable) {
+      success |= list.add(element.copy());
+    }
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
+  public static <T extends Copyable<T>> LinkedList<T> newLinkedList(Iterable<T> iterable) {
+    Objects.requireNonNull(iterable, "no valid iterable provided");
+    LinkedList<T> list = new LinkedList<>();
+    boolean success = false;
+    for (T element : iterable) {
+      success |= list.add(element.copy());
+    }
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
+  public static <T extends Copyable<T>> LinkedHashSet<T> newLinkedHashSet(Iterable<T> iterable) {
+    Objects.requireNonNull(iterable, "no valid iterable provided");
+    LinkedHashSet<T> list = new LinkedHashSet<>();
+    boolean success = false;
+    for (T element : iterable) {
+      success |= list.add(element.copy());
+    }
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
     }
     return list;
   }
