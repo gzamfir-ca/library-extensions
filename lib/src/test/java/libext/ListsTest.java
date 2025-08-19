@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Random;
 import org.junit.jupiter.api.Test;
 
 class ListsTest {
@@ -107,6 +108,15 @@ class ListsTest {
   }
 
   @Test
+  void newArrayListFromSupplier() {
+    Random random = new Random(1234567890L);
+    int N = 10;
+    var initialized = Lists.newArrayList(N, () -> random.nextInt(10 * N));
+    var expected = Arrays.asList(77, 42, 21, 22, 65, 16, 99, 32, 79, 71);
+    assertIterableEquals(expected, initialized);
+  }
+
+  @Test
   void newLinkedListFromStream() {
     String s = """
         one   two three
@@ -157,6 +167,15 @@ class ListsTest {
   }
 
   @Test
+  void newLinkedListFromSupplier() {
+    Random random = new Random(1234567890L);
+    int N = 10;
+    var initialized = Lists.newLinkedList(N, () -> random.nextInt(10 * N));
+    var expected = Arrays.asList(77, 42, 21, 22, 65, 16, 99, 32, 79, 71);
+    assertIterableEquals(expected, initialized);
+  }
+
+  @Test
   void newLinkedHashSetFromStream() {
     String s = """
         one   two three
@@ -204,5 +223,14 @@ class ListsTest {
     original.getFirst().id = 10;
     original.getLast().name = "ten";
     assertIterableEquals(expected, copy);
+  }
+
+  @Test
+  void newLinkedHashSetFromSupplier() {
+    Random random = new Random(1234567890L);
+    int N = 10;
+    var initialized = Lists.newLinkedHashSet(N, () -> random.nextInt(10 * N));
+    var expected = Arrays.asList(77, 42, 21, 22, 65, 16, 99, 32, 79, 71);
+    assertIterableEquals(expected, initialized);
   }
 }
