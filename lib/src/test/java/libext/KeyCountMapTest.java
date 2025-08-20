@@ -27,6 +27,10 @@ class KeyCountMapTest {
     assertEquals(3, keyCountMap.incrementCount("2"));
     assertEquals(4, keyCountMap.incrementCount("3"));
     assertEquals(1, keyCountMap.incrementCount("4"));
+    assertEquals(2, keyCountMap.keyCount("1"));
+    assertEquals(3, keyCountMap.keyCount("2"));
+    assertEquals(4, keyCountMap.keyCount("3"));
+    assertEquals(1, keyCountMap.keyCount("4"));
   }
 
   @Test
@@ -35,7 +39,11 @@ class KeyCountMapTest {
     assertEquals(0, keyCountMap.decrementCount("1"));
     assertEquals(1, keyCountMap.decrementCount("2"));
     assertEquals(2, keyCountMap.decrementCount("3"));
-    assertEquals(-1, keyCountMap.decrementCount("4"));
+    assertEquals(0, keyCountMap.decrementCount("4"));
+    assertEquals(0, keyCountMap.keyCount("1"));
+    assertEquals(1, keyCountMap.keyCount("2"));
+    assertEquals(2, keyCountMap.keyCount("3"));
+    assertEquals(0, keyCountMap.keyCount("4"));
   }
 
   @Test

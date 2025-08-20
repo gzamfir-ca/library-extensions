@@ -30,8 +30,12 @@ public class ValueListMap<K, V> implements Map<K, List<V>> {
   }
 
   public List<V> removeValue(K key, V element) {
-    map.computeIfAbsent(key, k -> new ArrayList<>()).remove(element);
-    return map.get(key);
+    List<V> list = map.computeIfAbsent(key, k -> new ArrayList<>());
+    list.remove(element);
+    if (list.isEmpty()) {
+      return map.remove(key);
+    }
+    return list;
   }
 
   public Collection<V> valueList() {
@@ -52,6 +56,10 @@ public class ValueListMap<K, V> implements Map<K, List<V>> {
       count += list.size();
     }
     return count;
+  }
+
+  public int valueCount(K key) {
+    return map.getOrDefault(key, new ArrayList<>()).size();
   }
 
   @Override

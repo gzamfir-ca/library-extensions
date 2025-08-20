@@ -28,13 +28,14 @@ public class KeyCountMap<K> implements Map<K, Integer> {
   }
 
   public Integer decrementCount(K key) {
-    int count = map.getOrDefault(key, 0) - 1;
-    if (count >= 1) {
-      map.put(key, count);
+    int count = map.getOrDefault(key, 0);
+    if (count >= 2) {
+      map.put(key, count - 1);
       return map.get(key);
     }
-    if (count == 0) {
+    if (count == 1) {
       map.remove(key);
+      count--;
     }
     return count;
   }

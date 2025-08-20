@@ -31,9 +31,11 @@ class ValueListMapTest {
     List<Integer> valueList1 = valueListMap.putValue("1", 11);
     var expected1 = Arrays.asList(1, 2, 3, 11);
     assertIterableEquals(expected1, valueList1);
+    assertEquals(4, valueListMap.valueCount("1"));
     List<Integer> valueList2 = valueListMap.putValue("5", 12);
     var expected2 = Collections.singletonList(12);
     assertIterableEquals(expected2, valueList2);
+    assertEquals(1, valueListMap.valueCount("5"));
     var expected3 = Arrays.asList(1, 2, 3, 11, 4, 5, 6, 7, 8, 9, 10, 12);
     assertIterableEquals(expected3, valueListMap.valueList());
   }
@@ -44,11 +46,22 @@ class ValueListMapTest {
     List<Integer> valueList1 = valueListMap.removeValue("2", 6);
     var expected1 = Arrays.asList(4, 5, 7, 8);
     assertIterableEquals(expected1, valueList1);
+    assertEquals(4, valueListMap.valueCount("2"));
     List<Integer> valueList2 = valueListMap.removeValue("1", 11);
     var expected2 = Arrays.asList(1, 2, 3);
     assertIterableEquals(expected2, valueList2);
+    assertEquals(3, valueListMap.valueCount("1"));
     var expected3 = Arrays.asList(1, 2, 3, 4, 5, 7, 8, 9, 10);
     assertIterableEquals(expected3, valueListMap.valueList());
+    List<Integer> valueList3 = valueListMap.removeValue("3", 9);
+    var expected4 = Collections.singletonList(10);
+    assertIterableEquals(expected4, valueListMap.valueList("3"));
+    assertEquals(1, valueListMap.valueCount("3"));
+    List<Integer> valueList4 = valueListMap.removeValue("3", 10);
+    assertNotNull(valueListMap.valueList("3"));
+    assertTrue(valueListMap.valueList("3").isEmpty());
+    assertNull(valueListMap.get("3"));
+    assertEquals(0, valueListMap.valueCount("3"));
   }
 
   @Test
@@ -68,6 +81,9 @@ class ValueListMapTest {
   void valueCount() {
     var valueListMap = makeValueListMap();
     assertEquals(10, valueListMap.valueCount());
+    assertEquals(3, valueListMap.valueCount("1"));
+    assertEquals(5, valueListMap.valueCount("2"));
+    assertEquals(2, valueListMap.valueCount("3"));
   }
 
   @Test
