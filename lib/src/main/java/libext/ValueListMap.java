@@ -42,6 +42,10 @@ public class ValueListMap<K, V> implements Map<K, List<V>> {
     return valueList;
   }
 
+  public List<V> valueList(K key) {
+    return map.getOrDefault(key, new ArrayList<>());
+  }
+
   public int valueCount() {
     int count = 0;
     for (List<V> list : map.values()) {

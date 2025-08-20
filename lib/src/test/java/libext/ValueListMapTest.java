@@ -57,6 +57,11 @@ class ValueListMapTest {
     var valueList = valueListMap.valueList();
     var expected = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
     assertIterableEquals(expected, valueList);
+    assertIterableEquals(Arrays.asList(1, 2, 3), valueListMap.valueList("1"));
+    assertIterableEquals(Arrays.asList(4, 5, 6, 7, 8), valueListMap.valueList("2"));
+    assertIterableEquals(Arrays.asList(9, 10), valueListMap.valueList("3"));
+    assertNotNull(valueListMap.valueList("4"));
+    assertTrue(valueListMap.valueList("4").isEmpty());
   }
 
   @Test

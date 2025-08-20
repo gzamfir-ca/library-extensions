@@ -6,15 +6,15 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class CountMap<K> implements Map<K, Integer> {
+public class KeyCountMap<K> implements Map<K, Integer> {
 
   private final Map<K, Integer> map;
 
-  public CountMap() {
+  public KeyCountMap() {
     map = new HashMap<>();
   }
 
-  public CountMap(Map<K, Integer> countMap) {
+  public KeyCountMap(Map<K, Integer> countMap) {
     this.map = countMap;
   }
 
@@ -23,13 +23,15 @@ public class CountMap<K> implements Map<K, Integer> {
   }
 
   public Integer incrementCount(K key) {
-    return map.put(key, map.getOrDefault(key, 0) + 1);
+    map.put(key, map.getOrDefault(key, 0) + 1);
+    return map.get(key);
   }
 
   public Integer decrementCount(K key) {
     int count = map.getOrDefault(key, 0) - 1;
     if (count >= 1) {
-      return map.put(key, count);
+      map.put(key, count);
+      return map.get(key);
     }
     if (count == 0) {
       map.remove(key);
@@ -106,7 +108,7 @@ public class CountMap<K> implements Map<K, Integer> {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CountMap<?> countMap = (CountMap<?>) o;
+    KeyCountMap<?> countMap = (KeyCountMap<?>) o;
     return Objects.equals(map, countMap.map);
   }
 
@@ -117,7 +119,7 @@ public class CountMap<K> implements Map<K, Integer> {
 
   @Override
   public String toString() {
-    return "CountMap{" +
+    return "KeyCountMap{" +
         "map=" + map +
         '}';
   }
