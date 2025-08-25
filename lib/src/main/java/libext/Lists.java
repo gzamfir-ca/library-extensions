@@ -22,6 +22,20 @@ public class Lists {
     return list;
   }
 
+  public static ArrayList<String> newArrayList(String line, String regex) {
+    Objects.requireNonNull(line, "no valid line provided");
+    Objects.requireNonNull(regex, "no valid regex provided");
+    ArrayList<String> list = new ArrayList<>();
+    boolean success = false;
+    for (String token : line.split(regex)) {
+      success |= list.add(token);
+    }
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
   public static <T extends Copyable<T>> ArrayList<T> newArrayList(Iterable<T> iterable) {
     Objects.requireNonNull(iterable, "no valid iterable provided");
     ArrayList<T> list = new ArrayList<>();
@@ -58,6 +72,20 @@ public class Lists {
     return list;
   }
 
+  public static LinkedList<String> newLinkedList(String line, String regex) {
+    Objects.requireNonNull(line, "no valid line provided");
+    Objects.requireNonNull(regex, "no valid regex provided");
+    LinkedList<String> list = new LinkedList<>();
+    boolean success = false;
+    for (String token : line.split(regex)) {
+      success |= list.add(token);
+    }
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
   public static <T extends Copyable<T>> LinkedList<T> newLinkedList(Iterable<T> iterable) {
     Objects.requireNonNull(iterable, "no valid iterable provided");
     LinkedList<T> list = new LinkedList<>();
@@ -88,6 +116,20 @@ public class Lists {
     Objects.requireNonNull(reader, "no valid reader provided");
     LinkedHashSet<String> list = new LinkedHashSet<>();
     boolean success = Readers.addAll(list, reader);
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
+  public static LinkedHashSet<String> newLinkedHashSet(String line, String regex) {
+    Objects.requireNonNull(line, "no valid line provided");
+    Objects.requireNonNull(regex, "no valid regex provided");
+    LinkedHashSet<String> list = new LinkedHashSet<>();
+    boolean success = false;
+    for (String token : line.split(regex)) {
+      success |= list.add(token);
+    }
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }

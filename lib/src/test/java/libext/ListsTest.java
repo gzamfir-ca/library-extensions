@@ -92,6 +92,16 @@ class ListsTest {
   }
 
   @Test
+  void newArrayListFromString() {
+    final String line = "one, two;three  four,,five;;six seven eight,, nine;; ten";
+    final String regex = "[,;\\s]+";
+    var expected = Arrays.asList("one", "two", "three", "four",
+        "five", "six", "seven", "eight", "nine", "ten");
+    var tokens = Lists.newArrayList(line, regex);
+    assertIterableEquals(expected, tokens);
+  }
+
+  @Test
   void newArrayListFromIterable() {
     var original = new ArrayList<>(Arrays.asList(
         new CopyableRecord(1, "one"),
@@ -151,6 +161,16 @@ class ListsTest {
   }
 
   @Test
+  void newLinkedListFromString() {
+    final String line = "one, two;three  four,,five;;six seven eight,, nine;; ten";
+    final String regex = "[,;\\s]+";
+    var expected = Arrays.asList("one", "two", "three", "four",
+        "five", "six", "seven", "eight", "nine", "ten");
+    var tokens = Lists.newLinkedList(line, regex);
+    assertIterableEquals(expected, tokens);
+  }
+
+  @Test
   void newLinkedListFromIterable() {
     var original = new LinkedList<>(Arrays.asList(
         new CopyableRecord(1, "one"),
@@ -207,6 +227,16 @@ class ListsTest {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Test
+  void newLinkedHashSetFromString() {
+    final String line = "one, two;three  four,,five;;six seven eight,, nine;; ten";
+    final String regex = "[,;\\s]+";
+    var expected = Arrays.asList("one", "two", "three", "four",
+        "five", "six", "seven", "eight", "nine", "ten");
+    var tokens = Lists.newLinkedHashSet(line, regex);
+    assertIterableEquals(expected, tokens);
   }
 
   @Test
