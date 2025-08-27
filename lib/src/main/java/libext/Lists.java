@@ -12,6 +12,20 @@ public class Lists {
   private Lists() {
   }
 
+  @SafeVarargs
+  public static <T> ArrayList<T> newArrayList(T... elements) {
+    Objects.requireNonNull(elements, "no valid elements provided");
+    ArrayList<T> list = new ArrayList<>();
+    boolean success = false;
+    for (T element : elements) {
+      success |= list.add(element);
+    }
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
   public static ArrayList<String> newArrayList(BufferedReader reader) {
     Objects.requireNonNull(reader, "no valid reader provided");
     ArrayList<String> list = new ArrayList<>();
@@ -55,6 +69,20 @@ public class Lists {
     boolean success = false;
     for (int i = 0; i < size; i++) {
       success |= list.add(supplier.get());
+    }
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
+  @SafeVarargs
+  public static <T> LinkedList<T> newLinkedList(T... elements) {
+    Objects.requireNonNull(elements, "no valid elements provided");
+    LinkedList<T> list = new LinkedList<>();
+    boolean success = false;
+    for (T element : elements) {
+      success |= list.add(element);
     }
     if (!success) {
       throw new RuntimeException("failed to add some element");
@@ -116,6 +144,20 @@ public class Lists {
     Objects.requireNonNull(reader, "no valid reader provided");
     LinkedHashSet<String> list = new LinkedHashSet<>();
     boolean success = Readers.addAll(list, reader);
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
+  @SafeVarargs
+  public static <T> LinkedHashSet<T> newLinkedHashSet(T... elements) {
+    Objects.requireNonNull(elements, "no valid elements provided");
+    LinkedHashSet<T> list = new LinkedHashSet<>();
+    boolean success = false;
+    for (T element : elements) {
+      success |= list.add(element);
+    }
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }

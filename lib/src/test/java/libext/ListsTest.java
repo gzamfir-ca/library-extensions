@@ -58,6 +58,22 @@ class ListsTest {
   }
 
   @Test
+  void newArrayListFromArray() {
+    ArrayList<String> input1 = Lists.newArrayList("one", "two", "three");
+    var expected1 = Arrays.asList("one", "two", "three");
+    assertIterableEquals(expected1, input1);
+    input1.add("four");
+    var expected2 = Arrays.asList("one", "two", "three", "four");
+    assertIterableEquals(expected2, input1);
+    ArrayList<Integer> input2 = Lists.newArrayList(1, 2, 3);
+    var expected3 = Arrays.asList(1, 2, 3);
+    assertIterableEquals(expected3, input2);
+    input2.add(4);
+    var expected4 = Arrays.asList(1, 2, 3, 4);
+    assertIterableEquals(expected4, input2);
+  }
+
+  @Test
   void newArrayListFromStream() {
     String s = """
         one   two three
@@ -124,6 +140,22 @@ class ListsTest {
     var initialized = Lists.newArrayList(N, () -> random.nextInt(10 * N));
     var expected = Arrays.asList(77, 42, 21, 22, 65, 16, 99, 32, 79, 71);
     assertIterableEquals(expected, initialized);
+  }
+
+  @Test
+  void newLinkedListFromArray() {
+    LinkedList<String> input1 = Lists.newLinkedList("one", "two", "three");
+    var expected1 = Arrays.asList("one", "two", "three");
+    assertIterableEquals(expected1, input1);
+    input1.add("four");
+    var expected2 = Arrays.asList("one", "two", "three", "four");
+    assertIterableEquals(expected2, input1);
+    LinkedList<Integer> input2 = Lists.newLinkedList(1, 2, 3);
+    var expected3 = Arrays.asList(1, 2, 3);
+    assertIterableEquals(expected3, input2);
+    input2.add(4);
+    var expected4 = Arrays.asList(1, 2, 3, 4);
+    assertIterableEquals(expected4, input2);
   }
 
   @Test
@@ -212,6 +244,22 @@ class ListsTest {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Test
+  void newLinkedHashSetFromArray() {
+    LinkedHashSet<String> input1 = Lists.newLinkedHashSet("one", "two", "three");
+    var expected1 = Arrays.asList("one", "two", "three");
+    assertIterableEquals(expected1, input1);
+    input1.add("four");
+    var expected2 = Arrays.asList("one", "two", "three", "four");
+    assertIterableEquals(expected2, input1);
+    LinkedHashSet<Integer> input2 = Lists.newLinkedHashSet(1, 2, 3);
+    var expected3 = Arrays.asList(1, 2, 3);
+    assertIterableEquals(expected3, input2);
+    input2.add(4);
+    var expected4 = Arrays.asList(1, 2, 3, 4);
+    assertIterableEquals(expected4, input2);
   }
 
   @Test
