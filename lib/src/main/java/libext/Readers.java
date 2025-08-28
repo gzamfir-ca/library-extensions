@@ -20,28 +20,7 @@ public class Readers {
   private Readers() {
   }
 
-  public static Charset CHARSET = StandardCharsets.UTF_8;
-  public static int DELIM = ' ';
-
-  public static BufferedReader newBufferedReader(InputStream input) {
-    Objects.requireNonNull(input, "no valid input provided");
-    CharsetDecoder decoder = CHARSET.newDecoder();
-    Reader reader = new InputStreamReader(input, decoder);
-    return new BufferedReader(reader);
-  }
-
-  public static BufferedReader newBufferedReader(Path path) {
-    Objects.requireNonNull(path, "no valid path provided");
-    InputStream inputStream = null;
-    try {
-      inputStream = Files.newInputStream(path);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-    return newBufferedReader(inputStream);
-  }
-
-  public static String readLine(BufferedReader reader) {
+  private static String readLine(BufferedReader reader) {
     Objects.requireNonNull(reader, "no valid reader provided");
     String line = null;
     try {
@@ -52,7 +31,7 @@ public class Readers {
     return line;
   }
 
-  public static String readToken(String line) {
+  private static String readToken(String line) {
     Objects.requireNonNull(line, "no valid line provided");
     while (pos < line.length() && line.charAt(pos) == DELIM) {
       pos++;
@@ -73,6 +52,27 @@ public class Readers {
     }
     pos = 0;
     return null;
+  }
+
+  public static Charset CHARSET = StandardCharsets.UTF_8;
+  public static int DELIM = ' ';
+
+  public static BufferedReader newBufferedReader(InputStream input) {
+    Objects.requireNonNull(input, "no valid input provided");
+    CharsetDecoder decoder = CHARSET.newDecoder();
+    Reader reader = new InputStreamReader(input, decoder);
+    return new BufferedReader(reader);
+  }
+
+  public static BufferedReader newBufferedReader(Path path) {
+    Objects.requireNonNull(path, "no valid path provided");
+    InputStream inputStream = null;
+    try {
+      inputStream = Files.newInputStream(path);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return newBufferedReader(inputStream);
   }
 
   public static boolean addAll(Collection<String> col, BufferedReader reader) {
