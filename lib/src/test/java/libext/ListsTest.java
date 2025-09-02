@@ -9,8 +9,10 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 import org.junit.jupiter.api.Test;
@@ -143,6 +145,20 @@ class ListsTest {
   }
 
   @Test
+  void newArrayListFromMap() {
+    Map<String, Integer> map = new LinkedHashMap<>();
+    map.put("one", 1);
+    map.put("two", 2);
+    map.put("three", 3);
+    var entries = Lists.newArrayList(map);
+    var expected = Arrays.asList(Map.entry("one", 1), Map.entry("two", 2),
+        Map.entry("three", 3));
+    assertIterableEquals(expected, entries);
+    map.put("three", 4);
+    assertIterableEquals(expected, entries);
+  }
+
+  @Test
   void newLinkedListFromArray() {
     LinkedList<String> input1 = Lists.newLinkedList("one", "two", "three");
     var expected1 = Arrays.asList("one", "two", "three");
@@ -228,6 +244,20 @@ class ListsTest {
   }
 
   @Test
+  void newLinkedListFromMap() {
+    Map<String, Integer> map = new LinkedHashMap<>();
+    map.put("one", 1);
+    map.put("two", 2);
+    map.put("three", 3);
+    var entries = Lists.newLinkedList(map);
+    var expected = Arrays.asList(Map.entry("one", 1), Map.entry("two", 2),
+        Map.entry("three", 3));
+    assertIterableEquals(expected, entries);
+    map.put("three", 4);
+    assertIterableEquals(expected, entries);
+  }
+
+  @Test
   void newLinkedHashSetFromStream() {
     String s = """
         one   two three
@@ -310,5 +340,19 @@ class ListsTest {
     var initialized = Lists.newLinkedHashSet(N, () -> random.nextInt(10 * N));
     var expected = Arrays.asList(77, 42, 21, 22, 65, 16, 99, 32, 79, 71);
     assertIterableEquals(expected, initialized);
+  }
+
+  @Test
+  void newLinkedHashSetFromMap() {
+    Map<String, Integer> map = new LinkedHashMap<>();
+    map.put("one", 1);
+    map.put("two", 2);
+    map.put("three", 3);
+    var entries = Lists.newLinkedHashSet(map);
+    var expected = Arrays.asList(Map.entry("one", 1), Map.entry("two", 2),
+        Map.entry("three", 3));
+    assertIterableEquals(expected, entries);
+    map.put("three", 4);
+    assertIterableEquals(expected, entries);
   }
 }

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -76,6 +77,19 @@ public class Lists {
     return list;
   }
 
+  public static <K, V> ArrayList<Map.Entry<K, V>> newArrayList(Map<K, V> map) {
+    Objects.requireNonNull(map, "no valid map provided");
+    ArrayList<Map.Entry<K, V>> list = new ArrayList<>();
+    boolean success = false;
+    for (Map.Entry<K, V> entry : map.entrySet()) {
+      success |= list.add(Map.Entry.copyOf(entry));
+    }
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
   @SafeVarargs
   public static <T> LinkedList<T> newLinkedList(T... elements) {
     Objects.requireNonNull(elements, "no valid elements provided");
@@ -140,6 +154,19 @@ public class Lists {
     return list;
   }
 
+  public static <K, V> LinkedList<Map.Entry<K, V>> newLinkedList(Map<K, V> map) {
+    Objects.requireNonNull(map, "no valid map provided");
+    LinkedList<Map.Entry<K, V>> list = new LinkedList<>();
+    boolean success = false;
+    for (Map.Entry<K, V> entry : map.entrySet()) {
+      success |= list.add(Map.Entry.copyOf(entry));
+    }
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
   public static LinkedHashSet<String> newLinkedHashSet(BufferedReader reader) {
     Objects.requireNonNull(reader, "no valid reader provided");
     LinkedHashSet<String> list = new LinkedHashSet<>();
@@ -197,6 +224,19 @@ public class Lists {
     boolean success = false;
     for (int i = 0; i < size; i++) {
       success |= list.add(supplier.get());
+    }
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
+    }
+    return list;
+  }
+
+  public static <K, V> LinkedHashSet<Map.Entry<K, V>> newLinkedHashSet(Map<K, V> map) {
+    Objects.requireNonNull(map, "no valid map provided");
+    LinkedHashSet<Map.Entry<K, V>> list = new LinkedHashSet<>();
+    boolean success = false;
+    for (Map.Entry<K, V> entry : map.entrySet()) {
+      success |= list.add(Map.Entry.copyOf(entry));
     }
     if (!success) {
       throw new RuntimeException("failed to add some element");
