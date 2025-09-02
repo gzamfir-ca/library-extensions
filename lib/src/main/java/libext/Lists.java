@@ -2,6 +2,7 @@ package libext;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
@@ -14,13 +15,61 @@ public class Lists {
   }
 
   @SafeVarargs
-  public static <T> ArrayList<T> newArrayList(T... elements) {
+  private static <T> boolean addAll(Collection<T> col, T... elements) {
+    Objects.requireNonNull(col, "no valid collection provided");
     Objects.requireNonNull(elements, "no valid elements provided");
-    ArrayList<T> list = new ArrayList<>();
     boolean success = false;
     for (T element : elements) {
-      success |= list.add(element);
+      success |= col.add(element);
     }
+    return success;
+  }
+
+  private static boolean addAll(Collection<String> col, String line, String regex) {
+    Objects.requireNonNull(col, "no valid collection provided");
+    Objects.requireNonNull(line, "no valid line provided");
+    Objects.requireNonNull(regex, "no valid regex provided");
+    boolean success = false;
+    for (String token : line.split(regex)) {
+      success |= col.add(token);
+    }
+    return success;
+  }
+
+  private static <T extends Copyable<T>> boolean addAll(Collection<T> col, Iterable<T> iterable) {
+    Objects.requireNonNull(col, "no valid collection provided");
+    Objects.requireNonNull(iterable, "no valid iterable provided");
+    boolean success = false;
+    for (T element : iterable) {
+      success |= col.add(element.copy());
+    }
+    return success;
+  }
+
+  private static <T> boolean addAll(Collection<T> col, int size, Supplier<T> supplier) {
+    Objects.requireNonNull(col, "no valid collection provided");
+    Objects.requireNonNull(supplier, "no valid supplier provided");
+    boolean success = false;
+    for (int i = 0; i < size; i++) {
+      success |= col.add(supplier.get());
+    }
+    return success;
+  }
+
+  private static <K, V> boolean addAll(Collection<Map.Entry<K, V>> col, Map<K, V> map) {
+    Objects.requireNonNull(col, "no valid collection provided");
+    Objects.requireNonNull(map, "no valid map provided");
+    boolean success = false;
+    for (Map.Entry<K, V> entry : map.entrySet()) {
+      success |= col.add(Map.Entry.copyOf(entry));
+    }
+    return success;
+  }
+
+  @SafeVarargs
+  public static <T> ArrayList<T> newArrayList(T... elements) {
+    ArrayList<T> list = new ArrayList<>();
+    boolean success = addAll(list, elements);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -28,7 +77,6 @@ public class Lists {
   }
 
   public static ArrayList<String> newArrayList(BufferedReader reader) {
-    Objects.requireNonNull(reader, "no valid reader provided");
     ArrayList<String> list = new ArrayList<>();
     boolean success = Readers.addAll(list, reader);
     if (!success) {
@@ -38,13 +86,8 @@ public class Lists {
   }
 
   public static ArrayList<String> newArrayList(String line, String regex) {
-    Objects.requireNonNull(line, "no valid line provided");
-    Objects.requireNonNull(regex, "no valid regex provided");
     ArrayList<String> list = new ArrayList<>();
-    boolean success = false;
-    for (String token : line.split(regex)) {
-      success |= list.add(token);
-    }
+    boolean success = addAll(list, line, regex);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -52,12 +95,8 @@ public class Lists {
   }
 
   public static <T extends Copyable<T>> ArrayList<T> newArrayList(Iterable<T> iterable) {
-    Objects.requireNonNull(iterable, "no valid iterable provided");
     ArrayList<T> list = new ArrayList<>();
-    boolean success = false;
-    for (T element : iterable) {
-      success |= list.add(element.copy());
-    }
+    boolean success = addAll(list, iterable);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -65,12 +104,8 @@ public class Lists {
   }
 
   public static <T> ArrayList<T> newArrayList(int size, Supplier<T> supplier) {
-    Objects.requireNonNull(supplier, "no valid supplier provided");
     ArrayList<T> list = new ArrayList<>();
-    boolean success = false;
-    for (int i = 0; i < size; i++) {
-      success |= list.add(supplier.get());
-    }
+    boolean success = addAll(list, size, supplier);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -78,12 +113,8 @@ public class Lists {
   }
 
   public static <K, V> ArrayList<Map.Entry<K, V>> newArrayList(Map<K, V> map) {
-    Objects.requireNonNull(map, "no valid map provided");
     ArrayList<Map.Entry<K, V>> list = new ArrayList<>();
-    boolean success = false;
-    for (Map.Entry<K, V> entry : map.entrySet()) {
-      success |= list.add(Map.Entry.copyOf(entry));
-    }
+    boolean success = addAll(list, map);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -92,12 +123,8 @@ public class Lists {
 
   @SafeVarargs
   public static <T> LinkedList<T> newLinkedList(T... elements) {
-    Objects.requireNonNull(elements, "no valid elements provided");
     LinkedList<T> list = new LinkedList<>();
-    boolean success = false;
-    for (T element : elements) {
-      success |= list.add(element);
-    }
+    boolean success = addAll(list, elements);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -105,7 +132,6 @@ public class Lists {
   }
 
   public static LinkedList<String> newLinkedList(BufferedReader reader) {
-    Objects.requireNonNull(reader, "no valid reader provided");
     LinkedList<String> list = new LinkedList<>();
     boolean success = Readers.addAll(list, reader);
     if (!success) {
@@ -115,13 +141,8 @@ public class Lists {
   }
 
   public static LinkedList<String> newLinkedList(String line, String regex) {
-    Objects.requireNonNull(line, "no valid line provided");
-    Objects.requireNonNull(regex, "no valid regex provided");
     LinkedList<String> list = new LinkedList<>();
-    boolean success = false;
-    for (String token : line.split(regex)) {
-      success |= list.add(token);
-    }
+    boolean success = addAll(list, line, regex);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -129,12 +150,8 @@ public class Lists {
   }
 
   public static <T extends Copyable<T>> LinkedList<T> newLinkedList(Iterable<T> iterable) {
-    Objects.requireNonNull(iterable, "no valid iterable provided");
     LinkedList<T> list = new LinkedList<>();
-    boolean success = false;
-    for (T element : iterable) {
-      success |= list.add(element.copy());
-    }
+    boolean success = addAll(list, iterable);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -142,12 +159,8 @@ public class Lists {
   }
 
   public static <T> LinkedList<T> newLinkedList(int size, Supplier<T> supplier) {
-    Objects.requireNonNull(supplier, "no valid supplier provided");
     LinkedList<T> list = new LinkedList<>();
-    boolean success = false;
-    for (int i = 0; i < size; i++) {
-      success |= list.add(supplier.get());
-    }
+    boolean success = addAll(list, size, supplier);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -155,22 +168,8 @@ public class Lists {
   }
 
   public static <K, V> LinkedList<Map.Entry<K, V>> newLinkedList(Map<K, V> map) {
-    Objects.requireNonNull(map, "no valid map provided");
     LinkedList<Map.Entry<K, V>> list = new LinkedList<>();
-    boolean success = false;
-    for (Map.Entry<K, V> entry : map.entrySet()) {
-      success |= list.add(Map.Entry.copyOf(entry));
-    }
-    if (!success) {
-      throw new RuntimeException("failed to add some element");
-    }
-    return list;
-  }
-
-  public static LinkedHashSet<String> newLinkedHashSet(BufferedReader reader) {
-    Objects.requireNonNull(reader, "no valid reader provided");
-    LinkedHashSet<String> list = new LinkedHashSet<>();
-    boolean success = Readers.addAll(list, reader);
+    boolean success = addAll(list, map);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -179,12 +178,17 @@ public class Lists {
 
   @SafeVarargs
   public static <T> LinkedHashSet<T> newLinkedHashSet(T... elements) {
-    Objects.requireNonNull(elements, "no valid elements provided");
     LinkedHashSet<T> list = new LinkedHashSet<>();
-    boolean success = false;
-    for (T element : elements) {
-      success |= list.add(element);
+    boolean success = addAll(list, elements);
+    if (!success) {
+      throw new RuntimeException("failed to add some element");
     }
+    return list;
+  }
+
+  public static LinkedHashSet<String> newLinkedHashSet(BufferedReader reader) {
+    LinkedHashSet<String> list = new LinkedHashSet<>();
+    boolean success = Readers.addAll(list, reader);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -192,13 +196,8 @@ public class Lists {
   }
 
   public static LinkedHashSet<String> newLinkedHashSet(String line, String regex) {
-    Objects.requireNonNull(line, "no valid line provided");
-    Objects.requireNonNull(regex, "no valid regex provided");
     LinkedHashSet<String> list = new LinkedHashSet<>();
-    boolean success = false;
-    for (String token : line.split(regex)) {
-      success |= list.add(token);
-    }
+    boolean success = addAll(list, line, regex);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -206,12 +205,8 @@ public class Lists {
   }
 
   public static <T extends Copyable<T>> LinkedHashSet<T> newLinkedHashSet(Iterable<T> iterable) {
-    Objects.requireNonNull(iterable, "no valid iterable provided");
     LinkedHashSet<T> list = new LinkedHashSet<>();
-    boolean success = false;
-    for (T element : iterable) {
-      success |= list.add(element.copy());
-    }
+    boolean success = addAll(list, iterable);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -219,12 +214,8 @@ public class Lists {
   }
 
   public static <T> LinkedHashSet<T> newLinkedHashSet(int size, Supplier<T> supplier) {
-    Objects.requireNonNull(supplier, "no valid supplier provided");
     LinkedHashSet<T> list = new LinkedHashSet<>();
-    boolean success = false;
-    for (int i = 0; i < size; i++) {
-      success |= list.add(supplier.get());
-    }
+    boolean success = addAll(list, size, supplier);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
@@ -232,12 +223,8 @@ public class Lists {
   }
 
   public static <K, V> LinkedHashSet<Map.Entry<K, V>> newLinkedHashSet(Map<K, V> map) {
-    Objects.requireNonNull(map, "no valid map provided");
     LinkedHashSet<Map.Entry<K, V>> list = new LinkedHashSet<>();
-    boolean success = false;
-    for (Map.Entry<K, V> entry : map.entrySet()) {
-      success |= list.add(Map.Entry.copyOf(entry));
-    }
+    boolean success = addAll(list, map);
     if (!success) {
       throw new RuntimeException("failed to add some element");
     }
