@@ -1,5 +1,6 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
 }
 
 repositories {
@@ -17,15 +18,28 @@ java {
     }
 }
 
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.me.libs'
+            artifactId = rootProject.name
+            from components.java
+        }
+    }
+}
+
 tasks.named('jar') {
     manifest {
-        attributes('Implementation-Title': project.name,
-                   'Implementation-Version': project.version)
+        attributes(
+                'Implementation-Title': rootProject.name,
+                'Implementation-Version': project.version
+        )
     }
+    archiveBaseName = rootProject.name
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-version = '0.0.4'
+version = '1.0.0'
