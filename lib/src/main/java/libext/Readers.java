@@ -79,12 +79,12 @@ public class Readers {
     Objects.requireNonNull(col, "no valid collection provided");
     Objects.requireNonNull(reader, "no valid reader provided");
     String line, token = null;
-    boolean success = false;
+    boolean result = false;
     while ((line = readLine(reader)) != null) {
       while ((token = readToken(line)) != null) {
-        success |= col.add(token);
+        result |= col.add(token);
       }
     }
-    return success;
+    return result;
   }
 }
