@@ -25,6 +25,16 @@ public class Lists {
     return result;
   }
 
+  private static <T> boolean addAll(Collection<T> col, int size, Supplier<T> supplier) {
+    Objects.requireNonNull(col, "no valid collection provided");
+    Objects.requireNonNull(supplier, "no valid supplier provided");
+    boolean result = false;
+    for (int i = 0; i < size; i++) {
+      result |= col.add(supplier.get());
+    }
+    return result;
+  }
+
   private static boolean addAll(Collection<String> col, String line, String regex) {
     Objects.requireNonNull(col, "no valid collection provided");
     Objects.requireNonNull(line, "no valid line provided");
@@ -46,15 +56,6 @@ public class Lists {
     return result;
   }
 
-  private static <T> boolean addAll(Collection<T> col, int size, Supplier<T> supplier) {
-    Objects.requireNonNull(col, "no valid collection provided");
-    Objects.requireNonNull(supplier, "no valid supplier provided");
-    boolean result = false;
-    for (int i = 0; i < size; i++) {
-      result |= col.add(supplier.get());
-    }
-    return result;
-  }
 
   private static <K, V> boolean addAll(Collection<Map.Entry<K, V>> col, Map<K, V> map) {
     Objects.requireNonNull(col, "no valid collection provided");
