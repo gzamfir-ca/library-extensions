@@ -1,5 +1,6 @@
 package libext;
 
+import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
@@ -151,8 +152,8 @@ class ListsTest {
     map.put("two", 2);
     map.put("three", 3);
     var entries = Lists.newArrayList(map);
-    var expected = Arrays.asList(Map.entry("one", 1), Map.entry("two", 2),
-        Map.entry("three", 3));
+    var expected = Arrays.asList(entry("one", 1), entry("two", 2),
+        entry("three", 3));
     assertIterableEquals(expected, entries);
     map.put("three", 4);
     assertIterableEquals(expected, entries);
@@ -250,8 +251,8 @@ class ListsTest {
     map.put("two", 2);
     map.put("three", 3);
     var entries = Lists.newLinkedList(map);
-    var expected = Arrays.asList(Map.entry("one", 1), Map.entry("two", 2),
-        Map.entry("three", 3));
+    var expected = Arrays.asList(entry("one", 1), entry("two", 2),
+        entry("three", 3));
     assertIterableEquals(expected, entries);
     map.put("three", 4);
     assertIterableEquals(expected, entries);
@@ -349,8 +350,23 @@ class ListsTest {
     map.put("two", 2);
     map.put("three", 3);
     var entries = Lists.newLinkedHashSet(map);
-    var expected = Arrays.asList(Map.entry("one", 1), Map.entry("two", 2),
-        Map.entry("three", 3));
+    var expected = Arrays.asList(entry("one", 1), entry("two", 2),
+        entry("three", 3));
+    assertIterableEquals(expected, entries);
+    map.put("three", 4);
+    assertIterableEquals(expected, entries);
+  }
+
+  @Test
+  void newLinkedHashMap() {
+    LinkedHashMap<String, Integer> map = Lists.newLinkedHashMap(
+        entry("one", 1),
+        entry("two", 2),
+        entry("three", 3)
+    );
+    var entries = Lists.newArrayList(map);
+    var expected = Arrays.asList(entry("one", 1), entry("two", 2),
+        entry("three", 3));
     assertIterableEquals(expected, entries);
     map.put("three", 4);
     assertIterableEquals(expected, entries);

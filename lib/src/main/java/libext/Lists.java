@@ -3,6 +3,7 @@ package libext;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
@@ -56,13 +57,23 @@ public class Lists {
     return result;
   }
 
-
   private static <K, V> boolean addAll(Collection<Map.Entry<K, V>> col, Map<K, V> map) {
     Objects.requireNonNull(col, "no valid collection provided");
     Objects.requireNonNull(map, "no valid map provided");
     boolean result = false;
     for (Map.Entry<K, V> entry : map.entrySet()) {
       result |= col.add(Map.Entry.copyOf(entry));
+    }
+    return result;
+  }
+
+  @SafeVarargs
+  private static <K, V> boolean addAll(Map<K, V> map, Map.Entry<K, V>... entries) {
+    Objects.requireNonNull(map, "no valid map provided");
+    Objects.requireNonNull(entries, "no valid entries provided");
+    boolean result = false;
+    for (Map.Entry<K, V> entry : entries) {
+      result |= map.put(entry.getKey(), entry.getValue()) == null;
     }
     return result;
   }
@@ -182,5 +193,12 @@ public class Lists {
     LinkedHashSet<Map.Entry<K, V>> list = new LinkedHashSet<>();
     checkResult(addAll(list, map));
     return list;
+  }
+
+  @SafeVarargs
+  public static <K, V> LinkedHashMap<K, V> newLinkedHashMap(Map.Entry<K, V>... entries) {
+    LinkedHashMap<K, V> map = new LinkedHashMap<>();
+    checkResult(addAll(map, entries));
+    return map;
   }
 }
