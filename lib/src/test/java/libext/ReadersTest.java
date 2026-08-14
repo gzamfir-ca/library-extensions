@@ -24,10 +24,9 @@ class ReadersTest {
     try(BufferedReader bufferedReader = Readers.newBufferedReader(inputStream)) {
       assertNotNull(bufferedReader);
       var input = new ArrayList<String>();
-      boolean b = Readers.addAll(input, bufferedReader);
+      Readers.addAll(input, bufferedReader);
       var expected = Arrays.asList("one", "two", "three", "four",
           "five", "six", "seven", "eight", "nine", "ten");
-      assertTrue(b);
       assertIterableEquals(expected, input);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -41,10 +40,9 @@ class ReadersTest {
     try(BufferedReader bufferedReader = Readers.newBufferedReader(path)) {
       assertNotNull(bufferedReader);
       var input = new ArrayList<String>();
-      boolean b = Readers.addAll(input, bufferedReader);
+      Readers.addAll(input, bufferedReader);
       var expected = Arrays.asList("one", "two", "three", "four",
           "five", "six", "seven", "eight", "nine", "ten");
-      assertTrue(b);
       assertIterableEquals(expected, input);
     } catch (IOException e) {
       throw new RuntimeException(e);

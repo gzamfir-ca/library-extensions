@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,15 +12,16 @@ class TypesTest {
 
   @Nested
   class ToStringTest {
+
     @Test
-    void shouldMapNullReferenceToOptionalContainingStringNull() {
+    void shouldConvertNullReferenceToNullStringOptional() {
       Optional<String> result = Types.toString(null);
       assertTrue(result.isPresent());
       assertEquals("null", result.get());
     }
 
     @Test
-    void shouldMapExactNullStringToOptionalEmpty() {
+    void shouldConvertNullStringToEmptyOptional() {
       assertTrue(Types.toString("null").isEmpty());
       assertTrue(Types.toString("NULL").isEmpty());
       assertTrue(Types.toString("Null").isEmpty());
@@ -29,20 +29,21 @@ class TypesTest {
 
     @ParameterizedTest
     @ValueSource(strings = {" null ", "null\n"})
-    void shouldNotMapVariationsWithSpacesToOptionalEmpty(String input) {
+    void shouldConvertRandomStringToSameStringOptional(String input) {
       Optional<String> result = Types.toString(input);
       assertTrue(result.isPresent());
       assertEquals(input, result.get());
     }
 
     @Test
-    void shouldConvertStandardObjectsToString() {
+    void shouldConvertLiteralToStringOptional() {
       assertEquals(Optional.of("123"), Types.toString(123));
+      assertEquals(Optional.of("12.34"), Types.toString(12.34));
       assertEquals(Optional.of("true"), Types.toString(true));
     }
 
     @Test
-    void shouldConvertArbitraryObjectToStandardClassNameString() {
+    void shouldConvertObjectToDefaultStringOptional() {
       Optional<String> result = Types.toString(new Object());
       assertTrue(result.isPresent());
       assertTrue(result.get().startsWith("java.lang.Object@"));
@@ -51,67 +52,67 @@ class TypesTest {
 
   @Nested
   class ToBooleanTest {
-    @Test
-    void shouldHandleBooleanInputs() {
-      assertEquals(Optional.of(true), Types.toBoolean(Boolean.TRUE));
-      assertEquals(Optional.of(false), Types.toBoolean(Boolean.FALSE));
-    }
 
     @Test
-    void shouldHandleNumericInputs() {
+    void shouldConvertLiteralToBooleanOptional() {
+      assertEquals(Optional.of(true), Types.toBoolean(Boolean.TRUE));
+      assertEquals(Optional.of(false), Types.toBoolean(Boolean.FALSE));
       assertEquals(Optional.of(true), Types.toBoolean(1));
       assertEquals(Optional.of(true), Types.toBoolean(-5));
       assertEquals(Optional.of(false), Types.toBoolean(0));
     }
 
     @Test
-    void shouldMapExactNullStringAndNullReferenceToOptionalEmpty() {
+    void shouldConvertNullToEmptyOptional() {
+      assertTrue(Types.toBoolean(null).isEmpty());
       assertTrue(Types.toBoolean("null").isEmpty());
       assertTrue(Types.toBoolean("NULL").isEmpty());
       assertTrue(Types.toBoolean("Null").isEmpty());
-      assertTrue(Types.toBoolean(null).isEmpty());
     }
 
     @Test
-    void shouldMatchPlatformDefaultBooleanParseBehavior() {
+    void shouldConvertStringToBooleanOptional() {
       assertEquals(Optional.of(true), Types.toBoolean("true"));
       assertEquals(Optional.of(true), Types.toBoolean("TRUE"));
       assertEquals(Optional.of(true), Types.toBoolean("TrUe"));
+      assertEquals(Optional.of(false), Types.toBoolean("false"));
       assertEquals(Optional.of(false), Types.toBoolean(" true "));
       assertEquals(Optional.of(false), Types.toBoolean("not-a-boolean"));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"", "   ", "\n"})
-    void shouldThrowExceptionOnBlankStrings(String blankInput) {
+    void shouldThrowExceptionOnBlankString(String blankInput) {
       RuntimeException exception = assertThrows(RuntimeException.class,
           () -> Types.toBoolean(blankInput));
       assertTrue(exception.getMessage().startsWith("failed to parse boolean:"));
     }
 
     @Test
-    void shouldReturnEmptyOptionalForArbitraryObjectInstances() {
+    void shouldConvertObjectToEmptyOptional() {
       assertTrue(Types.toBoolean(new Object()).isEmpty());
     }
   }
 
   @Nested
   class ToNumberTest {
+
     @Test
-    void shouldParseValidIntegersAsLong() {
+    void shouldConvertStringToLongOptional() {
       Optional<Number> result = Types.toNumber("123");
       assertTrue(result.isPresent());
       assertInstanceOf(Long.class, result.get());
       assertEquals(123L, result.get());
+      assertEquals(Optional.of(-50L), Types.toNumber("-50"));
+      assertEquals(Optional.of(100L), Types.toNumber("+100"));
     }
 
     @Test
-    void shouldParseValidDecimalsAndScientificNotationAsDouble() {
+    void shouldConvertStringToDoubleOptional() {
       Optional<Number> decimalResult = Types.toNumber("12.34");
       assertTrue(decimalResult.isPresent());
       assertInstanceOf(Double.class, decimalResult.get());
       assertEquals(12.34, decimalResult.get());
-
       Optional<Number> scientificResult = Types.toNumber("1e3");
       assertTrue(scientificResult.isPresent());
       assertInstanceOf(Double.class, scientificResult.get());
@@ -119,13 +120,7 @@ class TypesTest {
     }
 
     @Test
-    void shouldHandleLeadingSignsForIntegers() {
-      assertEquals(Optional.of(-50L), Types.toNumber("-50"));
-      assertEquals(Optional.of(100L), Types.toNumber("+100"));
-    }
-
-    @Test
-    void shouldMapExactNullStringAndNullReferenceToOptionalEmpty() {
+    void shouldConvertNullToEmptyOptional() {
       assertTrue(Types.toNumber("null").isEmpty());
       assertTrue(Types.toNumber("NULL").isEmpty());
       assertTrue(Types.toNumber("Null").isEmpty());
@@ -134,7 +129,7 @@ class TypesTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", "   ", "+", "-", "12.3.4", "abc"})
-    void shouldThrowExceptionOnInvalidNumericInputs(String invalidInput) {
+    void shouldThrowExceptionOnInvalidString(String invalidInput) {
       RuntimeException exception = assertThrows(RuntimeException.class,
           () -> Types.toNumber(invalidInput));
       assertTrue(exception.getMessage().startsWith("failed to parse number:"));
@@ -142,30 +137,32 @@ class TypesTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"0.05d", "0.05D"})
-    void shouldParseDoubleLiteralSuffixes(String input) {
+    void shouldConvertLiteralToDoubleOptional(String input) {
       Optional<Number> result = Types.toNumber(input);
       assertTrue(result.isPresent());
+      assertInstanceOf(Double.class, result.get());
       assertEquals(0.05, result.get().doubleValue(), 0.000001);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"0.05M", "0M005"})
-    void shouldThrowOnUnsupportedDecimalSuffixes(String input) {
+    void shouldThrowExceptionOnInvalidLiteral(String invalidInput) {
       RuntimeException exception = assertThrows(RuntimeException.class,
-          () -> Types.toNumber(input));
+          () -> Types.toNumber(invalidInput));
       assertTrue(exception.getMessage().startsWith("failed to parse number:"));
     }
 
     @Test
-    void shouldReturnEmptyOptionalForArbitraryObjectInstances() {
+    void shouldConvertObjectToEmptyOptional() {
       assertTrue(Types.toNumber(new Object()).isEmpty());
     }
   }
 
   @Nested
   class NarrowingTypeTest {
+
     @Test
-    void shouldSafelyDowncastUsingFunctionalPipelines() {
+    void shouldConvertStringToSpecificNumberOptional() {
       assertEquals(Optional.of((byte) 12), Types.toByte("12"));
       assertEquals(Optional.of((short) 500), Types.toShort("500"));
       assertEquals(Optional.of(100_000), Types.toInteger("100000"));
@@ -175,14 +172,7 @@ class TypesTest {
     }
 
     @Test
-    void shouldPropagateEmptyOptionalTriggersDownstream() {
-      assertTrue(Types.toByte(null).isEmpty());
-      assertTrue(Types.toShort(null).isEmpty());
-      assertTrue(Types.toInteger(null).isEmpty());
-      assertTrue(Types.toLong(null).isEmpty());
-      assertTrue(Types.toFloat(null).isEmpty());
-      assertTrue(Types.toDouble(null).isEmpty());
-
+    void shouldConvertNullToEmptyOptional() {
       Object nullStr = "null";
       assertTrue(Types.toByte(nullStr).isEmpty());
       assertTrue(Types.toShort(nullStr).isEmpty());
@@ -190,10 +180,16 @@ class TypesTest {
       assertTrue(Types.toLong(nullStr).isEmpty());
       assertTrue(Types.toFloat(nullStr).isEmpty());
       assertTrue(Types.toDouble(nullStr).isEmpty());
+      assertTrue(Types.toByte(null).isEmpty());
+      assertTrue(Types.toShort(null).isEmpty());
+      assertTrue(Types.toInteger(null).isEmpty());
+      assertTrue(Types.toLong(null).isEmpty());
+      assertTrue(Types.toFloat(null).isEmpty());
+      assertTrue(Types.toDouble(null).isEmpty());
     }
 
     @Test
-    void shouldReturnEmptyOptionalForArbitraryObjectsDownstream() {
+    void shouldConvertObjectToEmptyOptional() {
       Object defaultObj = new Object();
       assertTrue(Types.toByte(defaultObj).isEmpty());
       assertTrue(Types.toShort(defaultObj).isEmpty());
