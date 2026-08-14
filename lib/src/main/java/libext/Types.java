@@ -1,16 +1,20 @@
 package libext;
 
-public class Types {
+import java.util.Optional;
+
+public final class Types {
 
   private Types() {
+    throw new AssertionError("no instances");
   }
 
   private static boolean integerLike(String str) {
+    if (str.isBlank()) return false;
     int pos = 0;
     while (pos < str.length()) {
       char ch = str.charAt(pos);
       if (ch == '+' || ch == '-') {
-        if (pos != 0) {
+        if (pos != 0 || str.length() == 1) {
           return false;
         }
       } else if (ch == '.' || ch == 'e' || ch == 'E') {
@@ -23,126 +27,81 @@ public class Types {
     return true;
   }
 
-  public static Number toNumber(Object obj) {
-    if (obj != null) {
-      switch (obj) {
-        case Number number -> {
-          return number;
-        }
-        case String str -> {
-          if (str.isBlank()) {
-            throw new RuntimeException("failed to parse number: " + str);
-          }
-          str = str.trim();
-          if (integerLike(str)) {
+  static Optional<Number> toNumber(Object obj) {
+    return Optional.ofNullable(
+        switch (obj) {
+          case Boolean bool -> bool ? 1 : 0;
+          case Number number -> number;
+          case String str when "null".equalsIgnoreCase(str) -> null;
+          case String str -> {
+            if (str.isBlank()) {
+              throw new RuntimeException("failed to parse number: " + str);
+            }
+            str = str.trim();
+            if (integerLike(str)) {
+              try {
+                yield Long.parseLong(str);
+              } catch (NumberFormatException e) {
+                throw new RuntimeException("failed to parse number: " + str);
+              }
+            }
             try {
-              return Long.parseLong(str);
+              yield Double.parseDouble(str);
             } catch (NumberFormatException e) {
               throw new RuntimeException("failed to parse number: " + str);
             }
           }
-          try {
-            return Double.parseDouble(str);
-          } catch (NumberFormatException e) {
-            throw new RuntimeException("failed to parse number: " + str);
+          case null, default -> null;
+        }
+    );
+  }
+
+  public static Optional<Boolean> toBoolean(Object obj) {
+    return Optional.ofNullable(
+        switch (obj) {
+          case Boolean bool -> bool;
+          case Number number -> number.intValue() != 0;
+          case String str when "null".equalsIgnoreCase(str) -> null;
+          case String str -> {
+            if (str.isBlank()) {
+              throw new RuntimeException("failed to parse boolean: " + str);
+            }
+            yield Boolean.parseBoolean(str);
           }
+          case null, default -> null;
         }
-        default -> {
-        }
-      }
-    }
-    return null;
+    );
   }
 
-  public static Boolean toBoolean(Object obj) {
-    if (obj != null) {
-      switch (obj) {
-        case Boolean bool -> {
-          return bool;
-        }
-        case Number number -> {
-          return number.intValue() != 0 ? Boolean.TRUE : Boolean.FALSE;
-        }
-        case String str -> {
-          return Boolean.parseBoolean(str);
-        }
-        default -> {
-        }
-      }
-    }
-    return null;
+  public static Optional<Byte> toByte(Object obj) {
+    return toNumber(obj).map(Number::byteValue);
   }
 
-  public static Byte toByte(Object obj) {
-    Number number = toNumber(obj);
-    if (number != null) {
-      if (number instanceof Byte byteNum) {
-        return byteNum;
-      }
-      return number.byteValue();
-    }
-    return null;
+  public static Optional<Short> toShort(Object obj) {
+    return toNumber(obj).map(Number::shortValue);
   }
 
-  public static Short toShort(Object obj) {
-    Number number = toNumber(obj);
-    if (number != null) {
-      if (number instanceof Short shortNum) {
-        return shortNum;
-      }
-      return number.shortValue();
-    }
-    return null;
+  public static Optional<Integer> toInteger(Object obj) {
+    return toNumber(obj).map(Number::intValue);
   }
 
-  public static Integer toInteger(Object obj) {
-    Number number = toNumber(obj);
-    if (number != null) {
-      if (number instanceof Integer intNum) {
-        return intNum;
-      }
-      return number.intValue();
-    }
-    return null;
+  public static Optional<Long> toLong(Object obj) {
+    return toNumber(obj).map(Number::longValue);
+
   }
 
-  public static Long toLong(Object obj) {
-    Number number = toNumber(obj);
-    if (number != null) {
-      if (number instanceof Long longNum) {
-        return longNum;
-      }
-      return number.longValue();
-    }
-    return null;
+  public static Optional<Float> toFloat(Object obj) {
+    return toNumber(obj).map(Number::floatValue);
   }
 
-  public static Float toFloat(Object obj) {
-    Number number = toNumber(obj);
-    if (number != null) {
-      if (number instanceof Float floatNum) {
-        return floatNum;
-      }
-      return number.floatValue();
-    }
-    return null;
+  public static Optional<Double> toDouble(Object obj) {
+    return toNumber(obj).map(Number::doubleValue);
   }
 
-  public static Double toDouble(Object obj) {
-    Number number = toNumber(obj);
-    if (number != null) {
-      if (number instanceof Double doubleNum) {
-        return doubleNum;
-      }
-      return number.doubleValue();
+  public static Optional<String> toString(Object obj) {
+    if (obj instanceof String str && "null".equalsIgnoreCase(str)) {
+      return Optional.empty();
     }
-    return null;
-  }
-
-  public static String toString(Object obj) {
-    if (obj != null) {
-      return obj.toString();
-    }
-    return null;
+    return Optional.of(String.valueOf(obj));
   }
 }
