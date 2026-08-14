@@ -13,11 +13,12 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Objects;
 
-public class Readers {
+public final class Readers {
 
   private static int pos = 0;
 
   private Readers() {
+    throw new AssertionError("no instances");
   }
 
   private static String readLine(BufferedReader reader) {
@@ -31,16 +32,16 @@ public class Readers {
     return line;
   }
 
-  private static String readToken(String line) {
+  private static String readToken(int delim, String line) {
     Objects.requireNonNull(line, "no valid line provided");
-    while (pos < line.length() && line.charAt(pos) == DELIM) {
+    while (pos < line.length() && line.charAt(pos) == delim) {
       pos++;
     }
     int end = -1;
-    if ((end = line.indexOf(DELIM, pos)) >= 0) {
+    if ((end = line.indexOf(delim, pos)) >= 0) {
       String token = line.substring(pos, end);
       pos = end + 1;
-      while (pos < line.length() && line.charAt(pos) == DELIM) {
+      while (pos < line.length() && line.charAt(pos) == delim) {
         pos++;
       }
       return token;
@@ -66,21 +67,21 @@ public class Readers {
 
   public static BufferedReader newBufferedReader(Path path) {
     Objects.requireNonNull(path, "no valid path provided");
-    InputStream inputStream = null;
     try {
-      inputStream = Files.newInputStream(path);
+      return Files.newBufferedReader(path, CHARSET);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-    return newBufferedReader(inputStream);
   }
 
-  public static void addAll(Collection<String> col, BufferedReader reader) {
+  public static synchronized void addAll(Collection<String> col, BufferedReader reader) {
     Objects.requireNonNull(col, "no valid collection provided");
     Objects.requireNonNull(reader, "no valid reader provided");
+    pos = 0;
     String line, token = null;
+    final int delim = DELIM;
     while ((line = readLine(reader)) != null) {
-      while ((token = readToken(line)) != null) {
+      while ((token = readToken(delim, line)) != null) {
         col.add(token);
       }
     }
