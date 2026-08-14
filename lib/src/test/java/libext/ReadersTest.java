@@ -28,7 +28,7 @@ class ReadersTest {
   }
 
   @Test
-  void shouldParseCommonTokensCorrectly() {
+  void shouldReadCommonTokensCorrectly() {
     BufferedReader reader = createReader("hello world java");
     assertNotNull(reader);
     List<String> result = new ArrayList<>();
@@ -52,7 +52,7 @@ class ReadersTest {
   }
 
   @Test
-  void shouldParseCommonTokensAcrossMultipleLinesCorrectly() {
+  void shouldReadCommonTokensAcrossMultipleLinesCorrectly() {
     BufferedReader reader = createReader("line1 word1\nline2 word2 word3\nline3");
     assertNotNull(reader);
     List<String> result = new ArrayList<>();
@@ -64,7 +64,7 @@ class ReadersTest {
   }
 
   @Test
-  void shouldObserveCustomDelimiterChanges() {
+  void shouldObserveCustomConfigurationChanges() {
     Readers.DELIM = ',';
     BufferedReader reader = createReader("comma,separated,values,,next");
     assertNotNull(reader);
@@ -78,7 +78,7 @@ class ReadersTest {
   }
 
   @Test
-  void shouldIsolateInternalStateAndPreventCorruptionWhenAccessedConcurrently() throws InterruptedException {
+  void shouldPreserveStateUnderConcurrentAccess() throws InterruptedException {
     int threadCount = 10;
     AtomicBoolean safetyFailureOccurred;
     try (ExecutorService executor = Executors.newFixedThreadPool(threadCount)) {

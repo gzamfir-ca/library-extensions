@@ -55,20 +55,21 @@ public final class Readers {
     return null;
   }
 
-  public static Charset CHARSET = StandardCharsets.UTF_8;
-  public static int DELIM = ' ';
+  public static volatile Charset CHARSET = StandardCharsets.UTF_8;
+  public static volatile int DELIM = ' ';
 
   public static BufferedReader newBufferedReader(InputStream input) {
     Objects.requireNonNull(input, "no valid input provided");
-    CharsetDecoder decoder = CHARSET.newDecoder();
-    Reader reader = new InputStreamReader(input, decoder);
+    final Charset charset = CHARSET;
+    InputStreamReader reader = new InputStreamReader(input, charset);
     return new BufferedReader(reader);
   }
 
   public static BufferedReader newBufferedReader(Path path) {
     Objects.requireNonNull(path, "no valid path provided");
+    final Charset charset = CHARSET;
     try {
-      return Files.newBufferedReader(path, CHARSET);
+      return Files.newBufferedReader(path, charset);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
