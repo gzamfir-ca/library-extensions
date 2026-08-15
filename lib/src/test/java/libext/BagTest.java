@@ -2,6 +2,7 @@ package libext;
 
 import java.util.Collection;
 import java.util.Set;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Iterator;
 import java.util.Map;
@@ -9,10 +10,15 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BagTest {
+  private Bag<String> bag;
+
+  @BeforeEach
+  void setUp() {
+    bag = Bag.newBag();
+  }
 
   @Test
   void shouldIncrementCountCorrectly() {
-    Bag<String> bag = Bag.newBag();
     assertEquals(1, bag.add("Apple"));
     assertEquals(2, bag.add("Apple"));
     assertEquals(1, bag.add("Banana"));
@@ -23,7 +29,6 @@ class BagTest {
 
   @Test
   void shouldDecrementCountAndRemoveElementAtZero() {
-    Bag<String> bag = Bag.newBag();
     bag.add("Apple");
     bag.add("Apple");
     assertEquals(2, bag.count("Apple"));
@@ -37,7 +42,6 @@ class BagTest {
 
   @Test
   void shouldReturnNullWhenDecrementingMissingKey() {
-    Bag<String> bag = Bag.newBag();
     assertNull(bag.remove("Missing"));
   }
 
@@ -67,19 +71,18 @@ class BagTest {
 
   @Test
   void shouldIterateOverUniqueElementsAndPreventModification() {
-    Bag<String> bag = Bag.newBag();
     bag.add("Apple");
     bag.add("Apple");
     bag.add("Banana");
     assertEquals(2, bag.size());
     assertEquals(2, bag.count("Apple"));
-    java.util.Iterator<String> iterator = bag.iterator();
+    java.util.Iterator<String> iterator = bag.keySet().iterator();
     assertTrue(iterator.hasNext());
     assertEquals("Apple", iterator.next());
     assertTrue(iterator.hasNext());
     assertEquals("Banana", iterator.next());
     assertFalse(iterator.hasNext());
-    java.util.Iterator<String> secureIterator = bag.iterator();
+    java.util.Iterator<String> secureIterator = bag.keySet().iterator();
     secureIterator.next(); // Move to the first element
     assertThrows(UnsupportedOperationException.class, secureIterator::remove,
         "The iterator view should be unmodifiable and reject structural changes via remove().");
@@ -87,13 +90,11 @@ class BagTest {
 
   @Test
   void shouldThrowUnsupportedOperationExceptionOnPut() {
-    Bag<String> bag = Bag.newBag();
     assertThrows(UnsupportedOperationException.class, () -> bag.put("Apple", 5));
   }
 
   @Test
   void shouldThrowUnsupportedOperationExceptionOnPutAll() {
-    Bag<String> bag = Bag.newBag();
     Map<String, Integer> externalMap = Map.of("Apple", 1, "Banana", 2);
     assertThrows(UnsupportedOperationException.class, () -> bag.putAll(externalMap));
   }
@@ -104,7 +105,6 @@ class BagTest {
 
   @Test
   void shouldProtectKeySetAgainstExternalModifications() {
-    Bag<String> bag = Bag.newBag();
     bag.add("Apple");
     Set<String> keysToTest = maskView(bag.keySet());
     assertThrows(UnsupportedOperationException.class, keysToTest::clear);
@@ -117,7 +117,6 @@ class BagTest {
 
   @Test
   void shouldProtectValuesViewAgainstExternalModifications() {
-    Bag<String> bag = Bag.newBag();
     bag.add("Apple");
     Collection<Integer> valuesToTest = maskView(bag.values());
     assertThrows(UnsupportedOperationException.class, valuesToTest::clear);
@@ -129,7 +128,6 @@ class BagTest {
 
   @Test
   void shouldProtectEntrySetAndIndividualEntriesFromMutation() {
-    Bag<String> bag = Bag.newBag();
     bag.add("Apple");
     Set<Map.Entry<String, Integer>> entriesToTest = maskEntries(bag.entrySet());
     assertThrows(UnsupportedOperationException.class, entriesToTest::clear);

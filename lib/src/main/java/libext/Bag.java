@@ -3,7 +3,6 @@ package libext;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -11,7 +10,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Supplier;
 
-public class Bag<K> implements Map<K, Integer>, Iterable<K> {
+public class Bag<K> implements Map<K, Integer> {
 
   private final Map<K, Integer> map;
 
@@ -53,12 +52,6 @@ public class Bag<K> implements Map<K, Integer>, Iterable<K> {
     }
     map.compute((K) key, (k, v) -> (v <= 1) ? null : v - 1);
     return currentCount;
-  }
-
-  @Override
-  public Iterator<K> iterator() {
-    // KeySet provides a clean, unique stream of elements in the bag
-    return keySet().iterator();
   }
 
   @Override
