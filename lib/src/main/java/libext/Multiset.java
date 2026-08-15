@@ -10,36 +10,40 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Supplier;
 
-public class Bag<K> implements Map<K, Integer> {
+public class Multiset<K> implements Map<K, Integer> {
 
   private final Map<K, Integer> map;
 
-  Bag() {
+  Multiset() {
     this(HashMap::new);
   }
 
-  Bag(Supplier<Map<K, Integer>> mapSupplier) {
+  Multiset(Supplier<Map<K, Integer>> mapSupplier) {
     this.map = Objects.requireNonNull(mapSupplier).get();
   }
 
-  public static <K> Bag<K> newBag() {
-    return new Bag<>();
+  public static <K> Multiset<K> newMultiset() {
+    return new Multiset<>();
   }
 
-  public static <K extends Comparable<? super K>> Bag<K> newSortedBag() {
-    return new Bag<>(TreeMap::new);
+  public static <K extends Comparable<? super K>> Multiset<K> newSortedMultiset() {
+    return new Multiset<>(TreeMap::new);
   }
 
-  public static <K> Bag<K> newOrderedBag() {
-    return new Bag<>(LinkedHashMap::new);
+  public static <K> Multiset<K> newOrderedMultiset() {
+    return new Multiset<>(LinkedHashMap::new);
   }
 
-  public Integer add(K key) {
+  public Integer addKey(K key) {
     return map.merge(key, 1, Integer::sum);
   }
 
+  public Integer removeKey(K key) {
+    return this.remove(key);
+  }
+
   @SuppressWarnings("SuspiciousMethodCalls")
-  public Integer count(Object key) {
+  public Integer keyCount(Object key) {
     return map.getOrDefault(key, 0);
   }
 
@@ -71,7 +75,10 @@ public class Bag<K> implements Map<K, Integer> {
 
   @Override
   public boolean containsValue(Object value) {
-    return map.containsValue(value);
+    if (value instanceof Number) {
+      return map.containsValue(((Number) value).intValue());
+    }
+    return false;
   }
 
   @Override
@@ -96,12 +103,12 @@ public class Bag<K> implements Map<K, Integer> {
 
   @Override
   public Integer put(K key, Integer value) {
-    throw new UnsupportedOperationException("Bag does not support put");
+    throw new UnsupportedOperationException("Multiset does not support put");
   }
 
   @Override
   public void putAll(Map<? extends K, ? extends Integer> m) {
-    throw new UnsupportedOperationException("Bag does not support putAll");
+    throw new UnsupportedOperationException("Multiset does not support putAll");
   }
 
   @Override
@@ -117,7 +124,7 @@ public class Bag<K> implements Map<K, Integer> {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Bag<?> countMap = (Bag<?>) o;
+    Multiset<?> countMap = (Multiset<?>) o;
     return Objects.equals(map, countMap.map);
   }
 
@@ -128,7 +135,7 @@ public class Bag<K> implements Map<K, Integer> {
 
   @Override
   public String toString() {
-    return "Bag{" +
+    return "Multiset{" +
         "map=" + map +
         '}';
   }

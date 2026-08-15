@@ -40,7 +40,7 @@ public class Multimap<K, V> implements Map<K, List<V>> {
     return new Multimap<>(LinkedHashMap::new);
   }
 
-  public List<V> putValue(K key, V element) {
+  public List<V> addValue(K key, V element) {
     List<V> list = map.computeIfAbsent(key, k -> new ArrayList<>());
     list.add(element);
     return unmodifiableList(list);
@@ -59,7 +59,11 @@ public class Multimap<K, V> implements Map<K, List<V>> {
     return unmodifiableList(list);
   }
 
-  public Collection<V> valueList() {
+  public List<V> valueList(K key) {
+    return unmodifiableList(map.getOrDefault(key, new ArrayList<>()));
+  }
+
+  public Collection<V> flattenedValues() {
     Collection<V> valueList = new ArrayList<>();
     for (List<V> list : map.values()) {
       valueList.addAll(list);
@@ -67,21 +71,9 @@ public class Multimap<K, V> implements Map<K, List<V>> {
     return valueList;
   }
 
-  public List<V> valueList(K key) {
-    return unmodifiableList(map.getOrDefault(key, new ArrayList<>()));
-  }
-
-  public int valueCount() {
-    int count = 0;
-    for (List<V> list : map.values()) {
-      count += list.size();
-    }
-    return count;
-  }
-
-  public int valueCount(K key) {
-    List<V> list = map.get(key);
-    return list == null ? 0 : list.size();
+  @Override
+  public List<V> remove(Object key) {
+    return unmodifiableList(map.remove(key));
   }
 
   @Override
@@ -113,32 +105,6 @@ public class Multimap<K, V> implements Map<K, List<V>> {
   }
 
   @Override
-  public List<V> put(K key, List<V> value) {
-    if (value == null) {
-      throw new NullPointerException("value cannot be null");
-    }
-    List<V> previous = map.put(key, new ArrayList<>(value));
-    return unmodifiableList(previous);
-  }
-
-  @Override
-  public List<V> remove(Object key) {
-    return unmodifiableList(map.remove(key));
-  }
-
-  @Override
-  public void putAll(Map<? extends K, ? extends List<V>> m) {
-    for (Map.Entry<? extends K, ? extends List<V>> entry : m.entrySet()) {
-      this.put(entry.getKey(), entry.getValue());
-    }
-  }
-
-  @Override
-  public void clear() {
-    map.clear();
-  }
-
-  @Override
   public Set<K> keySet() {
     return Collections.unmodifiableMap(map).keySet();
   }
@@ -151,6 +117,21 @@ public class Multimap<K, V> implements Map<K, List<V>> {
   @Override
   public Set<Entry<K, List<V>>> entrySet() {
     return Collections.unmodifiableMap(map).entrySet();
+  }
+
+  @Override
+  public List<V> put(K key, List<V> value) {
+    throw new UnsupportedOperationException("Multimap does not support put");
+  }
+
+  @Override
+  public void putAll(Map<? extends K, ? extends List<V>> m) {
+    throw new UnsupportedOperationException("Multimap does not support putAll");
+  }
+
+  @Override
+  public void clear() {
+    map.clear();
   }
 
   @Override
