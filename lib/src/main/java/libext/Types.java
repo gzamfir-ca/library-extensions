@@ -1,5 +1,7 @@
 package libext;
 
+import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 public final class Types {
@@ -9,7 +11,9 @@ public final class Types {
   }
 
   private static boolean integerLike(String str) {
-    if (str.isBlank()) return false;
+    if (str.isBlank()) {
+      return false;
+    }
     int pos = 0;
     while (pos < str.length()) {
       char ch = str.charAt(pos);
@@ -30,7 +34,8 @@ public final class Types {
   static Optional<Number> toNumber(Object obj) {
     return Optional.ofNullable(
         switch (obj) {
-          case Boolean bool -> bool ? 1 : 0;
+          case Boolean bool -> bool ? 1L : 0L;
+          case Instant instant -> instant.getEpochSecond();
           case Number number -> number;
           case String str when "null".equalsIgnoreCase(str) -> null;
           case String str -> {
@@ -60,13 +65,36 @@ public final class Types {
     return Optional.ofNullable(
         switch (obj) {
           case Boolean bool -> bool;
-          case Number number -> number.intValue() != 0;
+          case Instant instant -> !instant.equals(Instant.EPOCH);
+          case Number number -> number.longValue() != 0L;
           case String str when "null".equalsIgnoreCase(str) -> null;
           case String str -> {
             if (str.isBlank()) {
               throw new RuntimeException("failed to parse boolean: " + str);
             }
             yield Boolean.parseBoolean(str);
+          }
+          case null, default -> null;
+        }
+    );
+  }
+
+  public static Optional<Instant> toInstant(Object obj) {
+    return Optional.ofNullable(
+        switch (obj) {
+          case Boolean bool -> bool ? Instant.now() : Instant.EPOCH;
+          case Instant instant -> instant;
+          case Number number -> Instant.ofEpochSecond(number.longValue());
+          case String str when "null".equalsIgnoreCase(str) -> null;
+          case String str -> {
+            if (str.isBlank()) {
+              throw new RuntimeException("failed to parse instant: " + str);
+            }
+            try {
+              yield Instant.parse(str);
+            } catch (DateTimeParseException e) {
+              throw new RuntimeException("failed to parse instant: " + str);
+            }
           }
           case null, default -> null;
         }
