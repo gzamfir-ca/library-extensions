@@ -83,7 +83,7 @@ public final class Lists {
   @SafeVarargs
   public static <T> LinkedHashSet<T> newLinkedHashSet(T... elements) {
     Objects.requireNonNull(elements, "no valid elements provided");
-    int capacity =  Math.multiplyExact(validateSize(elements.length), 134) / 100;
+    int capacity = Math.multiplyExact(validateSize(elements.length), 134) / 100;
     LinkedHashSet<T> list = new LinkedHashSet<>(capacity);
     addAll(list, elements);
     return list;
@@ -91,7 +91,7 @@ public final class Lists {
 
   public static <T> LinkedHashSet<T> newLinkedHashSet(int size, Supplier<T> supplier) {
     Objects.requireNonNull(supplier, "no valid supplier provided");
-    int capacity =  Math.multiplyExact(validateSize(size), 134) / 100;
+    int capacity = Math.multiplyExact(validateSize(size), 134) / 100;
     LinkedHashSet<T> list = new LinkedHashSet<>(capacity);
     addAll(list, size, supplier);
     return list;

@@ -121,12 +121,12 @@ public class Multimap<K, V> implements Map<K, List<V>> {
 
   @Override
   public List<V> put(K key, List<V> value) {
-    throw new UnsupportedOperationException("Multimap does not support put");
+    throw new UnsupportedOperationException("multimap does not support put");
   }
 
   @Override
   public void putAll(Map<? extends K, ? extends List<V>> m) {
-    throw new UnsupportedOperationException("Multimap does not support putAll");
+    throw new UnsupportedOperationException("multimap does not support putAll");
   }
 
   @Override

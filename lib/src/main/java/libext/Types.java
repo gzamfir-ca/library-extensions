@@ -40,20 +40,20 @@ public final class Types {
           case String str when "null".equalsIgnoreCase(str) -> null;
           case String str -> {
             if (str.isBlank()) {
-              throw new RuntimeException("failed to parse number: " + str);
+              throw new IllegalArgumentException("failed to parse number: " + str);
             }
             str = str.trim();
             if (integerLike(str)) {
               try {
                 yield Long.parseLong(str);
               } catch (NumberFormatException e) {
-                throw new RuntimeException("failed to parse number: " + str);
+                throw new IllegalArgumentException("failed to parse number: " + str);
               }
             }
             try {
               yield Double.parseDouble(str);
             } catch (NumberFormatException e) {
-              throw new RuntimeException("failed to parse number: " + str);
+              throw new IllegalArgumentException("failed to parse number: " + str);
             }
           }
           case null, default -> null;
@@ -70,7 +70,7 @@ public final class Types {
           case String str when "null".equalsIgnoreCase(str) -> null;
           case String str -> {
             if (str.isBlank()) {
-              throw new RuntimeException("failed to parse boolean: " + str);
+              throw new IllegalArgumentException("failed to parse boolean: " + str);
             }
             yield Boolean.parseBoolean(str);
           }
@@ -88,12 +88,12 @@ public final class Types {
           case String str when "null".equalsIgnoreCase(str) -> null;
           case String str -> {
             if (str.isBlank()) {
-              throw new RuntimeException("failed to parse instant: " + str);
+              throw new IllegalArgumentException("failed to parse instant: " + str);
             }
             try {
               yield Instant.parse(str);
             } catch (DateTimeParseException e) {
-              throw new RuntimeException("failed to parse instant: " + str);
+              throw new IllegalArgumentException("failed to parse instant: " + str);
             }
           }
           case null, default -> null;

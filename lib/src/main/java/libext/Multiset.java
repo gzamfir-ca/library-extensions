@@ -103,12 +103,12 @@ public class Multiset<K> implements Map<K, Integer> {
 
   @Override
   public Integer put(K key, Integer value) {
-    throw new UnsupportedOperationException("Multiset does not support put");
+    throw new UnsupportedOperationException("multiset does not support put");
   }
 
   @Override
   public void putAll(Map<? extends K, ? extends Integer> m) {
-    throw new UnsupportedOperationException("Multiset does not support putAll");
+    throw new UnsupportedOperationException("multiset does not support putAll");
   }
 
   @Override
