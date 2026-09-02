@@ -3,8 +3,11 @@ package libext;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
+import java.util.RandomAccess;
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class Algorithms {
@@ -12,6 +15,8 @@ public class Algorithms {
   private Algorithms() {
     throw new AssertionError("no instances");
   }
+
+  private static final int LIST_THRESHOLD = 10;
 
   public static <T> boolean allMatch(Collection<T> col, Predicate<T> pred) {
     Objects.requireNonNull(col, "no valid collection provided");
@@ -58,6 +63,36 @@ public class Algorithms {
     return count;
   }
 
+  public static <T> void filter(List<T> dest, List<T> src, Predicate<T> pred) {
+    Objects.requireNonNull(dest, "no valid destination provided");
+    Objects.requireNonNull(src, "no valid source provided");
+    Objects.requireNonNull(pred, "no valid predicate provided");
+    int srcSize = src.size();
+    int destSize = dest.size();
+    if (srcSize > destSize) {
+      throw new IndexOutOfBoundsException("src size is greater than dest size");
+    }
+    if (srcSize < LIST_THRESHOLD ||
+        (src instanceof RandomAccess && dest instanceof RandomAccess)) {
+      for (int i = 0; i < srcSize; i++) {
+        T t = src.get(i);
+        if (pred.test(t)) {
+          dest.set(i, t);
+        }
+      }
+    } else {
+      ListIterator<T> srcIter = src.listIterator();
+      ListIterator<T> destIter = dest.listIterator();
+      for (int i = 0; i < srcSize; i++) {
+        destIter.next();
+        T t = srcIter.next();
+        if (pred.test(t)) {
+          destIter.set(t);
+        }
+      }
+    }
+  }
+
   public static <T> List<T> findAll(Collection<T> col, Object o) {
     Objects.requireNonNull(col, "no valid collection provided");
     ArrayList<T> list = new ArrayList<>();
@@ -89,6 +124,30 @@ public class Algorithms {
       }
     }
     return list;
+  }
+
+  public static <T, R> void map(List<R> dest, List<T> src, Function<T, R> mapper) {
+    Objects.requireNonNull(dest, "no valid destination provided");
+    Objects.requireNonNull(src, "no valid source provided");
+    Objects.requireNonNull(mapper, "no valid mapper provided");
+    int srcSize = src.size();
+    int destSize = dest.size();
+    if (srcSize > destSize) {
+      throw new IndexOutOfBoundsException("src size is greater than dest size");
+    }
+    if (srcSize < LIST_THRESHOLD ||
+        (src instanceof RandomAccess && dest instanceof RandomAccess)) {
+      for (int i = 0; i < srcSize; i++) {
+        dest.set(i, mapper.apply(src.get(i)));
+      }
+    } else {
+      ListIterator<T> srcIter = src.listIterator();
+      ListIterator<R> destIter = dest.listIterator();
+      for (int i = 0; i < srcSize; i++) {
+        destIter.next();
+        destIter.set(mapper.apply(srcIter.next()));
+      }
+    }
   }
 
   public static <T> boolean noneMatch(Collection<T> col, Predicate<T> pred) {
