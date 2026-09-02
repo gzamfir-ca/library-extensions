@@ -37,6 +37,7 @@ class MultimapTest {
     List<String> remaining = map.removeValue("k1", "v1");
     assertIterableEquals(List.of("v2"), remaining);
     assertThrows(UnsupportedOperationException.class, () -> remaining.add("v3"));
+
     List<String> lastRemove = map.removeValue("k1", "v2");
     assertTrue(lastRemove.isEmpty());
     assertFalse(map.containsKey("k1"));
@@ -45,6 +46,7 @@ class MultimapTest {
   @Test
   void shouldRecoverValueCorrectlyForMissingKeys() {
     assertNull(map.removeValue("missing", "v1"));
+
     List<String> emptyList = map.valueList("missing");
     assertTrue(emptyList.isEmpty());
     assertThrows(UnsupportedOperationException.class, () -> emptyList.add("v1"));
@@ -72,6 +74,7 @@ class MultimapTest {
   @Test
   void shouldPreventAddWholesaleValues() {
     assertThrows(UnsupportedOperationException.class, () -> map.put("k1", List.of("v1")));
+
     Map<String, List<String>> source = Map.of("k1", List.of("v1"), "k2", List.of("v2"));
     assertThrows(UnsupportedOperationException.class, () -> map.putAll(source));
   }
@@ -81,6 +84,7 @@ class MultimapTest {
   void shouldClearAllElementsCorrectly() {
     map.addValue("k1", "v1");
     assertFalse(map.isEmpty());
+
     map.clear();
     assertTrue(map.isEmpty());
     assertEquals(0, map.size());

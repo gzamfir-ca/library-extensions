@@ -30,6 +30,7 @@ class TypesTest {
     void shouldConvertInstantToStringOptional() {
       Instant now = Instant.now();
       assertEquals(Optional.of(now.toString()), Types.toString(now));
+
       Instant instant = Instant.parse("2026-08-17T10:00:00Z");
       assertEquals(Optional.of("2026-08-17T10:00:00Z"), Types.toString(instant));
     }
@@ -131,6 +132,7 @@ class TypesTest {
       Optional<Instant> result = Types.toInstant(true);
       Instant after = Instant.now();
       assertTrue(result.isPresent());
+
       Instant actual = result.get();
       assertTrue(!actual.isBefore(before) && !actual.isAfter(after));
     }
@@ -224,6 +226,7 @@ class TypesTest {
       assertTrue(trueResult.isPresent());
       assertInstanceOf(Long.class, trueResult.get());
       assertEquals(1L, trueResult.get());
+
       Optional<Number> falseResult = Types.toNumber(false);
       assertTrue(falseResult.isPresent());
       assertInstanceOf(Long.class, falseResult.get());
@@ -256,6 +259,7 @@ class TypesTest {
       assertTrue(decimalResult.isPresent());
       assertInstanceOf(Double.class, decimalResult.get());
       assertEquals(12.34, decimalResult.get());
+
       Optional<Number> scientificResult = Types.toNumber("1e3");
       assertTrue(scientificResult.isPresent());
       assertInstanceOf(Double.class, scientificResult.get());

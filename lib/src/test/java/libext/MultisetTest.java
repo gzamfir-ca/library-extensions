@@ -77,12 +77,14 @@ class MultisetTest {
     multiset.addKey("Banana");
     assertEquals(2, multiset.size());
     assertEquals(2, multiset.keyCount("Apple"));
+
     java.util.Iterator<String> iterator = multiset.keySet().iterator();
     assertTrue(iterator.hasNext());
     assertEquals("Apple", iterator.next());
     assertTrue(iterator.hasNext());
     assertEquals("Banana", iterator.next());
     assertFalse(iterator.hasNext());
+
     java.util.Iterator<String> secureIterator = multiset.keySet().iterator();
     secureIterator.next();
     assertThrows(UnsupportedOperationException.class, secureIterator::remove,
@@ -132,6 +134,7 @@ class MultisetTest {
     multiset.addKey("Apple");
     Set<Map.Entry<String, Integer>> entriesToTest = maskEntries(multiset.entrySet());
     assertThrows(UnsupportedOperationException.class, entriesToTest::clear);
+
     Map.Entry<String, Integer> entry = entriesToTest.iterator().next();
     assertThrows(UnsupportedOperationException.class, () -> entry.setValue(999));
   }
@@ -144,6 +147,7 @@ class MultisetTest {
     multiset2.addKey("Apple");
     assertEquals(multiset1, multiset2);
     assertEquals(multiset1.hashCode(), multiset2.hashCode());
+
     multiset2.addKey("Apple");
     assertNotEquals(multiset1, multiset2);
   }

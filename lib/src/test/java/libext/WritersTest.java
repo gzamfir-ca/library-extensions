@@ -27,6 +27,7 @@ class WritersTest {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     PrintWriter writer = Writers.newPrintWriter(outputStream);
     assertNotNull(writer);
+
     writer.print("hello world");
     writer.flush();
     assertEquals("hello world", outputStream.toString(StandardCharsets.UTF_8));
@@ -38,6 +39,7 @@ class WritersTest {
     try {
       PrintWriter writer = Writers.newPrintWriter(tempFile);
       assertNotNull(writer);
+
       writer.print("file content");
       writer.close();
       String fileContents = Files.readString(tempFile, StandardCharsets.UTF_8);

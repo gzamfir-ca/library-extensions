@@ -31,6 +31,7 @@ class ReadersTest {
   void shouldReadCommonTokensCorrectly() {
     BufferedReader reader = createReader("hello world java");
     assertNotNull(reader);
+
     List<String> result = new ArrayList<>();
     Readers.addAll(result, reader);
     assertEquals(3, result.size());
@@ -43,6 +44,7 @@ class ReadersTest {
   void shouldIgnoreMultipleConsecutiveDelimitersAndTrailingSpaces() {
     BufferedReader reader = createReader("  leading   middle  trailing  ");
     assertNotNull(reader);
+
     List<String> result = new ArrayList<>();
     Readers.addAll(result, reader);
     assertEquals(3, result.size());
@@ -55,6 +57,7 @@ class ReadersTest {
   void shouldReadCommonTokensAcrossMultipleLinesCorrectly() {
     BufferedReader reader = createReader("line1 word1\nline2 word2 word3\nline3");
     assertNotNull(reader);
+
     List<String> result = new ArrayList<>();
     Readers.addAll(result, reader);
     assertEquals(6, result.size());
@@ -68,6 +71,7 @@ class ReadersTest {
     Readers.DELIM = ',';
     BufferedReader reader = createReader("comma,separated,values,,next");
     assertNotNull(reader);
+
     List<String> result = new ArrayList<>();
     Readers.addAll(result, reader);
     assertEquals(4, result.size());

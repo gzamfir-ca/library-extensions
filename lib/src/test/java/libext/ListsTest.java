@@ -47,6 +47,7 @@ class ListsTest {
     void shouldCreateResizableArrayListFromVarargs() {
       ArrayList<String> list = Lists.newArrayList("A", "B", "C");
       assertIterableEquals(Arrays.asList("A", "B", "C"), list);
+
       list.add("D");
       assertIterableEquals(Arrays.asList("A", "B", "C", "D"), list);
     }
@@ -61,6 +62,7 @@ class ListsTest {
     void shouldCreateResizableArrayListFromSupplier() {
       ArrayList<String> list = Lists.newArrayList(3, stringSupplier);
       assertIterableEquals(Arrays.asList("Item1", "Item2", "Item3"), list);
+
       list.add("Item4");
       assertIterableEquals(Arrays.asList("Item1", "Item2", "Item3", "Item4"), list);
     }
@@ -93,8 +95,10 @@ class ListsTest {
       InputStream inputStream = new ByteArrayInputStream(MULTI_LINE_TEXT.getBytes());
       BufferedReader reader = Readers.newBufferedReader(inputStream);
       assertNotNull(reader);
+
       ArrayList<String> list = Lists.newArrayList(reader);
       assertNotNull(list);
+
       list.add("nine");
       assertIterableEquals(EXPECTED_TOKENS, list);
     }
@@ -103,10 +107,13 @@ class ListsTest {
     void shouldCreateResizableArrayListFromPath() throws IOException {
       Path path = Path.of("src/test/resources/readersTest.txt");
       assertNotNull(path);
+
       BufferedReader reader = Readers.newBufferedReader(path);
       assertNotNull(reader);
+
       ArrayList<String> list = Lists.newArrayList(reader);
       assertNotNull(list);
+
       list.add("nine");
       assertIterableEquals(EXPECTED_TOKENS, list);
     }
@@ -127,6 +134,7 @@ class ListsTest {
     void shouldCreateResizableLinkedListFromVarargs() {
       LinkedList<Integer> list = Lists.newLinkedList(1, 2, 3);
       assertIterableEquals(Arrays.asList(1, 2, 3), list);
+
       list.add(4);
       assertIterableEquals(Arrays.asList(1, 2, 3, 4), list);
     }
@@ -141,6 +149,7 @@ class ListsTest {
     void shouldCreateResizableLinkedListFromSupplier() {
       LinkedList<String> list = Lists.newLinkedList(2, stringSupplier);
       assertIterableEquals(Arrays.asList("Item1", "Item2"), list);
+
       list.add("Item3");
       assertIterableEquals(Arrays.asList("Item1", "Item2", "Item3"), list);
     }
@@ -173,8 +182,10 @@ class ListsTest {
       InputStream inputStream = new ByteArrayInputStream(MULTI_LINE_TEXT.getBytes());
       BufferedReader reader = Readers.newBufferedReader(inputStream);
       assertNotNull(reader);
+
       LinkedList<String> list = Lists.newLinkedList(reader);
       assertNotNull(list);
+
       list.add("nine");
       assertIterableEquals(EXPECTED_TOKENS, list);
     }
@@ -183,10 +194,13 @@ class ListsTest {
     void shouldCreateResizableLinkedListFromPath() throws IOException {
       Path path = Path.of("src/test/resources/readersTest.txt");
       assertNotNull(path);
+
       BufferedReader reader = Readers.newBufferedReader(path);
       assertNotNull(reader);
+
       LinkedList<String> list = Lists.newLinkedList(reader);
       assertNotNull(list);
+
       list.add("nine");
       assertIterableEquals(EXPECTED_TOKENS, list);
     }
@@ -207,6 +221,7 @@ class ListsTest {
     void shouldCreateResizableLinkedHashSetAndPreserveOrder() {
       LinkedHashSet<String> set = Lists.newLinkedHashSet("Z", "A", "B");
       assertIterableEquals(Arrays.asList("Z", "A", "B"), set);
+
       set.add("C");
       assertIterableEquals(Arrays.asList("Z", "A", "B", "C"), set);
     }
@@ -215,6 +230,7 @@ class ListsTest {
     void shouldCreateResizableLinkedHashSetNoDuplicatesFromVarargs() {
       LinkedHashSet<String> set = Lists.newLinkedHashSet("A", "A", "B");
       assertIterableEquals(Arrays.asList("A", "B"), set);
+
       set.add("A");
       set.add("B");
       set.add("C");
@@ -226,6 +242,7 @@ class ListsTest {
       LinkedHashSet<String> set = Lists.newLinkedHashSet(3, duplicateSupplier);
       assertEquals(1, set.size());
       assertTrue(set.contains("Duplicate"));
+
       set.add("Duplicate");
       set.add("Not A Duplicate");
       assertEquals(2, set.size());
@@ -267,8 +284,10 @@ class ListsTest {
       InputStream inputStream = new ByteArrayInputStream(MULTI_LINE_TEXT.getBytes());
       BufferedReader reader = Readers.newBufferedReader(inputStream);
       assertNotNull(reader);
+
       LinkedHashSet<String> set = Lists.newLinkedHashSet(reader);
       assertNotNull(set);
+
       set.add("nine");
       assertIterableEquals(EXPECTED_TOKENS, set);
     }
@@ -277,10 +296,13 @@ class ListsTest {
     void shouldCreateResizableLinkedHashSetFromPath() throws IOException {
       Path path = Path.of("src/test/resources/readersTest.txt");
       assertNotNull(path);
+
       BufferedReader reader = Readers.newBufferedReader(path);
       assertNotNull(reader);
+
       LinkedHashSet<String> set = Lists.newLinkedHashSet(reader);
       assertNotNull(set);
+
       set.add("nine");
       assertIterableEquals(EXPECTED_TOKENS, set);
     }
