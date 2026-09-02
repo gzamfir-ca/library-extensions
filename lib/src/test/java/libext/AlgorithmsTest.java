@@ -7,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
 import org.junit.jupiter.api.Nested;
@@ -133,7 +133,7 @@ class AlgorithmsTest {
     @Test
     void shouldReturnArrayListContainingAllMatchingObjects() {
       Collection<String> col = Arrays.asList("test", "hello", "test");
-      ArrayList<String> result = Algorithms.findAll(col, "test");
+      List<String> result = Algorithms.findAll(col, "test");
       assertEquals(2, result.size());
       assertEquals(Arrays.asList("test", "test"), result);
     }
@@ -141,7 +141,7 @@ class AlgorithmsTest {
     @Test
     void shouldReturnEmptyArrayListWhenFindAllFindsNoMatches() {
       Collection<String> col = Arrays.asList("hello", "world");
-      ArrayList<String> result = Algorithms.findAll(col, "test");
+      List<String> result = Algorithms.findAll(col, "test");
       assertTrue(result.isEmpty());
     }
   }
@@ -170,7 +170,7 @@ class AlgorithmsTest {
     void shouldReturnArrayListOfAllElementsMatchingPredicate() {
       Collection<Integer> col = Arrays.asList(1, 10, 2, 20);
       Predicate<Integer> isGreaterWithTen = n -> n >= 10;
-      ArrayList<Integer> result = Algorithms.findIf(col, isGreaterWithTen);
+      List<Integer> result = Algorithms.findIf(col, isGreaterWithTen);
       assertEquals(2, result.size());
       assertEquals(Arrays.asList(10, 20), result);
     }

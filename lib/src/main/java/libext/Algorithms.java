@@ -2,6 +2,7 @@ package libext;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
@@ -57,7 +58,7 @@ public class Algorithms {
     return count;
   }
 
-  public static <T> ArrayList<T> findAll(Collection<T> col, Object o) {
+  public static <T> List<T> findAll(Collection<T> col, Object o) {
     Objects.requireNonNull(col, "no valid collection provided");
     ArrayList<T> list = new ArrayList<>();
     for (T t : col) {
@@ -78,7 +79,7 @@ public class Algorithms {
     return null;
   }
 
-  public static <T> ArrayList<T> findIf(Collection<T> col, Predicate<T> pred) {
+  public static <T> List<T> findIf(Collection<T> col, Predicate<T> pred) {
     Objects.requireNonNull(col, "no valid collection provided");
     Objects.requireNonNull(pred, "no valid predicate provided");
     ArrayList<T> list = new ArrayList<>();
