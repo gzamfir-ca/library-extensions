@@ -1,5 +1,6 @@
 package libext;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,6 +14,7 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -313,6 +315,43 @@ class ListsTest {
           Lists.newLinkedHashSet((BufferedReader) null)
       );
       assertEquals("no valid reader provided", ex.getMessage());
+    }
+  }
+
+  @Nested
+  class ArrayConversionTests {
+
+    @Test
+    void shouldThrowExceptionWhenListIsNull() {
+      assertThrows(NullPointerException.class, () -> Lists.toLongArray(null),
+          "no valid list provided");
+      assertThrows(NullPointerException.class, () -> Lists.toDoubleArray(null),
+          "no valid list provided");
+    }
+
+    @Test
+    void shouldReturnEmptyArrayWhenListIsEmpty() {
+      List<Integer> emptyList = Collections.emptyList();
+      long[] longResult = Lists.toLongArray(emptyList);
+      double[] doubleResult = Lists.toDoubleArray(emptyList);
+      assertEquals(0, longResult.length);
+      assertEquals(0, doubleResult.length);
+    }
+
+    @Test
+    void shouldConvertListToLongArray() {
+      List<Number> numbers = Arrays.asList(1, 2L, 3.5, 4.0f);
+      long[] expected = {1L, 2L, 3L, 4L};
+      long[] actual = Lists.toLongArray(numbers);
+      assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void shouldConvertListToDoubleArray() {
+      List<Number> numbers = Arrays.asList(1, 2L, 3.5, 4.0f);
+      double[] expected = {1.0, 2.0, 3.5, 4.0};
+      double[] actual = Lists.toDoubleArray(numbers);
+      assertArrayEquals(expected, actual);
     }
   }
 }

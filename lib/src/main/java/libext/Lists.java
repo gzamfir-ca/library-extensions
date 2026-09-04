@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -102,5 +103,31 @@ public final class Lists {
     LinkedHashSet<String> list = new LinkedHashSet<>(128);
     Readers.addAll(list, reader);
     return list;
+  }
+
+  public static long[] toLongArray(List<? extends Number> list) {
+    Objects.requireNonNull(list, "no valid list provided");
+    int size = list.size();
+    if (size > 0) {
+      long[] array = new long[size];
+      for (int i = 0; i < size; i++) {
+        array[i] = list.get(i).longValue();
+      }
+      return array;
+    }
+    return new long[0];
+  }
+
+  public static double[] toDoubleArray(List<? extends Number> list) {
+    Objects.requireNonNull(list, "no valid list provided");
+    int size = list.size();
+    if (size > 0) {
+      double[] array = new double[size];
+      for (int i = 0; i < size; i++) {
+        array[i] = list.get(i).doubleValue();
+      }
+      return array;
+    }
+    return new double[0];
   }
 }
