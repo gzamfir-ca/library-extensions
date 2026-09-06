@@ -131,15 +131,181 @@ class AlgorithmsTest {
   }
 
   @Nested
+  class DropWhileTests {
+
+    @Test
+    void shouldReturnFullViewWhenFirstElementFailsRandomAccess() {
+      List<Integer> src = Arrays.asList(2, 4, 6);
+      List<Integer> dest = Arrays.asList(0, 0, 0);
+      Predicate<Integer> isOdd = x -> x % 2 != 0;
+      int matchCount = Algorithms.dropWhile(dest, src, isOdd);
+      List<Integer> dropWhileView = dest.subList(0, matchCount);
+      assertEquals(3, matchCount);
+      assertEquals(src, dropWhileView);
+    }
+
+    @Test
+    void shouldReturnFullViewWhenFirstElementFailsSequentialAccess() {
+      int LARGE_SIZE = 50;
+      List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 2));
+      List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
+      Predicate<Integer> isOdd = x -> x % 2 != 0;
+      int matchCount = Algorithms.dropWhile(dest, src, isOdd);
+      List<Integer> dropWhileView = dest.subList(0, matchCount);
+      assertEquals(LARGE_SIZE, matchCount);
+      assertEquals(src, dropWhileView);
+    }
+
+    @Test
+    void shouldDropUntilFirstFailureAndThenCopyEverythingElseWhenSizesMatch() {
+      List<Integer> src = Arrays.asList(1, 3, 4, 5);
+      List<Integer> dest = Arrays.asList(0, 0, 0, 0);
+      Predicate<Integer> isOdd = x -> x % 2 != 0;
+      int matchCount = Algorithms.dropWhile(dest, src, isOdd);
+      List<Integer> dropWhileView = dest.subList(0, matchCount);
+      assertEquals(2, matchCount);
+      assertEquals(Arrays.asList(4, 5), dropWhileView);
+      assertEquals(0, dest.get(2));
+    }
+
+    @Test
+    void shouldDropNoneWhenNoneMatchAndDestIsLargerThanSrc() {
+      List<Integer> src = Arrays.asList(2, 4, 6);
+      List<Integer> dest = Arrays.asList(9, 9, 9, 9, 9);
+      Predicate<Integer> isOdd = x -> x % 2 != 0;
+      int matchCount = Algorithms.dropWhile(dest, src, isOdd);
+      List<Integer> dropWhileView = dest.subList(0, matchCount);
+      assertEquals(3, matchCount);
+      assertEquals(Arrays.asList(2, 4, 6), dropWhileView);
+      assertEquals(9, dest.get(3));
+    }
+
+    @Test
+    void shouldReturnEmptyViewWhenAllElementsMatch() {
+      List<Integer> src = Arrays.asList(1, 3, 5);
+      List<Integer> dest = Arrays.asList(0, 0, 0);
+      Predicate<Integer> isOdd = x -> x % 2 != 0;
+      int matchCount = Algorithms.dropWhile(dest, src, isOdd);
+      List<Integer> dropWhileView = dest.subList(0, matchCount);
+      assertEquals(0, matchCount);
+      assertTrue(dropWhileView.isEmpty());
+    }
+
+    @Test
+    void shouldThrowIndexOutOfBoundsExceptionWhenSrcIsLargerThanDest() {
+      List<Integer> src = Arrays.asList(1, 2, 3);
+      List<Integer> dest = List.of(0);
+      Predicate<Integer> pred = x -> true;
+      Exception exception = assertThrows(IndexOutOfBoundsException.class, () ->
+          Algorithms.dropWhile(dest, src, pred)
+      );
+      assertEquals("src size is greater than dest size", exception.getMessage());
+    }
+
+    @Test
+    void shouldHandleSequentialAccessListsAboveThresholdCorrectly() {
+      int LARGE_SIZE = 50;
+      List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 10));
+      List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
+      Predicate<Integer> matchNone = x -> false;
+      int matchCount = Algorithms.dropWhile(dest, src, matchNone);
+      List<Integer> dropWhileView = dest.subList(0, matchCount);
+      assertEquals(LARGE_SIZE, matchCount);
+      assertAll(
+          dropWhileView.stream().map(element -> () -> assertEquals(10, element))
+      );
+    }
+
+    @Test
+    void shouldHandleRandomAccessListsAboveThresholdCorrectly() {
+      int LARGE_SIZE = 50;
+      List<Integer> src = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 10));
+      List<Integer> dest = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 0));
+      Predicate<Integer> matchNone = x -> false;
+      int matchCount = Algorithms.dropWhile(dest, src, matchNone);
+      List<Integer> dropWhileView = dest.subList(0, matchCount);
+      assertEquals(LARGE_SIZE, matchCount);
+      assertAll(
+          dropWhileView.stream().map(element -> () -> assertEquals(10, element))
+      );
+    }
+
+    @Test
+    void shouldHandleSequentialAccessListsBelowThresholdCorrectly() {
+      List<Integer> src = new LinkedList<>(Arrays.asList(9, 5, 10));
+      List<Integer> dest = new LinkedList<>(Arrays.asList(0, 0, 0, 0));
+      Predicate<Integer> isGreater = x -> x > 7;
+      int matchCount = Algorithms.dropWhile(dest, src, isGreater);
+      List<Integer> dropWhileView = dest.subList(0, matchCount);
+      assertEquals(2, matchCount);
+      assertEquals(Arrays.asList(5, 10), dropWhileView);
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenDestIsNull() {
+      List<Integer> src = Arrays.asList(1, 2);
+      Predicate<Integer> pred = x -> true;
+      Exception exception = assertThrows(NullPointerException.class, () ->
+          Algorithms.dropWhile(null, src, pred)
+      );
+      assertEquals("no valid destination provided", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenSrcIsNull() {
+      List<Integer> dest = Arrays.asList(1, 2);
+      Predicate<Integer> pred = x -> true;
+      Exception exception = assertThrows(NullPointerException.class, () ->
+          Algorithms.dropWhile(dest, null, pred)
+      );
+      assertEquals("no valid source provided", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenPredicateIsNull() {
+      List<Integer> src = Arrays.asList(1, 2);
+      List<Integer> dest = Arrays.asList(0, 0);
+      Exception exception = assertThrows(NullPointerException.class, () ->
+          Algorithms.dropWhile(dest, src, null)
+      );
+      assertEquals("no valid predicate provided", exception.getMessage());
+    }
+  }
+
+  @Nested
   class FilterTests {
+
+    @Test
+    void shouldReturnEmptyViewWhenNoElementsMatchRandomAccess() {
+      List<Integer> src = Arrays.asList(2, 4, 6);
+      List<Integer> dest = Arrays.asList(0, 0, 0);
+      Predicate<Integer> isOdd = x -> x % 2 != 0;
+      int matchCount = Algorithms.filter(dest, src, isOdd);
+      List<Integer> filteredView = dest.subList(0, matchCount);
+      assertEquals(0, matchCount);
+      assertTrue(filteredView.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyViewWhenNoElementsMatchSequentialAccess() {
+      int LARGE_SIZE = 50;
+      List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 2));
+      List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
+      Predicate<Integer> isOdd = x -> x % 2 != 0;
+      int matchCount = Algorithms.filter(dest, src, isOdd);
+      List<Integer> filteredView = dest.subList(0, matchCount);
+      assertEquals(0, matchCount);
+      assertTrue(filteredView.isEmpty());
+    }
 
     @Test
     void shouldFilterElementsCorrectlyWhenSizesMatch() {
       List<Integer> src = Arrays.asList(1, 2, 3, 4);
       List<Integer> dest = Arrays.asList(0, 0, 0, 0);
       Predicate<Integer> isEven = x -> x % 2 == 0;
-      Algorithms.filter(dest, src, isEven);
-      assertEquals(Arrays.asList(0, 2, 0, 4), dest);
+      int matchCount = Algorithms.filter(dest, src, isEven);
+      List<Integer> filteredView = dest.subList(0, matchCount);
+      assertEquals(Arrays.asList(2, 4), filteredView);
     }
 
     @Test
@@ -147,8 +313,9 @@ class AlgorithmsTest {
       List<Integer> src = Arrays.asList(1, 2, 3);
       List<Integer> dest = Arrays.asList(9, 9, 9, 9, 9);
       Predicate<Integer> isOdd = x -> x % 2 != 0;
-      Algorithms.filter(dest, src, isOdd);
-      assertEquals(Arrays.asList(1, 9, 3, 9, 9), dest);
+      int matchCount = Algorithms.filter(dest, src, isOdd);
+      List<Integer> filteredView = dest.subList(0, matchCount);
+      assertEquals(Arrays.asList(1, 3), filteredView);
     }
 
     @Test
@@ -168,9 +335,11 @@ class AlgorithmsTest {
       List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 10));
       List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
       Predicate<Integer> matchAll = x -> true;
-      Algorithms.filter(dest, src, matchAll);
+      int matchCount = Algorithms.filter(dest, src, matchAll);
+      List<Integer> filteredView = dest.subList(0, matchCount);
+      assertEquals(LARGE_SIZE, matchCount);
       assertAll(
-          dest.stream().map(element -> () -> assertEquals(10, element))
+          filteredView.stream().map(element -> () -> assertEquals(10, element))
       );
     }
 
@@ -180,9 +349,11 @@ class AlgorithmsTest {
       List<Integer> src = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 10));
       List<Integer> dest = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 0));
       Predicate<Integer> matchAll = x -> true;
-      Algorithms.filter(dest, src, matchAll);
+      int matchCount = Algorithms.filter(dest, src, matchAll);
+      List<Integer> filteredView = dest.subList(0, matchCount);
+      assertEquals(LARGE_SIZE, matchCount);
       assertAll(
-          dest.stream().map(element -> () -> assertEquals(10, element))
+          filteredView.stream().map(element -> () -> assertEquals(10, element))
       );
     }
 
@@ -191,8 +362,9 @@ class AlgorithmsTest {
       List<Integer> src = new LinkedList<>(Arrays.asList(5, 10));
       List<Integer> dest = new LinkedList<>(Arrays.asList(1, 2, 3));
       Predicate<Integer> isGreaterWithThreshold = x -> x > 7;
-      Algorithms.filter(dest, src, isGreaterWithThreshold);
-      assertEquals(Arrays.asList(1, 10, 3), dest);
+      int matchCount = Algorithms.filter(dest, src, isGreaterWithThreshold);
+      List<Integer> filteredView = dest.subList(0, matchCount);
+      assertEquals(List.of(10), filteredView);
     }
 
     @Test
@@ -209,6 +381,7 @@ class AlgorithmsTest {
     void shouldThrowNullPointerExceptionWhenSrcIsNull() {
       List<Integer> dest = Arrays.asList(1, 2);
       Predicate<Integer> pred = x -> true;
+
       Exception exception = assertThrows(NullPointerException.class, () ->
           Algorithms.filter(dest, null, pred)
       );
@@ -219,6 +392,7 @@ class AlgorithmsTest {
     void shouldThrowNullPointerExceptionWhenPredicateIsNull() {
       List<Integer> src = Arrays.asList(1, 2);
       List<Integer> dest = Arrays.asList(0, 0);
+
       Exception exception = assertThrows(NullPointerException.class, () ->
           Algorithms.filter(dest, src, null)
       );
@@ -415,6 +589,137 @@ class AlgorithmsTest {
     void shouldThrowNullPointerExceptionWhenReduceReceivesNullOperator() {
       Collection<Integer> col = Arrays.asList(1, 2);
       assertThrows(NullPointerException.class, () -> Algorithms.reduce(col, 0, null));
+    }
+  }
+
+  @Nested
+  class TakeWhileTests {
+
+    @Test
+    void shouldReturnEmptyViewWhenFirstElementFailsRandomAccess() {
+      List<Integer> src = Arrays.asList(2, 4, 6);
+      List<Integer> dest = Arrays.asList(0, 0, 0);
+      Predicate<Integer> isOdd = x -> x % 2 != 0;
+      int matchCount = Algorithms.takeWhile(dest, src, isOdd);
+      List<Integer> takeWhileView = dest.subList(0, matchCount);
+      assertEquals(0, matchCount);
+      assertTrue(takeWhileView.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyViewWhenFirstElementFailsSequentialAccess() {
+      int LARGE_SIZE = 50;
+      List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 2));
+      List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
+      Predicate<Integer> isOdd = x -> x % 2 != 0;
+      int matchCount = Algorithms.takeWhile(dest, src, isOdd);
+      List<Integer> takeWhileView = dest.subList(0, matchCount);
+      assertEquals(0, matchCount);
+      assertTrue(takeWhileView.isEmpty());
+    }
+
+    @Test
+    void shouldShortCircuitAndStopCopyingAtFirstFailureWhenSizesMatch() {
+      List<Integer> src = Arrays.asList(1, 3, 4, 5);
+      List<Integer> dest = Arrays.asList(0, 0, 0, 0);
+      Predicate<Integer> isOdd = x -> x % 2 != 0;
+      int matchCount = Algorithms.takeWhile(dest, src, isOdd);
+      List<Integer> takeWhileView = dest.subList(0, matchCount);
+      assertEquals(2, matchCount);
+      assertEquals(Arrays.asList(1, 3), takeWhileView);
+      assertEquals(0, dest.get(2)); // Confirms index 2 was left untouched
+    }
+
+    @Test
+    void shouldTakeAllElementsWhenAllMatchAndDestIsLargerThanSrc() {
+      List<Integer> src = Arrays.asList(1, 3, 5);
+      List<Integer> dest = Arrays.asList(9, 9, 9, 9, 9);
+      Predicate<Integer> isOdd = x -> x % 2 != 0;
+      int matchCount = Algorithms.takeWhile(dest, src, isOdd);
+      List<Integer> takeWhileView = dest.subList(0, matchCount);
+      assertEquals(3, matchCount);
+      assertEquals(Arrays.asList(1, 3, 5), takeWhileView);
+      assertEquals(9, dest.get(3)); // Tail elements of dest remain unmodified
+    }
+
+    @Test
+    void shouldThrowIndexOutOfBoundsExceptionWhenSrcIsLargerThanDest() {
+      List<Integer> src = Arrays.asList(1, 2, 3);
+      List<Integer> dest = List.of(0);
+      Predicate<Integer> pred = x -> true;
+      Exception exception = assertThrows(IndexOutOfBoundsException.class, () ->
+          Algorithms.takeWhile(dest, src, pred)
+      );
+      assertEquals("src size is greater than dest size", exception.getMessage());
+    }
+
+    @Test
+    void shouldHandleSequentialAccessListsAboveThresholdCorrectly() {
+      int LARGE_SIZE = 50;
+      List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 10));
+      List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
+      Predicate<Integer> matchAll = x -> true;
+      int matchCount = Algorithms.takeWhile(dest, src, matchAll);
+      List<Integer> takeWhileView = dest.subList(0, matchCount);
+      assertEquals(LARGE_SIZE, matchCount);
+      assertAll(
+          takeWhileView.stream().map(element -> () -> assertEquals(10, element))
+      );
+    }
+
+    @Test
+    void shouldHandleRandomAccessListsAboveThresholdCorrectly() {
+      int LARGE_SIZE = 50;
+      List<Integer> src = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 10));
+      List<Integer> dest = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 0));
+      Predicate<Integer> matchAll = x -> true;
+      int matchCount = Algorithms.takeWhile(dest, src, matchAll);
+      List<Integer> takeWhileView = dest.subList(0, matchCount);
+      assertEquals(LARGE_SIZE, matchCount);
+      assertAll(
+          takeWhileView.stream().map(element -> () -> assertEquals(10, element))
+      );
+    }
+
+    @Test
+    void shouldHandleSequentialAccessListsBelowThresholdCorrectly() {
+      List<Integer> src = new LinkedList<>(Arrays.asList(9, 5, 10));
+      List<Integer> dest = new LinkedList<>(Arrays.asList(0, 0, 0, 0));
+      Predicate<Integer> isGreater = x -> x > 7;
+      int matchCount = Algorithms.takeWhile(dest, src, isGreater);
+      List<Integer> takeWhileView = dest.subList(0, matchCount);
+      assertEquals(1, matchCount);
+      assertEquals(List.of(9), takeWhileView);
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenDestIsNull() {
+      List<Integer> src = Arrays.asList(1, 2);
+      Predicate<Integer> pred = x -> true;
+      Exception exception = assertThrows(NullPointerException.class, () ->
+          Algorithms.takeWhile(null, src, pred)
+      );
+      assertEquals("no valid destination provided", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenSrcIsNull() {
+      List<Integer> dest = Arrays.asList(1, 2);
+      Predicate<Integer> pred = x -> true;
+      Exception exception = assertThrows(NullPointerException.class, () ->
+          Algorithms.takeWhile(dest, null, pred)
+      );
+      assertEquals("no valid source provided", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenPredicateIsNull() {
+      List<Integer> src = Arrays.asList(1, 2);
+      List<Integer> dest = Arrays.asList(0, 0);
+      Exception exception = assertThrows(NullPointerException.class, () ->
+          Algorithms.takeWhile(dest, src, null)
+      );
+      assertEquals("no valid predicate provided", exception.getMessage());
     }
   }
 }

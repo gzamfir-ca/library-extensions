@@ -63,7 +63,7 @@ public class Algorithms {
     return count;
   }
 
-  public static <T> void filter(List<T> dest, List<T> src, Predicate<T> pred) {
+  public static <T> int dropWhile(List<T> dest, List<T> src, Predicate<T> pred) {
     Objects.requireNonNull(dest, "no valid destination provided");
     Objects.requireNonNull(src, "no valid source provided");
     Objects.requireNonNull(pred, "no valid predicate provided");
@@ -74,22 +74,68 @@ public class Algorithms {
     }
     if (srcSize < LIST_THRESHOLD ||
         (src instanceof RandomAccess && dest instanceof RandomAccess)) {
+      boolean drop = true;
+      int j = 0;
       for (int i = 0; i < srcSize; i++) {
         T t = src.get(i);
-        if (pred.test(t)) {
-          dest.set(i, t);
+        if (drop && pred.test(t)) {
+          continue;
         }
+        drop = false;
+        dest.set(j++, t);
       }
+      return j;
     } else {
       ListIterator<T> srcIter = src.listIterator();
       ListIterator<T> destIter = dest.listIterator();
+      int j = 0;
+      boolean drop = true;
       for (int i = 0; i < srcSize; i++) {
-        destIter.next();
         T t = srcIter.next();
+        if (drop && pred.test(t)) {
+          continue;
+        }
+        drop = false;
+        destIter.next();
+        destIter.set(t);
+        j++;
+      }
+      return j;
+    }
+  }
+
+  public static <T> int filter(List<T> dest, List<T> src, Predicate<T> pred) {
+    Objects.requireNonNull(dest, "no valid destination provided");
+    Objects.requireNonNull(src, "no valid source provided");
+    Objects.requireNonNull(pred, "no valid predicate provided");
+    int srcSize = src.size();
+    int destSize = dest.size();
+    if (srcSize > destSize) {
+      throw new IndexOutOfBoundsException("src size is greater than dest size");
+    }
+    if (srcSize < LIST_THRESHOLD ||
+        (src instanceof RandomAccess && dest instanceof RandomAccess)) {
+      int j = 0;
+      for (int i = 0; i < srcSize; i++) {
+        T t = src.get(i);
         if (pred.test(t)) {
-          destIter.set(t);
+          dest.set(j++, t);
         }
       }
+      return j;
+    } else {
+      ListIterator<T> srcIter = src.listIterator();
+      ListIterator<T> destIter = dest.listIterator();
+      int j = 0;
+      for (int i = 0; i < srcSize; i++) {
+        T t = srcIter.next();
+        if (pred.test(t)) {
+          destIter.next();
+          destIter.set(t);
+          j++;
+        }
+      }
+      return j;
     }
   }
 
@@ -169,5 +215,43 @@ public class Algorithms {
       result = op.apply(result, t);
     }
     return result;
+  }
+
+  public static <T> int takeWhile(List<T> dest, List<T> src, Predicate<T> pred) {
+    Objects.requireNonNull(dest, "no valid destination provided");
+    Objects.requireNonNull(src, "no valid source provided");
+    Objects.requireNonNull(pred, "no valid predicate provided");
+    int srcSize = src.size();
+    int destSize = dest.size();
+    if (srcSize > destSize) {
+      throw new IndexOutOfBoundsException("src size is greater than dest size");
+    }
+    if (srcSize < LIST_THRESHOLD ||
+        (src instanceof RandomAccess && dest instanceof RandomAccess)) {
+      int j = 0;
+      for (int i = 0; i < srcSize; i++) {
+        T t = src.get(i);
+        if (!pred.test(t)) {
+          break;
+        }
+        dest.set(i, t);
+        j++;
+      }
+      return j;
+    } else {
+      ListIterator<T> srcIter = src.listIterator();
+      ListIterator<T> destIter = dest.listIterator();
+      int j = 0;
+      for (int i = 0; i < srcSize; i++) {
+        T t = srcIter.next();
+        if (!pred.test(t)) {
+          break;
+        }
+        destIter.next();
+        destIter.set(t);
+        j++;
+      }
+      return j;
+    }
   }
 }
