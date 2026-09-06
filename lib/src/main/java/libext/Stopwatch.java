@@ -19,7 +19,8 @@ public final class Stopwatch {
     return unit.convert(elapsedTime, TimeUnit.NANOSECONDS);
   }
 
-  public long getElapsedMillis() {
-    return getElapsedTime(TimeUnit.MILLISECONDS);
+  public double getElapsedMillis() {
+    long elapsedTime = System.nanoTime() - startTime;
+    return elapsedTime / 1_000_000.0;
   }
 }

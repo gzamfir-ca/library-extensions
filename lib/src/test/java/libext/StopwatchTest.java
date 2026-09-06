@@ -63,11 +63,13 @@ class StopwatchTest {
     void shouldReturnConvenienceMillisDirectly() throws InterruptedException {
       Stopwatch stopwatch = Stopwatch.start();
       TimeUnit.MILLISECONDS.sleep(30);
-      long elapsedMillisDirect = stopwatch.getElapsedMillis();
+      double elapsedMillisDirect = stopwatch.getElapsedMillis();
       long elapsedMillisFromUnit = stopwatch.getElapsedTime(TimeUnit.MILLISECONDS);
-      assertTrue(elapsedMillisDirect >= 30, "Convenience method should reflect elapsed time");
-      assertTrue(Math.abs(elapsedMillisDirect - elapsedMillisFromUnit) <= 1,
-          "Methods should be synchronized");
+      assertTrue(elapsedMillisDirect >= 30.0, "Convenience method should reflect elapsed time");
+
+      double difference = elapsedMillisDirect - elapsedMillisFromUnit;
+      assertTrue(difference >= 0.0 && difference < 1.0,
+          "High-precision millis should match the truncated TimeUnit baseline within a <1ms fraction");
     }
   }
 }
