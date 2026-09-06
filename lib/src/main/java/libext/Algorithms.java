@@ -139,17 +139,6 @@ public class Algorithms {
     }
   }
 
-  public static <T> List<T> findAll(Collection<T> col, Object o) {
-    Objects.requireNonNull(col, "no valid collection provided");
-    ArrayList<T> list = new ArrayList<>();
-    for (T t : col) {
-      if (Objects.equals(o, t)) {
-        list.add(t);
-      }
-    }
-    return list;
-  }
-
   public static <T> T findFirst(Collection<T> col, Object o) {
     Objects.requireNonNull(col, "no valid collection provided");
     for (T t : col) {
@@ -158,18 +147,6 @@ public class Algorithms {
       }
     }
     return null;
-  }
-
-  public static <T> List<T> findIf(Collection<T> col, Predicate<T> pred) {
-    Objects.requireNonNull(col, "no valid collection provided");
-    Objects.requireNonNull(pred, "no valid predicate provided");
-    ArrayList<T> list = new ArrayList<>();
-    for (T t : col) {
-      if (pred.test(t)) {
-        list.add(t);
-      }
-    }
-    return list;
   }
 
   public static <T, R> void map(List<R> dest, List<T> src, Function<T, R> mapper) {

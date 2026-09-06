@@ -401,25 +401,6 @@ class AlgorithmsTest {
   }
 
   @Nested
-  class FindAllTests {
-
-    @Test
-    void shouldReturnArrayListContainingAllMatchingObjects() {
-      Collection<String> col = Arrays.asList("test", "hello", "test");
-      List<String> result = Algorithms.findAll(col, "test");
-      assertEquals(2, result.size());
-      assertEquals(Arrays.asList("test", "test"), result);
-    }
-
-    @Test
-    void shouldReturnEmptyArrayListWhenFindAllFindsNoMatches() {
-      Collection<String> col = Arrays.asList("hello", "world");
-      List<String> result = Algorithms.findAll(col, "test");
-      assertTrue(result.isEmpty());
-    }
-  }
-
-  @Nested
   class FindFirstTests {
 
     @Test
@@ -433,19 +414,6 @@ class AlgorithmsTest {
     void shouldReturnNullWhenFindFirstFindsNoMatch() {
       Collection<String> col = Arrays.asList("first", "second");
       assertNull(Algorithms.findFirst(col, "third"));
-    }
-  }
-
-  @Nested
-  class FindIfTests {
-
-    @Test
-    void shouldReturnArrayListOfAllElementsMatchingPredicate() {
-      Collection<Integer> col = Arrays.asList(1, 10, 2, 20);
-      Predicate<Integer> isGreaterWithTen = n -> n >= 10;
-      List<Integer> result = Algorithms.findIf(col, isGreaterWithTen);
-      assertEquals(2, result.size());
-      assertEquals(Arrays.asList(10, 20), result);
     }
   }
 
