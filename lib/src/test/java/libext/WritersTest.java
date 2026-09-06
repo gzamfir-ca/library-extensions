@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.nio.file.StandardOpenOption;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
@@ -49,6 +50,49 @@ class WritersTest {
       assertEquals("file content", fileContents);
     } finally {
       Files.deleteIfExists(tempFile);
+    }
+  }
+
+  @Test
+  void shouldAppendToExistingFile() throws Exception {
+    Path tempFile = Files.createTempFile("writersAppendTest", ".txt");
+    try {
+      Files.writeString(tempFile, "initial content", StandardCharsets.UTF_8);
+      try (PrintWriter writer = Writers.newPrintWriter(tempFile,
+          StandardOpenOption.APPEND)) {
+        assertNotNull(writer);
+
+        writer.print(" + appended content");
+      }
+      String fileContents = Files.readString(tempFile, StandardCharsets.UTF_8);
+      assertEquals("initial content + appended content", fileContents);
+    } finally {
+      Files.deleteIfExists(tempFile);
+    }
+  }
+
+  @Test
+  void shouldCreateAndAppendToNewFile() throws Exception {
+    Path tempDir = Files.createTempDirectory("writersCreateAppendTest");
+    Path nonExistentFile = tempDir.resolve("new_append_file.txt");
+    try {
+      try (PrintWriter writer = Writers.newPrintWriter(nonExistentFile,
+          StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+        assertNotNull(writer);
+
+        writer.print("first line");
+      }
+
+      try (PrintWriter writer = Writers.newPrintWriter(nonExistentFile,
+          StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+        writer.print(" second line");
+      }
+
+      String fileContents = Files.readString(nonExistentFile, StandardCharsets.UTF_8);
+      assertEquals("first line second line", fileContents);
+    } finally {
+      Files.deleteIfExists(nonExistentFile);
+      Files.deleteIfExists(tempDir);
     }
   }
 

@@ -9,6 +9,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -29,12 +30,12 @@ public final class Writers {
     return new PrintWriter(new BufferedWriter(writer), autoFlush);
   }
 
-  public static PrintWriter newPrintWriter(Path path) {
+  public static PrintWriter newPrintWriter(Path path, OpenOption... options) {
     Objects.requireNonNull(path, "no valid path provided");
     final Charset charset = CHARSET;
     final boolean autoFlush = AUTO_FLUSH;
     try {
-      return new PrintWriter(Files.newBufferedWriter(path, charset), autoFlush);
+      return new PrintWriter(Files.newBufferedWriter(path, charset, options), autoFlush);
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
