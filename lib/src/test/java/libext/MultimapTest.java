@@ -162,4 +162,36 @@ class MultimapTest {
     customSupplierMap.addValue("a", "val");
     assertEquals("a", customSupplierMap.keySet().iterator().next());
   }
+
+  @Test
+  void shouldConstructPreSizedMultimapAndBehaveNormally() {
+    Multimap<String, String> preSizedMap = Multimap.newMultimap(32);
+    preSizedMap.addValue("k1", "v1");
+    preSizedMap.addValue("k1", "v2");
+    assertEquals(1, preSizedMap.size());
+    assertIterableEquals(List.of("v1", "v2"), preSizedMap.get("k1"));
+  }
+
+  @Test
+  void shouldPreserveInsertionOrderInPreSizedOrderedMultimap() {
+    Multimap<String, String> preSizedOrderedMap = Multimap.newOrderedMultimap(16);
+    preSizedOrderedMap.addValue("banana", "v1");
+    preSizedOrderedMap.addValue("apple", "v2");
+    preSizedOrderedMap.addValue("cherry", "v3");
+    Iterator<String> keyIterator = preSizedOrderedMap.keySet().iterator();
+    assertEquals("banana", keyIterator.next());
+    assertEquals("apple", keyIterator.next());
+    assertEquals("cherry", keyIterator.next());
+  }
+
+  @Test
+  void shouldThrowIllegalArgumentExceptionForNegativeInitialCapacity() {
+    assertThrows(IllegalArgumentException.class, () -> Multimap.newMultimap(-1));
+    assertThrows(IllegalArgumentException.class, () -> Multimap.newOrderedMultimap(-10));
+  }
+
+  @Test
+  void shouldThrowNullPointerExceptionWhenPassingNullFunction() {
+    assertThrows(NullPointerException.class, () -> new Multimap<>((short) 5, null));
+  }
 }

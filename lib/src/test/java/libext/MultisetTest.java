@@ -156,4 +156,37 @@ class MultisetTest {
     multiset2.addKey("Apple");
     assertNotEquals(multiset1, multiset2);
   }
+
+  @Test
+  void shouldConstructPreSizedMultisetAndBehaveNormally() {
+    Multiset<String> preSizedMultiset = Multiset.newMultiset(50);
+    assertEquals(1, preSizedMultiset.addKey("Apple"));
+    assertEquals(2, preSizedMultiset.addKey("Apple"));
+    assertEquals(2, preSizedMultiset.keyCount("Apple"));
+    assertEquals(1, preSizedMultiset.size());
+  }
+
+  @Test
+  void shouldPreserveInsertionOrderInPreSizedOrderedBag() {
+    Multiset<String> preSizedOrderedMultiset = Multiset.newOrderedMultiset(20);
+    preSizedOrderedMultiset.addKey("Zebra");
+    preSizedOrderedMultiset.addKey("Apple");
+    preSizedOrderedMultiset.addKey("Mango");
+    Iterator<String> iterator = preSizedOrderedMultiset.keySet().iterator();
+    assertEquals("Zebra", iterator.next());
+    assertEquals("Apple", iterator.next());
+    assertEquals("Mango", iterator.next());
+  }
+
+  @Test
+  void shouldThrowIllegalArgumentExceptionForNegativeInitialCapacity() {
+    assertThrows(IllegalArgumentException.class, () -> Multiset.newMultiset(-1));
+    assertThrows(IllegalArgumentException.class, () -> Multiset.newOrderedMultiset(-5));
+  }
+
+
+  @Test
+  void shouldThrowNullPointerExceptionWhenPassingNullFunction() {
+    assertThrows(NullPointerException.class, () -> new Multiset<>((short) 10, null));
+  }
 }

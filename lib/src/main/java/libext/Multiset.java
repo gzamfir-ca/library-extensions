@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Multiset<K> implements Map<K, Integer> {
@@ -22,6 +23,18 @@ public class Multiset<K> implements Map<K, Integer> {
     this.map = Objects.requireNonNull(mapSupplier).get();
   }
 
+  Multiset(int initCapacity) {
+    this(initCapacity, HashMap::new);
+  }
+
+  Multiset(int initCapacity, Function<Integer, Map<K, Integer>> mapFunction) {
+    if (initCapacity < 0) {
+      throw new IllegalArgumentException("initial capacity must be >= 0");
+    }
+    this.map = Objects.requireNonNull(mapFunction).apply(initCapacity);
+
+  }
+
   public static <K> Multiset<K> newMultiset() {
     return new Multiset<>();
   }
@@ -32,6 +45,14 @@ public class Multiset<K> implements Map<K, Integer> {
 
   public static <K> Multiset<K> newOrderedMultiset() {
     return new Multiset<>(LinkedHashMap::new);
+  }
+
+  public static <K> Multiset<K> newMultiset(int initCapacity) {
+    return new Multiset<>(initCapacity);
+  }
+
+  public static <K> Multiset<K> newOrderedMultiset(int initCapacity) {
+    return new Multiset<>(initCapacity, LinkedHashMap::new);
   }
 
   public Integer addKey(K key) {

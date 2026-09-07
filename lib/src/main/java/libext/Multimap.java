@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Multimap<K, V> implements Map<K, List<V>> {
@@ -28,6 +29,18 @@ public class Multimap<K, V> implements Map<K, List<V>> {
     this.map = Objects.requireNonNull(mapSupplier).get();
   }
 
+  Multimap(int initCapacity) {
+    this(initCapacity, HashMap::new);
+  }
+
+  Multimap(int initCapacity, Function<Integer, Map<K, List<V>>> mapFunction) {
+    if (initCapacity < 0) {
+      throw new IllegalArgumentException("initial capacity must be >= 0");
+    }
+    this.map = Objects.requireNonNull(mapFunction).apply(initCapacity);
+
+  }
+
   public static <K, V> Multimap<K, V> newMultimap() {
     return new Multimap<>();
   }
@@ -38,6 +51,14 @@ public class Multimap<K, V> implements Map<K, List<V>> {
 
   public static <K, V> Multimap<K, V> newOrderedMultimap() {
     return new Multimap<>(LinkedHashMap::new);
+  }
+
+  public static <K, V> Multimap<K, V> newMultimap(int initCapacity) {
+    return new Multimap<>(initCapacity);
+  }
+
+  public static <K, V> Multimap<K, V> newOrderedMultimap(int initCapacity) {
+    return new Multimap<>(initCapacity, LinkedHashMap::new);
   }
 
   public List<V> addValue(K key, V element) {
