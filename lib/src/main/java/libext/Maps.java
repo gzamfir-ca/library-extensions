@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.function.Function;
 
 public class Maps {
 
@@ -17,6 +18,14 @@ public class Maps {
     Objects.requireNonNull(map, "no valid map provided");
     for (Entry<K, V> entry : entries) {
       map.put(entry.getKey(), entry.getValue());
+    }
+  }
+
+  @SafeVarargs
+  private static <K, V> void addAll(Map<K, V> map, Function<K, V> function, K... keys) {
+    Objects.requireNonNull(map, "no valid map provided");
+    for (K key : keys) {
+      map.put(key, function.apply(key));
     }
   }
 
@@ -44,6 +53,15 @@ public class Maps {
     Objects.requireNonNull(entries, "no valid entries provided");
     LinkedHashMap<K, V> map = LinkedHashMap.newLinkedHashMap(validateSize(entries.length));
     addAll(map, entries);
+    return map;
+  }
+
+  @SafeVarargs
+  public static <K, V> Map<K, V> newLinkedHashMap(Function<K, V> function, K... keys) {
+    Objects.requireNonNull(function, "no valid function provided");
+    Objects.requireNonNull(keys, "no valid keys provided");
+    LinkedHashMap<K, V> map = LinkedHashMap.newLinkedHashMap(validateSize(keys.length));
+    addAll(map, function, keys);
     return map;
   }
 }

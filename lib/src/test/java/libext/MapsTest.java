@@ -100,5 +100,54 @@ class MapsTest {
       );
       assertEquals("no valid entries provided", ex.getMessage());
     }
+
+    @Test
+    void shouldCreateLinkedHashMapUsingFunctionAndPreserveOrder() {
+      Map<String, Integer> map = Maps.newLinkedHashMap(String::length, "Apple", "Banana", "Zebra");
+      assertEquals(3, map.size());
+
+      var iterator = map.entrySet().iterator();
+      assertTrue(iterator.hasNext());
+
+      Entry<String, Integer> first = iterator.next();
+      assertEquals("Apple", first.getKey());
+      assertEquals(5, first.getValue());
+      assertTrue(iterator.hasNext());
+
+      Entry<String, Integer> second = iterator.next();
+      assertEquals("Banana", second.getKey());
+      assertEquals(6, second.getValue());
+      assertTrue(iterator.hasNext());
+
+      Entry<String, Integer> third = iterator.next();
+      assertEquals("Zebra", third.getKey());
+      assertEquals(5, third.getValue());
+
+      map.put("Kiwi", 4);
+      assertEquals(4, map.size());
+    }
+
+    @Test
+    void shouldCreateEmptyLinkedHashMapFromFunctionAndEmptyVarargs() {
+      Map<String, Integer> map = Maps.newLinkedHashMap(String::length);
+      assertTrue(map.isEmpty());
+    }
+
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    void shouldThrowExceptionWhenFunctionIsNull() {
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Maps.newLinkedHashMap(null, "Key1", "Key2"));
+      assertEquals("no valid function provided", ex.getMessage());
+    }
+
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    void shouldThrowExceptionWhenFunctionVarargsArrayIsNull() {
+      String[] nullKeys = null;
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Maps.newLinkedHashMap(String::length, nullKeys));
+      assertEquals("no valid keys provided", ex.getMessage());
+    }
   }
 }
