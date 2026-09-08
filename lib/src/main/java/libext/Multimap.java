@@ -13,7 +13,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class Multimap<K, V> implements Map<K, List<V>> {
+public final class Multimap<K, V> implements Map<K, List<V>> {
 
   private final Map<K, List<V>> map;
 

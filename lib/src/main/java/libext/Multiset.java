@@ -11,7 +11,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class Multiset<K> implements Map<K, Integer> {
+public final class Multiset<K> implements Map<K, Integer> {
 
   private final Map<K, Integer> map;
 

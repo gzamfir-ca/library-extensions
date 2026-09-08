@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.function.Function;
 
-public class Maps {
+public final class Maps {
 
   private Maps() {
     throw new AssertionError("no instances");
