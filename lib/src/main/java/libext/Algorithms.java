@@ -1,6 +1,5 @@
 package libext;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
@@ -230,5 +229,39 @@ public class Algorithms {
       }
       return j;
     }
+  }
+
+  public static <U, V> int zip(List<Pair<U, V>> dest, List<U> first, List<V> second) {
+    Objects.requireNonNull(dest, "no valid destination provided");
+    Objects.requireNonNull(first, "no valid first provided");
+    Objects.requireNonNull(second, "no valid second provided");
+    int srcSize = Math.min(first.size(), second.size());
+    int destSize = dest.size();
+    if (srcSize > destSize) {
+      throw new IndexOutOfBoundsException("src size is greater than dest size");
+    }
+    if (first == second) {
+      throw new IllegalArgumentException("src lists are the same list");
+    }
+    if (srcSize < LIST_THRESHOLD ||
+        (first instanceof RandomAccess && second instanceof RandomAccess
+            && dest instanceof RandomAccess)) {
+      for (int i = 0; i < srcSize; i++) {
+        U u = first.get(i);
+        V v = second.get(i);
+        dest.set(i, Pair.of(u, v));
+      }
+    } else {
+      ListIterator<U> firstIter = first.listIterator();
+      ListIterator<V> secondIter = second.listIterator();
+      ListIterator<Pair<U, V>> destIter = dest.listIterator();
+      for (int i = 0; i < srcSize; i++) {
+        U u = firstIter.next();
+        V v = secondIter.next();
+        destIter.next();
+        destIter.set(Pair.of(u, v));
+      }
+    }
+    return srcSize;
   }
 }

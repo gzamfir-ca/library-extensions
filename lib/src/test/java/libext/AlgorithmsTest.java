@@ -690,4 +690,149 @@ class AlgorithmsTest {
       assertEquals("no valid predicate provided", exception.getMessage());
     }
   }
+
+  @Nested
+  class ZipTests {
+
+    @Test
+    void shouldZipElementsCorrectlyWhenSizesMatch() {
+      List<String> first = Arrays.asList("A", "B", "C");
+      List<Integer> second = Arrays.asList(1, 2, 3);
+      List<Pair<String, Integer>> dest = Arrays.asList(null, null, null);
+      int result = Algorithms.zip(dest, first, second);
+      assertEquals(3, result);
+      assertEquals(
+          Arrays.asList(Pair.of("A", 1), Pair.of("B", 2), Pair.of("C", 3)),
+          dest
+      );
+    }
+
+    @Test
+    void shouldZipElementsCorrectlyWhenDestIsLargerThanSrc() {
+      List<String> first = Arrays.asList("A", "B");
+      List<Integer> second = Arrays.asList(1, 2);
+      List<Pair<String, Integer>> dest = Arrays.asList(null, null, null, null);
+      int result = Algorithms.zip(dest, first, second);
+      assertEquals(2, result);
+      assertEquals(
+          Arrays.asList(Pair.of("A", 1), Pair.of("B", 2), null, null),
+          dest
+      );
+    }
+
+    @Test
+    void shouldZipToShortestSourceWhenSourceSizesDoNotMatch() {
+      List<String> first = Arrays.asList("A", "B", "C");
+      List<Integer> second = Arrays.asList(1, 2);
+      List<Pair<String, Integer>> dest = Arrays.asList(null, null, null);
+      int result = Algorithms.zip(dest, first, second);
+      assertEquals(2, result);
+      assertEquals(
+          Arrays.asList(Pair.of("A", 1), Pair.of("B", 2), null),
+          dest
+      );
+    }
+
+    @Test
+    void shouldThrowIndexOutOfBoundsExceptionWhenSrcIsLargerThanDest() {
+      List<String> first = Arrays.asList("A", "B", "C");
+      List<Integer> second = Arrays.asList(1, 2, 3);
+      List<Pair<String, Integer>> dest = Arrays.asList(null, null);
+      Exception exception = assertThrows(IndexOutOfBoundsException.class, () ->
+          Algorithms.zip(dest, first, second)
+      );
+      assertEquals("src size is greater than dest size", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenSourceListsAreTheSameInstance() {
+      List<String> first = Arrays.asList("A", "B");
+      List<Pair<String, String>> dest = Arrays.asList(null, null);
+      Exception exception = assertThrows(IllegalArgumentException.class, () ->
+          Algorithms.zip(dest, first, first)
+      );
+      assertEquals("src lists are the same list", exception.getMessage());
+    }
+
+    @Test
+    void shouldHandleSequentialAccessListsAboveThresholdCorrectly() {
+      int LARGE_SIZE = 50; // Ensure this is above or below your LIST_THRESHOLD as needed
+      List<String> first = new LinkedList<>(Collections.nCopies(LARGE_SIZE, "X"));
+      List<Integer> second = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 9));
+      List<Pair<String, Integer>> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, null));
+      int result = Algorithms.zip(dest, first, second);
+      assertEquals(LARGE_SIZE, result);
+      assertAll(
+          dest.stream().map(element -> () -> assertEquals(Pair.of("X", 9), element))
+      );
+    }
+
+    @Test
+    void shouldHandleRandomAccessListsAboveThresholdCorrectly() {
+      int LARGE_SIZE = 50;
+      List<String> first = new ArrayList<>(Collections.nCopies(LARGE_SIZE, "X"));
+      List<Integer> second = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 9));
+      List<Pair<String, Integer>> dest = new ArrayList<>(Collections.nCopies(LARGE_SIZE, null));
+      int result = Algorithms.zip(dest, first, second);
+      assertEquals(LARGE_SIZE, result);
+      assertAll(
+          dest.stream().map(element -> () -> assertEquals(Pair.of("X", 9), element))
+      );
+    }
+
+    @Test
+    void shouldHandleSequentialAccessListsBelowThresholdCorrectly() {
+      List<String> first = new LinkedList<>(Arrays.asList("A", "B"));
+      List<Integer> second = new LinkedList<>(Arrays.asList(1, 2));
+      List<Pair<String, Integer>> dest = new LinkedList<>(Arrays.asList(null, null, null));
+      int result = Algorithms.zip(dest, first, second);
+      assertEquals(2, result);
+      assertEquals(
+          Arrays.asList(Pair.of("A", 1), Pair.of("B", 2), null),
+          dest
+      );
+    }
+
+    @Test
+    void shouldReturnZeroAndLeaveDestUnchangedWhenSourcesAreEmpty() {
+      List<String> first = new ArrayList<>();
+      List<Integer> second = new ArrayList<>();
+      List<Pair<String, Integer>> dest = Arrays.asList(null, null);
+      int result = Algorithms.zip(dest, first, second);
+      assertEquals(0, result);
+      assertEquals(Arrays.asList(null, null), dest);
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenDestIsNull() {
+      List<String> first = List.of("A");
+      List<Integer> second = List.of(1);
+      Exception exception = assertThrows(NullPointerException.class, () ->
+          Algorithms.zip(null, first, second)
+      );
+      assertEquals("no valid destination provided", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenFirstIsNull() {
+      List<Integer> second = List.of(1);
+      List<Pair<String, Integer>> dest = Arrays.asList(null, null);
+      Exception exception = assertThrows(NullPointerException.class, () ->
+          Algorithms.zip(dest, null, second)
+      );
+      assertEquals("no valid first provided", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenSecondIsNull() {
+      List<String> first = List.of("A");
+      List<Pair<String, Integer>> dest = Arrays.asList(null, null);
+      Exception exception = assertThrows(NullPointerException.class, () ->
+          Algorithms.zip(dest, first, null)
+      );
+      assertEquals("no valid second provided", exception.getMessage());
+    }
+  }
+
+
 }
