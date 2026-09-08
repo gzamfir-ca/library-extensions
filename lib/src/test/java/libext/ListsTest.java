@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.IntFunction;
 import java.util.function.Supplier;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,8 @@ class ListsTest {
     }
   };
   private final Supplier<String> duplicateSupplier = () -> "Duplicate";
+  private final IntFunction<String> stringIntFunction = index -> "Item" + (index + 1);
+  private final IntFunction<String> duplicateIntFunction = index -> "Duplicate";
   private static final String MULTI_LINE_TEXT = """
       one   two three
               four             five six seven
@@ -70,9 +73,25 @@ class ListsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenListSizeIsNegative() {
+    void shouldCreateResizableArrayListFromIntFunction() {
+      ArrayList<String> list = Lists.newArrayList(3, stringIntFunction);
+      assertIterableEquals(Arrays.asList("Item1", "Item2", "Item3"), list);
+
+      list.add("Item4");
+      assertIterableEquals(Arrays.asList("Item1", "Item2", "Item3", "Item4"), list);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenListSizeIsNegativeWithSupplier() {
       IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
           () -> Lists.newArrayList(-1, stringSupplier));
+      assertEquals("size must be >= 0", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenListSizeIsNegativeWithIntFunction() {
+      IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+          () -> Lists.newArrayList(-1, stringIntFunction));
       assertEquals("size must be >= 0", ex.getMessage());
     }
 
@@ -88,8 +107,15 @@ class ListsTest {
     @Test
     void shouldThrowExceptionWhenSupplierIsNull() {
       NullPointerException ex = assertThrows(NullPointerException.class,
-          () -> Lists.newArrayList(5, null));
+          () -> Lists.newArrayList(5, (Supplier<String>) null));
       assertEquals("no valid supplier provided", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenIntFunctionIsNull() {
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Lists.newArrayList(5, (IntFunction<String>) null));
+      assertEquals("no valid function provided", ex.getMessage());
     }
 
     @Test
@@ -157,9 +183,25 @@ class ListsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenListSizeIsNegative() {
+    void shouldCreateResizableLinkedListFromIntFunction() {
+      LinkedList<String> list = Lists.newLinkedList(2, stringIntFunction);
+      assertIterableEquals(Arrays.asList("Item1", "Item2"), list);
+
+      list.add("Item3");
+      assertIterableEquals(Arrays.asList("Item1", "Item2", "Item3"), list);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenListSizeIsNegativeWithSupplier() {
       IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
           () -> Lists.newLinkedList(-1, stringSupplier));
+      assertEquals("size must be >= 0", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenListSizeIsNegativeWithIntFunction() {
+      IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+          () -> Lists.newLinkedList(-1, stringIntFunction));
       assertEquals("size must be >= 0", ex.getMessage());
     }
 
@@ -175,8 +217,15 @@ class ListsTest {
     @Test
     void shouldThrowExceptionWhenSupplierIsNull() {
       NullPointerException ex = assertThrows(NullPointerException.class,
-          () -> Lists.newLinkedList(5, null));
+          () -> Lists.newLinkedList(5, (Supplier<String>) null));
       assertEquals("no valid supplier provided", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenIntFunctionIsNull() {
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Lists.newLinkedList(5, (IntFunction<String>) null));
+      assertEquals("no valid function provided", ex.getMessage());
     }
 
     @Test
@@ -253,15 +302,35 @@ class ListsTest {
     }
 
     @Test
+    void shouldCreateResizableLinkedHashSetNoDuplicatesFromIntFunction() {
+      LinkedHashSet<String> set = Lists.newLinkedHashSet(3, duplicateIntFunction);
+      assertEquals(1, set.size());
+      assertTrue(set.contains("Duplicate"));
+
+      set.add("Duplicate");
+      set.add("Not A Duplicate");
+      assertEquals(2, set.size());
+      assertTrue(set.contains("Duplicate"));
+      assertTrue(set.contains("Not A Duplicate"));
+    }
+
+    @Test
     void shouldCreateEmptyLinkedHashSetFromEmptyVarargs() {
       LinkedHashSet<String> set = Lists.newLinkedHashSet();
       assertTrue(set.isEmpty());
     }
 
     @Test
-    void shouldThrowExceptionWhenSetSizeIsNegative() {
+    void shouldThrowExceptionWhenSetSizeIsNegativeWithSupplier() {
       IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
           () -> Lists.newLinkedHashSet(-5, stringSupplier));
+      assertEquals("size must be >= 0", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenSetSizeIsNegativeWithIntFunction() {
+      IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+          () -> Lists.newLinkedHashSet(-5, stringIntFunction));
       assertEquals("size must be >= 0", ex.getMessage());
     }
 
@@ -277,8 +346,15 @@ class ListsTest {
     @Test
     void shouldThrowExceptionWhenSupplierIsNull() {
       NullPointerException ex = assertThrows(NullPointerException.class,
-          () -> Lists.newLinkedHashSet(5, null));
+          () -> Lists.newLinkedHashSet(5, (Supplier<String>) null));
       assertEquals("no valid supplier provided", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenIntFunctionIsNull() {
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Lists.newLinkedHashSet(5, (IntFunction<String>) null));
+      assertEquals("no valid function provided", ex.getMessage());
     }
 
     @Test

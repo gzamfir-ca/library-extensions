@@ -8,6 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.IntFunction;
 import java.util.function.Supplier;
 
 public final class Lists {
@@ -26,6 +27,13 @@ public final class Lists {
     Objects.requireNonNull(col, "no valid collection provided");
     for (int i = 0; i < size; i++) {
       col.add(supplier.get());
+    }
+  }
+
+  private static <T> void addAll(Collection<T> col, int size, IntFunction<T> function) {
+    Objects.requireNonNull(col, "no valid collection provided");
+    for (int i = 0; i < size; i++) {
+      col.add(function.apply(i));
     }
   }
 
@@ -48,6 +56,13 @@ public final class Lists {
     Objects.requireNonNull(supplier, "no valid supplier provided");
     ArrayList<T> list = new ArrayList<>(validateSize(size));
     addAll(list, size, supplier);
+    return list;
+  }
+
+  public static <T> ArrayList<T> newArrayList(int size, IntFunction<T> function) {
+    Objects.requireNonNull(function, "no valid function provided");
+    ArrayList<T> list = new ArrayList<>(validateSize(size));
+    addAll(list, size, function);
     return list;
   }
 
@@ -74,6 +89,14 @@ public final class Lists {
     return list;
   }
 
+  public static <T> LinkedList<T> newLinkedList(int size, IntFunction<T> function) {
+    Objects.requireNonNull(function, "no valid function provided");
+    LinkedList<T> list = new LinkedList<>();
+    validateSize(size);
+    addAll(list, size, function);
+    return list;
+  }
+
   public static LinkedList<String> newLinkedList(BufferedReader reader) {
     Objects.requireNonNull(reader, "no valid reader provided");
     LinkedList<String> list = new LinkedList<>();
@@ -95,6 +118,14 @@ public final class Lists {
     int capacity = Math.multiplyExact(validateSize(size), 134) / 100;
     LinkedHashSet<T> list = new LinkedHashSet<>(capacity);
     addAll(list, size, supplier);
+    return list;
+  }
+
+  public static <T> LinkedHashSet<T> newLinkedHashSet(int size, IntFunction<T> function) {
+    Objects.requireNonNull(function, "no valid function provided");
+    int capacity = Math.multiplyExact(validateSize(size), 134) / 100;
+    LinkedHashSet<T> list = new LinkedHashSet<>(capacity);
+    addAll(list, size, function);
     return list;
   }
 
