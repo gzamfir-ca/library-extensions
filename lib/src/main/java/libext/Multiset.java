@@ -23,16 +23,15 @@ public class Multiset<K> implements Map<K, Integer> {
     this.map = Objects.requireNonNull(mapSupplier).get();
   }
 
-  Multiset(int initCapacity) {
-    this(initCapacity, HashMap::new);
+  Multiset(int expectedSize) {
+    this(expectedSize, HashMap::newHashMap);
   }
 
-  Multiset(int initCapacity, Function<Integer, Map<K, Integer>> mapFunction) {
-    if (initCapacity < 0) {
-      throw new IllegalArgumentException("initial capacity must be >= 0");
+  Multiset(int expectedSize, Function<Integer, Map<K, Integer>> mapFunction) {
+    if (expectedSize < 0) {
+      throw new IllegalArgumentException("expected size must be >= 0");
     }
-    this.map = Objects.requireNonNull(mapFunction).apply(initCapacity);
-
+    this.map = Objects.requireNonNull(mapFunction).apply(expectedSize);
   }
 
   public static <K> Multiset<K> newMultiset() {
@@ -47,12 +46,12 @@ public class Multiset<K> implements Map<K, Integer> {
     return new Multiset<>(LinkedHashMap::new);
   }
 
-  public static <K> Multiset<K> newMultiset(int initCapacity) {
-    return new Multiset<>(initCapacity);
+  public static <K> Multiset<K> newMultiset(int expectedSize) {
+    return new Multiset<>(expectedSize);
   }
 
-  public static <K> Multiset<K> newOrderedMultiset(int initCapacity) {
-    return new Multiset<>(initCapacity, LinkedHashMap::new);
+  public static <K> Multiset<K> newOrderedMultiset(int expectedSize) {
+    return new Multiset<>(expectedSize, LinkedHashMap::newLinkedHashMap);
   }
 
   public Integer addKey(K key) {

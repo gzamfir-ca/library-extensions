@@ -29,16 +29,15 @@ public class Multimap<K, V> implements Map<K, List<V>> {
     this.map = Objects.requireNonNull(mapSupplier).get();
   }
 
-  Multimap(int initCapacity) {
-    this(initCapacity, HashMap::new);
+  Multimap(int expectedSize) {
+    this(expectedSize, HashMap::newHashMap);
   }
 
-  Multimap(int initCapacity, Function<Integer, Map<K, List<V>>> mapFunction) {
-    if (initCapacity < 0) {
-      throw new IllegalArgumentException("initial capacity must be >= 0");
+  Multimap(int expectedSize, Function<Integer, Map<K, List<V>>> mapFunction) {
+    if (expectedSize < 0) {
+      throw new IllegalArgumentException("expected size must be >= 0");
     }
-    this.map = Objects.requireNonNull(mapFunction).apply(initCapacity);
-
+    this.map = Objects.requireNonNull(mapFunction).apply(expectedSize);
   }
 
   public static <K, V> Multimap<K, V> newMultimap() {
@@ -53,12 +52,12 @@ public class Multimap<K, V> implements Map<K, List<V>> {
     return new Multimap<>(LinkedHashMap::new);
   }
 
-  public static <K, V> Multimap<K, V> newMultimap(int initCapacity) {
-    return new Multimap<>(initCapacity);
+  public static <K, V> Multimap<K, V> newMultimap(int expectedSize) {
+    return new Multimap<>(expectedSize);
   }
 
-  public static <K, V> Multimap<K, V> newOrderedMultimap(int initCapacity) {
-    return new Multimap<>(initCapacity, LinkedHashMap::new);
+  public static <K, V> Multimap<K, V> newOrderedMultimap(int expectedSize) {
+    return new Multimap<>(expectedSize, LinkedHashMap::newLinkedHashMap);
   }
 
   public List<V> addValue(K key, V element) {

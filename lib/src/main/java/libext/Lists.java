@@ -68,7 +68,7 @@ public final class Lists {
 
   public static ArrayList<String> newArrayList(BufferedReader reader) {
     Objects.requireNonNull(reader, "no valid reader provided");
-    ArrayList<String> list = new ArrayList<>(128);
+    ArrayList<String> list = new ArrayList<>(64);
     Readers.addAll(list, reader);
     return list;
   }
@@ -107,31 +107,28 @@ public final class Lists {
   @SafeVarargs
   public static <T> LinkedHashSet<T> newLinkedHashSet(T... elements) {
     Objects.requireNonNull(elements, "no valid elements provided");
-    int capacity = Math.multiplyExact(validateSize(elements.length), 134) / 100;
-    LinkedHashSet<T> list = new LinkedHashSet<>(capacity);
+    LinkedHashSet<T> list = LinkedHashSet.newLinkedHashSet(validateSize(elements.length));
     addAll(list, elements);
     return list;
   }
 
   public static <T> LinkedHashSet<T> newLinkedHashSet(int size, Supplier<T> supplier) {
     Objects.requireNonNull(supplier, "no valid supplier provided");
-    int capacity = Math.multiplyExact(validateSize(size), 134) / 100;
-    LinkedHashSet<T> list = new LinkedHashSet<>(capacity);
+    LinkedHashSet<T> list = LinkedHashSet.newLinkedHashSet(validateSize(size));
     addAll(list, size, supplier);
     return list;
   }
 
   public static <T> LinkedHashSet<T> newLinkedHashSet(int size, IntFunction<T> function) {
     Objects.requireNonNull(function, "no valid function provided");
-    int capacity = Math.multiplyExact(validateSize(size), 134) / 100;
-    LinkedHashSet<T> list = new LinkedHashSet<>(capacity);
+    LinkedHashSet<T> list = LinkedHashSet.newLinkedHashSet(validateSize(size));
     addAll(list, size, function);
     return list;
   }
 
   public static LinkedHashSet<String> newLinkedHashSet(BufferedReader reader) {
     Objects.requireNonNull(reader, "no valid reader provided");
-    LinkedHashSet<String> list = new LinkedHashSet<>(128);
+    LinkedHashSet<String> list = LinkedHashSet.newLinkedHashSet(64);
     Readers.addAll(list, reader);
     return list;
   }
