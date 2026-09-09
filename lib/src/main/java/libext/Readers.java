@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Objects;
 
 public final class Readers {
@@ -84,6 +85,28 @@ public final class Readers {
       while ((token = readToken(delim, line)) != null) {
         col.add(token);
       }
+    }
+  }
+
+  public static synchronized void addAll(Map<String, String> map, BufferedReader reader) {
+    Objects.requireNonNull(map, "no valid map provided");
+    Objects.requireNonNull(reader, "no valid reader provided");
+    pos = 0;
+    String line, token = null;
+    final int delim = DELIM;
+    String key = null;
+    while ((line = readLine(reader)) != null) {
+      while ((token = readToken(delim, line)) != null) {
+        if (key == null) {
+          key = token;
+        } else {
+          map.put(key, token);
+          key = null;
+        }
+      }
+    }
+    if (key != null) {
+      throw new IllegalStateException("odd number of tokens");
     }
   }
 }

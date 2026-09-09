@@ -3,8 +3,15 @@ package libext;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -29,91 +36,177 @@ class ReadersTest {
     return Readers.newBufferedReader(inputStream);
   }
 
-  @Test
-  void shouldReadCommonTokensCorrectly() {
-    BufferedReader reader = createReader("hello world java");
-    assertNotNull(reader);
+  @Nested
+  class CollectionOverloadTests {
 
-    List<String> result = new ArrayList<>();
-    Readers.addAll(result, reader);
-    assertEquals(3, result.size());
-    assertEquals("hello", result.get(0));
-    assertEquals("world", result.get(1));
-    assertEquals("java", result.get(2));
-  }
-
-  @Test
-  void shouldIgnoreMultipleConsecutiveDelimitersAndTrailingSpaces() {
-    BufferedReader reader = createReader("  leading   middle  trailing  ");
-    assertNotNull(reader);
-
-    List<String> result = new ArrayList<>();
-    Readers.addAll(result, reader);
-    assertEquals(3, result.size());
-    assertEquals("leading", result.get(0));
-    assertEquals("middle", result.get(1));
-    assertEquals("trailing", result.get(2));
-  }
-
-  @Test
-  void shouldReadCommonTokensAcrossMultipleLinesCorrectly() {
-    BufferedReader reader = createReader("line1 word1\nline2 word2 word3\nline3");
-    assertNotNull(reader);
-
-    List<String> result = new ArrayList<>();
-    Readers.addAll(result, reader);
-    assertEquals(6, result.size());
-    assertEquals("line1", result.get(0));
-    assertEquals("word3", result.get(4));
-    assertEquals("line3", result.get(5));
-  }
-
-  @Test
-  void shouldObserveCustomConfigurationChanges() {
-    Readers.DELIM = ',';
-    BufferedReader reader = createReader("comma,separated,values,,next");
-    assertNotNull(reader);
-
-    List<String> result = new ArrayList<>();
-    Readers.addAll(result, reader);
-    assertEquals(4, result.size());
-    assertEquals("comma", result.get(0));
-    assertEquals("separated", result.get(1));
-    assertEquals("values", result.get(2));
-    assertEquals("next", result.get(3));
-  }
-
-  @Test
-  void shouldPreserveStateUnderConcurrentAccess() throws InterruptedException {
-    int threadCount = 10;
-    AtomicBoolean safetyFailureOccurred;
-    try (ExecutorService executor = Executors.newFixedThreadPool(threadCount)) {
-      CountDownLatch startLatch = new CountDownLatch(1);
-      CountDownLatch finishLatch = new CountDownLatch(threadCount);
-      safetyFailureOccurred = new AtomicBoolean(false);
-      for (int i = 0; i < threadCount; i++) {
-        executor.submit(() -> {
-          try {
-            BufferedReader reader = createReader("concurrent processing token test");
-            List<String> result = new ArrayList<>();
-            startLatch.await();
-            Readers.addAll(result, reader);
-            if (result.size() != 4 || !result.get(0).equals("concurrent") ||
-                !result.get(3).equals("test")) {
-              safetyFailureOccurred.set(true);
-            }
-          } catch (Exception e) {
-            safetyFailureOccurred.set(true);
-          } finally {
-            finishLatch.countDown();
-          }
-        });
-      }
-      startLatch.countDown();
-      finishLatch.await();
-      executor.shutdown();
+    @Test
+    void shouldReadCommonTokensCorrectly() {
+      BufferedReader reader = createReader("hello world java");
+      assertNotNull(reader);
+      List<String> result = new ArrayList<>();
+      Readers.addAll(result, reader);
+      assertEquals(3, result.size());
+      assertEquals("hello", result.get(0));
+      assertEquals("world", result.get(1));
+      assertEquals("java", result.get(2));
     }
-    assertFalse(safetyFailureOccurred.get(),
-        "Thread safety race condition detected! State corruption occurred.");
+
+    @Test
+    void shouldIgnoreMultipleConsecutiveDelimitersAndTrailingSpaces() {
+      BufferedReader reader = createReader("  leading  middle  trailing ");
+      assertNotNull(reader);
+      List<String> result = new ArrayList<>();
+      Readers.addAll(result, reader);
+      assertEquals(3, result.size());
+      assertEquals("leading", result.get(0));
+      assertEquals("middle", result.get(1));
+      assertEquals("trailing", result.get(2));
+    }
+
+    @Test
+    void shouldReadCommonTokensAcrossMultipleLinesCorrectly() {
+      BufferedReader reader = createReader("line1 word1\nline2 word2 word3\nline3");
+      assertNotNull(reader);
+      List<String> result = new ArrayList<>();
+      Readers.addAll(result, reader);
+      assertEquals(6, result.size());
+      assertEquals("line1", result.get(0));
+      assertEquals("word3", result.get(4));
+      assertEquals("line3", result.get(5));
+    }
+
+    @Test
+    void shouldObserveCustomConfigurationChanges() {
+      Readers.DELIM = ',';
+      BufferedReader reader = createReader("comma,separated,values,,next");
+      assertNotNull(reader);
+      List<String> result = new ArrayList<>();
+      Readers.addAll(result, reader);
+      assertEquals(4, result.size());
+      assertEquals("comma", result.get(0));
+      assertEquals("separated", result.get(1));
+      assertEquals("values", result.get(2));
+      assertEquals("next", result.get(3));
+    }
+
+    @Test
+    void shouldThrowExceptionOnNullArgumentsForCollection() {
+      Map<String, String> map;
+      try (BufferedReader reader = createReader("token")) {
+        map = new HashMap<>();
+        assertThrows(NullPointerException.class,
+            () -> Readers.addAll((Collection<String>) null, reader));
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      assertThrows(NullPointerException.class, () -> Readers.addAll(map, null));
+    }
+
+    @Test
+    void shouldPreserveStateUnderConcurrentAccess() throws InterruptedException {
+      int threadCount = 10;
+      AtomicBoolean safetyFailureOccurred;
+      try (ExecutorService executor = Executors.newFixedThreadPool(threadCount)) {
+        CountDownLatch startLatch = new CountDownLatch(1);
+        CountDownLatch finishLatch = new CountDownLatch(threadCount);
+        safetyFailureOccurred = new AtomicBoolean(false);
+        for (int i = 0; i < threadCount; i++) {
+          executor.submit(() -> {
+            try {
+              BufferedReader reader = createReader("concurrent processing token test");
+              List<String> result = new ArrayList<>();
+              startLatch.await();
+              Readers.addAll(result, reader);
+              if (result.size() != 4 || !result.get(0).equals("concurrent") || !result.get(3)
+                  .equals("test")) {
+                safetyFailureOccurred.set(true);
+              }
+            } catch (Exception e) {
+              safetyFailureOccurred.set(true);
+            } finally {
+              finishLatch.countDown();
+            }
+          });
+        }
+        startLatch.countDown();
+        finishLatch.await();
+        executor.shutdown();
+      }
+      assertFalse(safetyFailureOccurred.get(),
+          "Thread safety race condition detected! State corruption occurred.");
+    }
+  }
+
+  @Nested
+  class MapOverloadTests {
+
+    @Test
+    void shouldReadMapPairsCorrectly() {
+      BufferedReader reader = createReader("key1 value1 key2 value2");
+      Map<String, String> map = new HashMap<>();
+      Readers.addAll(map, reader);
+      assertEquals(2, map.size());
+      assertEquals("value1", map.get("key1"));
+      assertEquals("value2", map.get("key2"));
+    }
+
+    @Test
+    void shouldThrowExceptionOnOddNumberOfTokens() {
+      IllegalStateException exception;
+      try (BufferedReader reader = createReader("key1 value1 key2")) {
+        Map<String, String> map = new HashMap<>();
+        exception = assertThrows(IllegalStateException.class, () -> {
+          Readers.addAll(map, reader);
+        });
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      assertEquals("odd number of tokens", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionOnNullArgumentsForMap() {
+      Map<String, String> map;
+      try (BufferedReader reader = createReader("key value")) {
+        map = new HashMap<>();
+        assertThrows(NullPointerException.class,
+            () -> Readers.addAll((Map<String, String>) null, reader));
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      assertThrows(NullPointerException.class, () -> Readers.addAll(map, null));
+    }
+
+    @Test
+    void shouldPreserveMapStateUnderConcurrentAccess() throws InterruptedException {
+      int threadCount = 10;
+      AtomicBoolean safetyFailureOccurred = new AtomicBoolean(false);
+      try (ExecutorService executor = Executors.newFixedThreadPool(threadCount)) {
+        CountDownLatch startLatch = new CountDownLatch(1);
+        CountDownLatch finishLatch = new CountDownLatch(threadCount);
+        for (int i = 0; i < threadCount; i++) {
+          executor.submit(() -> {
+            try {
+              BufferedReader reader = createReader("k1 v1 k2 v2");
+              Map<String, String> map = new ConcurrentHashMap<>();
+              startLatch.await();
+              Readers.addAll(map, reader);
+              if (map.size() != 2 || !"v1".equals(map.get("k1")) || !"v2".equals(map.get("k2"))) {
+                safetyFailureOccurred.set(true);
+              }
+            } catch (Exception e) {
+              safetyFailureOccurred.set(true);
+            } finally {
+              finishLatch.countDown();
+            }
+          });
+        }
+        startLatch.countDown();
+        finishLatch.await();
+        executor.shutdown();
+      }
+      assertFalse(safetyFailureOccurred.get(),
+          "Thread safety race condition detected during Map processing!");
+    }
   }
 }
