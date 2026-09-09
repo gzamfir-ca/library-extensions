@@ -133,29 +133,43 @@ public final class Lists {
     return list;
   }
 
-  public static long[] toLongArray(List<? extends Number> list) {
+  public static long[] toLongArray(List<String> list) {
     Objects.requireNonNull(list, "no valid list provided");
     int size = list.size();
-    if (size > 0) {
-      long[] array = new long[size];
-      for (int i = 0; i < size; i++) {
-        array[i] = list.get(i).longValue();
-      }
-      return array;
+    long[] array = new long[size];
+    int i = 0;
+    for (String s : list) {
+      array[i++] = Long.parseLong(s);
     }
-    return new long[0];
+    return array;
   }
 
-  public static double[] toDoubleArray(List<? extends Number> list) {
+  public static List<Long> toLongList(List<String> list) {
+    Objects.requireNonNull(list, "no valid list provided");
+    List<Long> result = new ArrayList<>(list.size());
+    for (String s : list) {
+      result.add(Long.valueOf(s));
+    }
+    return result;
+  }
+
+  public static double[] toDoubleArray(List<String> list) {
     Objects.requireNonNull(list, "no valid list provided");
     int size = list.size();
-    if (size > 0) {
-      double[] array = new double[size];
-      for (int i = 0; i < size; i++) {
-        array[i] = list.get(i).doubleValue();
-      }
-      return array;
+    double[] array = new double[size];
+    int i = 0;
+    for (String s : list) {
+      array[i++] = Double.parseDouble(s);
     }
-    return new double[0];
+    return array;
+  }
+
+  public static List<Double> toDoubleList(List<String> list) {
+    Objects.requireNonNull(list, "no valid list provided");
+    List<Double> result = new ArrayList<>(list.size());
+    for (String s : list) {
+      result.add(Double.valueOf(s));
+    }
+    return result;
   }
 }
