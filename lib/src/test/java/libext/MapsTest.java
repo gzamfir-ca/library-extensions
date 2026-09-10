@@ -6,12 +6,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Map.Entry;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 class MapsTest {
+
+  private static final String MULTI_LINE_TEXT = "key1 value1\nkey2 value2";
 
   @Nested
   class HashMapTests {
@@ -60,6 +65,29 @@ class MapsTest {
           Maps.newHashMap(entry("A", 1), null, entry("B", 2))
       );
       assertNotNull(ex);
+    }
+
+    @Test
+    void shouldCreateResizableHashMapFromReader() {
+      InputStream inputStream = new ByteArrayInputStream(MULTI_LINE_TEXT.getBytes());
+      BufferedReader reader = Readers.newBufferedReader(inputStream);
+      assertNotNull(reader);
+
+      Map<String, String> map = Maps.newHashMap(reader);
+      assertNotNull(map);
+      assertEquals("value1", map.get("key1"));
+      assertEquals("value2", map.get("key2"));
+
+      map.put("key3", "value3");
+      assertEquals(3, map.size());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenHashMapReaderIsNull() {
+      NullPointerException ex = assertThrows(NullPointerException.class, () ->
+          Maps.newHashMap((BufferedReader) null)
+      );
+      assertEquals("no valid reader provided", ex.getMessage());
     }
   }
 
@@ -148,6 +176,33 @@ class MapsTest {
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Maps.newLinkedHashMap(String::length, nullKeys));
       assertEquals("no valid keys provided", ex.getMessage());
+    }
+
+    @Test
+    void shouldCreateResizableLinkedHashMapFromReaderAndPreserveOrder() {
+      InputStream inputStream = new ByteArrayInputStream(MULTI_LINE_TEXT.getBytes());
+      BufferedReader reader = Readers.newBufferedReader(inputStream);
+      assertNotNull(reader);
+
+      Map<String, String> map = Maps.newLinkedHashMap(reader);
+      assertNotNull(map);
+
+      var iterator = map.keySet().iterator();
+      assertTrue(iterator.hasNext());
+      assertEquals("key1", iterator.next());
+      assertTrue(iterator.hasNext());
+      assertEquals("key2", iterator.next());
+
+      map.put("key3", "value3");
+      assertEquals(3, map.size());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenLinkedHashMapReaderIsNull() {
+      NullPointerException ex = assertThrows(NullPointerException.class, () ->
+          Maps.newLinkedHashMap((BufferedReader) null)
+      );
+      assertEquals("no valid reader provided", ex.getMessage());
     }
   }
 }

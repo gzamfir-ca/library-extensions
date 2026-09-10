@@ -12,12 +12,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.IntFunction;
 import java.util.function.Supplier;
 import org.junit.jupiter.api.Nested;
@@ -50,7 +48,7 @@ class ListsTest {
 
     @Test
     void shouldCreateResizableArrayListFromVarargs() {
-      ArrayList<String> list = Lists.newArrayList("A", "B", "C");
+      List<String> list = Lists.newArrayList("A", "B", "C");
       assertIterableEquals(Arrays.asList("A", "B", "C"), list);
 
       list.add("D");
@@ -59,13 +57,13 @@ class ListsTest {
 
     @Test
     void shouldCreateEmptyArrayListFromEmptyVarargs() {
-      ArrayList<String> list = Lists.newArrayList();
+      List<String> list = Lists.newArrayList();
       assertTrue(list.isEmpty());
     }
 
     @Test
     void shouldCreateResizableArrayListFromSupplier() {
-      ArrayList<String> list = Lists.newArrayList(3, stringSupplier);
+      List<String> list = Lists.newArrayList(3, stringSupplier);
       assertIterableEquals(Arrays.asList("Item1", "Item2", "Item3"), list);
 
       list.add("Item4");
@@ -74,7 +72,7 @@ class ListsTest {
 
     @Test
     void shouldCreateResizableArrayListFromIntFunction() {
-      ArrayList<String> list = Lists.newArrayList(3, stringIntFunction);
+      List<String> list = Lists.newArrayList(3, stringIntFunction);
       assertIterableEquals(Arrays.asList("Item1", "Item2", "Item3"), list);
 
       list.add("Item4");
@@ -124,7 +122,7 @@ class ListsTest {
       BufferedReader reader = Readers.newBufferedReader(inputStream);
       assertNotNull(reader);
 
-      ArrayList<String> list = Lists.newArrayList(reader);
+      List<String> list = Lists.newArrayList(reader);
       assertNotNull(list);
 
       list.add("nine");
@@ -139,7 +137,7 @@ class ListsTest {
       BufferedReader reader = Readers.newBufferedReader(path);
       assertNotNull(reader);
 
-      ArrayList<String> list = Lists.newArrayList(reader);
+      List<String> list = Lists.newArrayList(reader);
       assertNotNull(list);
 
       list.add("nine");
@@ -160,7 +158,7 @@ class ListsTest {
 
     @Test
     void shouldCreateResizableLinkedListFromVarargs() {
-      LinkedList<Integer> list = Lists.newLinkedList(1, 2, 3);
+      List<Integer> list = Lists.newLinkedList(1, 2, 3);
       assertIterableEquals(Arrays.asList(1, 2, 3), list);
 
       list.add(4);
@@ -169,13 +167,13 @@ class ListsTest {
 
     @Test
     void shouldCreateEmptyLinkedListFromEmptyVarargs() {
-      LinkedList<Integer> list = Lists.newLinkedList();
+      List<Integer> list = Lists.newLinkedList();
       assertTrue(list.isEmpty());
     }
 
     @Test
     void shouldCreateResizableLinkedListFromSupplier() {
-      LinkedList<String> list = Lists.newLinkedList(2, stringSupplier);
+      List<String> list = Lists.newLinkedList(2, stringSupplier);
       assertIterableEquals(Arrays.asList("Item1", "Item2"), list);
 
       list.add("Item3");
@@ -184,7 +182,7 @@ class ListsTest {
 
     @Test
     void shouldCreateResizableLinkedListFromIntFunction() {
-      LinkedList<String> list = Lists.newLinkedList(2, stringIntFunction);
+      List<String> list = Lists.newLinkedList(2, stringIntFunction);
       assertIterableEquals(Arrays.asList("Item1", "Item2"), list);
 
       list.add("Item3");
@@ -234,7 +232,7 @@ class ListsTest {
       BufferedReader reader = Readers.newBufferedReader(inputStream);
       assertNotNull(reader);
 
-      LinkedList<String> list = Lists.newLinkedList(reader);
+      List<String> list = Lists.newLinkedList(reader);
       assertNotNull(list);
 
       list.add("nine");
@@ -249,7 +247,7 @@ class ListsTest {
       BufferedReader reader = Readers.newBufferedReader(path);
       assertNotNull(reader);
 
-      LinkedList<String> list = Lists.newLinkedList(reader);
+      List<String> list = Lists.newLinkedList(reader);
       assertNotNull(list);
 
       list.add("nine");
@@ -270,7 +268,7 @@ class ListsTest {
 
     @Test
     void shouldCreateResizableLinkedHashSetAndPreserveOrder() {
-      LinkedHashSet<String> set = Lists.newLinkedHashSet("Z", "A", "B");
+      Set<String> set = Lists.newLinkedHashSet("Z", "A", "B");
       assertIterableEquals(Arrays.asList("Z", "A", "B"), set);
 
       set.add("C");
@@ -279,7 +277,7 @@ class ListsTest {
 
     @Test
     void shouldCreateResizableLinkedHashSetNoDuplicatesFromVarargs() {
-      LinkedHashSet<String> set = Lists.newLinkedHashSet("A", "A", "B");
+      Set<String> set = Lists.newLinkedHashSet("A", "A", "B");
       assertIterableEquals(Arrays.asList("A", "B"), set);
 
       set.add("A");
@@ -290,7 +288,7 @@ class ListsTest {
 
     @Test
     void shouldCreateResizableLinkedHashSetNoDuplicatesFromSupplier() {
-      LinkedHashSet<String> set = Lists.newLinkedHashSet(3, duplicateSupplier);
+      Set<String> set = Lists.newLinkedHashSet(3, duplicateSupplier);
       assertEquals(1, set.size());
       assertTrue(set.contains("Duplicate"));
 
@@ -303,7 +301,7 @@ class ListsTest {
 
     @Test
     void shouldCreateResizableLinkedHashSetNoDuplicatesFromIntFunction() {
-      LinkedHashSet<String> set = Lists.newLinkedHashSet(3, duplicateIntFunction);
+      Set<String> set = Lists.newLinkedHashSet(3, duplicateIntFunction);
       assertEquals(1, set.size());
       assertTrue(set.contains("Duplicate"));
 
@@ -316,7 +314,7 @@ class ListsTest {
 
     @Test
     void shouldCreateEmptyLinkedHashSetFromEmptyVarargs() {
-      LinkedHashSet<String> set = Lists.newLinkedHashSet();
+      Set<String> set = Lists.newLinkedHashSet();
       assertTrue(set.isEmpty());
     }
 
@@ -363,7 +361,7 @@ class ListsTest {
       BufferedReader reader = Readers.newBufferedReader(inputStream);
       assertNotNull(reader);
 
-      LinkedHashSet<String> set = Lists.newLinkedHashSet(reader);
+      Set<String> set = Lists.newLinkedHashSet(reader);
       assertNotNull(set);
 
       set.add("nine");
@@ -378,7 +376,7 @@ class ListsTest {
       BufferedReader reader = Readers.newBufferedReader(path);
       assertNotNull(reader);
 
-      LinkedHashSet<String> set = Lists.newLinkedHashSet(reader);
+      Set<String> set = Lists.newLinkedHashSet(reader);
       assertNotNull(set);
 
       set.add("nine");

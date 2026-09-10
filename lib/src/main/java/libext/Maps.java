@@ -1,5 +1,6 @@
 package libext;
 
+import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -43,15 +44,22 @@ public final class Maps {
   @SafeVarargs
   public static <K, V> Map<K, V> newHashMap(Entry<K, V>... entries) {
     Objects.requireNonNull(entries, "no valid entries provided");
-    HashMap<K, V> map = HashMap.newHashMap(validateSize(entries.length));
+    Map<K, V> map = HashMap.newHashMap(validateSize(entries.length));
     addAll(map, entries);
+    return map;
+  }
+
+  public static Map<String, String> newHashMap(BufferedReader reader) {
+    Objects.requireNonNull(reader, "no valid reader provided");
+    Map<String, String> map = HashMap.newHashMap(64);
+    Readers.addAll(map, reader);
     return map;
   }
 
   @SafeVarargs
   public static <K, V> Map<K, V> newLinkedHashMap(Entry<K, V>... entries) {
     Objects.requireNonNull(entries, "no valid entries provided");
-    LinkedHashMap<K, V> map = LinkedHashMap.newLinkedHashMap(validateSize(entries.length));
+    Map<K, V> map = LinkedHashMap.newLinkedHashMap(validateSize(entries.length));
     addAll(map, entries);
     return map;
   }
@@ -60,8 +68,15 @@ public final class Maps {
   public static <K, V> Map<K, V> newLinkedHashMap(Function<K, V> function, K... keys) {
     Objects.requireNonNull(function, "no valid function provided");
     Objects.requireNonNull(keys, "no valid keys provided");
-    LinkedHashMap<K, V> map = LinkedHashMap.newLinkedHashMap(validateSize(keys.length));
+    Map<K, V> map = LinkedHashMap.newLinkedHashMap(validateSize(keys.length));
     addAll(map, function, keys);
+    return map;
+  }
+
+  public static Map<String, String> newLinkedHashMap(BufferedReader reader) {
+    Objects.requireNonNull(reader, "no valid reader provided");
+    Map<String, String> map = LinkedHashMap.newLinkedHashMap(64);
+    Readers.addAll(map, reader);
     return map;
   }
 }

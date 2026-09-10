@@ -8,6 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.IntFunction;
 import java.util.function.Supplier;
 
@@ -45,90 +46,90 @@ public final class Lists {
   }
 
   @SafeVarargs
-  public static <T> ArrayList<T> newArrayList(T... elements) {
+  public static <T> List<T> newArrayList(T... elements) {
     Objects.requireNonNull(elements, "no valid elements provided");
-    ArrayList<T> list = new ArrayList<>(validateSize(elements.length));
+    List<T> list = new ArrayList<>(validateSize(elements.length));
     addAll(list, elements);
     return list;
   }
 
-  public static <T> ArrayList<T> newArrayList(int size, Supplier<T> supplier) {
+  public static <T> List<T> newArrayList(int size, Supplier<T> supplier) {
     Objects.requireNonNull(supplier, "no valid supplier provided");
-    ArrayList<T> list = new ArrayList<>(validateSize(size));
+    List<T> list = new ArrayList<>(validateSize(size));
     addAll(list, size, supplier);
     return list;
   }
 
-  public static <T> ArrayList<T> newArrayList(int size, IntFunction<T> function) {
+  public static <T> List<T> newArrayList(int size, IntFunction<T> function) {
     Objects.requireNonNull(function, "no valid function provided");
-    ArrayList<T> list = new ArrayList<>(validateSize(size));
+    List<T> list = new ArrayList<>(validateSize(size));
     addAll(list, size, function);
     return list;
   }
 
-  public static ArrayList<String> newArrayList(BufferedReader reader) {
+  public static List<String> newArrayList(BufferedReader reader) {
     Objects.requireNonNull(reader, "no valid reader provided");
-    ArrayList<String> list = new ArrayList<>(64);
+    List<String> list = new ArrayList<>(64);
     Readers.addAll(list, reader);
     return list;
   }
 
   @SafeVarargs
-  public static <T> LinkedList<T> newLinkedList(T... elements) {
+  public static <T> List<T> newLinkedList(T... elements) {
     Objects.requireNonNull(elements, "no valid elements provided");
-    LinkedList<T> list = new LinkedList<>();
+    List<T> list = new LinkedList<>();
     addAll(list, elements);
     return list;
   }
 
-  public static <T> LinkedList<T> newLinkedList(int size, Supplier<T> supplier) {
+  public static <T> List<T> newLinkedList(int size, Supplier<T> supplier) {
     Objects.requireNonNull(supplier, "no valid supplier provided");
-    LinkedList<T> list = new LinkedList<>();
+    List<T> list = new LinkedList<>();
     validateSize(size);
     addAll(list, size, supplier);
     return list;
   }
 
-  public static <T> LinkedList<T> newLinkedList(int size, IntFunction<T> function) {
+  public static <T> List<T> newLinkedList(int size, IntFunction<T> function) {
     Objects.requireNonNull(function, "no valid function provided");
-    LinkedList<T> list = new LinkedList<>();
+    List<T> list = new LinkedList<>();
     validateSize(size);
     addAll(list, size, function);
     return list;
   }
 
-  public static LinkedList<String> newLinkedList(BufferedReader reader) {
+  public static List<String> newLinkedList(BufferedReader reader) {
     Objects.requireNonNull(reader, "no valid reader provided");
-    LinkedList<String> list = new LinkedList<>();
+    List<String> list = new LinkedList<>();
     Readers.addAll(list, reader);
     return list;
   }
 
   @SafeVarargs
-  public static <T> LinkedHashSet<T> newLinkedHashSet(T... elements) {
+  public static <T> Set<T> newLinkedHashSet(T... elements) {
     Objects.requireNonNull(elements, "no valid elements provided");
-    LinkedHashSet<T> list = LinkedHashSet.newLinkedHashSet(validateSize(elements.length));
+    Set<T> list = LinkedHashSet.newLinkedHashSet(validateSize(elements.length));
     addAll(list, elements);
     return list;
   }
 
-  public static <T> LinkedHashSet<T> newLinkedHashSet(int size, Supplier<T> supplier) {
+  public static <T> Set<T> newLinkedHashSet(int size, Supplier<T> supplier) {
     Objects.requireNonNull(supplier, "no valid supplier provided");
-    LinkedHashSet<T> list = LinkedHashSet.newLinkedHashSet(validateSize(size));
+    Set<T> list = LinkedHashSet.newLinkedHashSet(validateSize(size));
     addAll(list, size, supplier);
     return list;
   }
 
-  public static <T> LinkedHashSet<T> newLinkedHashSet(int size, IntFunction<T> function) {
+  public static <T> Set<T> newLinkedHashSet(int size, IntFunction<T> function) {
     Objects.requireNonNull(function, "no valid function provided");
-    LinkedHashSet<T> list = LinkedHashSet.newLinkedHashSet(validateSize(size));
+    Set<T> list = LinkedHashSet.newLinkedHashSet(validateSize(size));
     addAll(list, size, function);
     return list;
   }
 
-  public static LinkedHashSet<String> newLinkedHashSet(BufferedReader reader) {
+  public static Set<String> newLinkedHashSet(BufferedReader reader) {
     Objects.requireNonNull(reader, "no valid reader provided");
-    LinkedHashSet<String> list = LinkedHashSet.newLinkedHashSet(64);
+    Set<String> list = LinkedHashSet.newLinkedHashSet(64);
     Readers.addAll(list, reader);
     return list;
   }
