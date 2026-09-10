@@ -401,19 +401,72 @@ class AlgorithmsTest {
   }
 
   @Nested
-  class FindFirstTests {
+  class FindTests {
 
     @Test
     void shouldReturnFirstMatchingObject() {
       Collection<String> col = Arrays.asList("first", "second", "first");
-      String result = Algorithms.findFirst(col, "first");
+      String result = Algorithms.find(col, "first");
       assertEquals("first", result);
     }
 
     @Test
-    void shouldReturnNullWhenFindFirstFindsNoMatch() {
+    void shouldReturnNullWhenThereIsNoMatch() {
       Collection<String> col = Arrays.asList("first", "second");
-      assertNull(Algorithms.findFirst(col, "third"));
+      assertNull(Algorithms.find(col, "third"));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCollectionIsNull() {
+      NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+        Algorithms.find(null, "target");
+      });
+      assertEquals("no valid collection provided", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenObjectIsNull() {
+      Collection<String> col = Arrays.asList("first", "second");
+      NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+        Algorithms.find(col, null);
+      });
+      assertEquals("no valid object provided", exception.getMessage());
+    }
+  }
+
+  @Nested
+  class FindIfTests {
+
+    @Test
+    void shouldReturnFirstMatchingObject() {
+      Collection<String> col = Arrays.asList("apple", "banana", "apricot");
+      String result = Algorithms.findIf(col, s -> s.startsWith("ap"));
+      assertEquals("apple", result);
+    }
+
+    @Test
+    void shouldReturnNullWhenThereIsNoMatch() {
+      Collection<String> col = Arrays.asList("apple", "banana");
+      String result = Algorithms.findIf(col, s -> s.startsWith("z"));
+      assertNull(result);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCollectionIsNull() {
+      Predicate<String> pred = s -> s.startsWith("a");
+      NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+        Algorithms.findIf(null, pred);
+      });
+      assertEquals("no valid collection provided", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenPredicateIsNull() {
+      Collection<String> col = Arrays.asList("apple", "banana");
+      NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+        Algorithms.findIf(col, null);
+      });
+      assertEquals("no valid predicate provided", exception.getMessage());
     }
   }
 

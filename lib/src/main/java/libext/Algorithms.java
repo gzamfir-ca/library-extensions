@@ -138,10 +138,22 @@ public final class Algorithms {
     }
   }
 
-  public static <T> T findFirst(Collection<T> col, Object o) {
+  public static <T> T find(Collection<T> col, Object o) {
     Objects.requireNonNull(col, "no valid collection provided");
+    Objects.requireNonNull(o, "no valid object provided");
     for (T t : col) {
       if (Objects.equals(o, t)) {
+        return t;
+      }
+    }
+    return null;
+  }
+
+  public static <T> T findIf(Collection<T> col, Predicate<T> pred) {
+    Objects.requireNonNull(col, "no valid collection provided");
+    Objects.requireNonNull(pred, "no valid predicate provided");
+    for (T t : col) {
+      if (pred.test(t)) {
         return t;
       }
     }
