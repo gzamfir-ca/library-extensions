@@ -140,7 +140,6 @@ public final class Algorithms {
 
   public static <T> T find(Collection<T> col, Object o) {
     Objects.requireNonNull(col, "no valid collection provided");
-    Objects.requireNonNull(o, "no valid object provided");
     for (T t : col) {
       if (Objects.equals(o, t)) {
         return t;

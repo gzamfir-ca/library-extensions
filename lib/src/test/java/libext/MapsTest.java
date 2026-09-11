@@ -64,7 +64,44 @@ class MapsTest {
       NullPointerException ex = assertThrows(NullPointerException.class, () ->
           Maps.newHashMap(entry("A", 1), null, entry("B", 2))
       );
-      assertNotNull(ex);
+      assertEquals("invalid entry provided", ex.getMessage());
+    }
+
+    @Test
+    void shouldCreateHashMapUsingFunction() {
+      Map<String, Integer> map = Maps.newHashMap(String::length, "Apple", "Banana", "Zebra");
+      assertEquals(3, map.size());
+      assertEquals(5, map.get("Apple"));
+      assertEquals(6, map.get("Banana"));
+      assertEquals(5, map.get("Zebra"));
+
+      map.put("Kiwi", 4);
+      assertEquals(4, map.size());
+    }
+
+    @Test
+    void shouldCreateEmptyHashMapFromFunctionAndEmptyVarargs() {
+      Map<String, Integer> map = Maps.newHashMap(String::length);
+      assertTrue(map.isEmpty());
+    }
+
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    void shouldThrowExceptionWhenFunctionIsNull() {
+      NullPointerException ex = assertThrows(NullPointerException.class, () ->
+          Maps.newHashMap(null, "Key1", "Key2")
+      );
+      assertEquals("no valid function provided", ex.getMessage());
+    }
+
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    void shouldThrowExceptionWhenFunctionVarargsArrayIsNull() {
+      String[] nullKeys = null;
+      NullPointerException ex = assertThrows(NullPointerException.class, () ->
+          Maps.newHashMap(String::length, nullKeys)
+      );
+      assertEquals("no valid keys provided", ex.getMessage());
     }
 
     @Test
@@ -114,6 +151,13 @@ class MapsTest {
     }
 
     @Test
+    void shouldOverwriteDuplicateKeysUsingLastWinsRule() {
+      Map<String, Integer> map = Maps.newLinkedHashMap(entry("A", 1), entry("A", 99));
+      assertEquals(1, map.size());
+      assertEquals(99, map.get("A"));
+    }
+
+    @Test
     void shouldCreateEmptyLinkedHashMapFromEmptyVarargs() {
       Map<String, Integer> map = Maps.newLinkedHashMap();
       assertTrue(map.isEmpty());
@@ -127,6 +171,14 @@ class MapsTest {
           Maps.newLinkedHashMap(nullArray)
       );
       assertEquals("no valid entries provided", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenAnIndividualEntryIsNull() {
+      NullPointerException ex = assertThrows(NullPointerException.class, () ->
+          Maps.newLinkedHashMap(entry("A", 1), null, entry("B", 2))
+      );
+      assertEquals("invalid entry provided", ex.getMessage());
     }
 
     @Test

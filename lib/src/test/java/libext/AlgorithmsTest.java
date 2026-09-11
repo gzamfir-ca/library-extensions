@@ -83,7 +83,19 @@ class AlgorithmsTest {
 
     @Test
     void shouldThrowNullPointerExceptionWhenAnyMatchReceivesNullCollection() {
-      assertThrows(NullPointerException.class, () -> Algorithms.anyMatch(null, n -> true));
+      NullPointerException exception = assertThrows(NullPointerException.class, () ->
+          Algorithms.anyMatch(null, n -> true)
+      );
+      assertEquals("no valid collection provided", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenAnyMatchReceivesNullPredicate() {
+      Collection<Integer> col = Arrays.asList(1, 2, 3);
+      NullPointerException exception = assertThrows(NullPointerException.class, () ->
+          Algorithms.anyMatch(col, null)
+      );
+      assertEquals("no valid predicate provided", exception.getMessage());
     }
   }
 
@@ -423,15 +435,6 @@ class AlgorithmsTest {
       });
       assertEquals("no valid collection provided", exception.getMessage());
     }
-
-    @Test
-    void shouldThrowExceptionWhenObjectIsNull() {
-      Collection<String> col = Arrays.asList("first", "second");
-      NullPointerException exception = assertThrows(NullPointerException.class, () -> {
-        Algorithms.find(col, null);
-      });
-      assertEquals("no valid object provided", exception.getMessage());
-    }
   }
 
   @Nested
@@ -585,6 +588,27 @@ class AlgorithmsTest {
       Predicate<Integer> isEven = n -> n % 2 == 0;
       assertFalse(Algorithms.noneMatch(col, isEven));
     }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenCollectionIsNull() {
+      Predicate<Integer> isEven = n -> n % 2 == 0;
+      NullPointerException exception = assertThrows(
+          NullPointerException.class,
+          () -> Algorithms.noneMatch(null, isEven)
+      );
+      assertEquals("no valid collection provided", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenPredicateIsNull() {
+      Collection<Integer> col = Arrays.asList(1, 2, 3);
+
+      NullPointerException exception = assertThrows(
+          NullPointerException.class,
+          () -> Algorithms.noneMatch(col, null)
+      );
+      assertEquals("no valid predicate provided", exception.getMessage());
+    }
   }
 
   @Nested
@@ -609,7 +633,21 @@ class AlgorithmsTest {
     @Test
     void shouldThrowNullPointerExceptionWhenReduceReceivesNullOperator() {
       Collection<Integer> col = Arrays.asList(1, 2);
-      assertThrows(NullPointerException.class, () -> Algorithms.reduce(col, 0, null));
+      NullPointerException exception = assertThrows(
+          NullPointerException.class,
+          () -> Algorithms.reduce(col, 0, null)
+      );
+      assertEquals("no valid operator provided", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWithCorrectMessageWhenCollectionIsNull() {
+      BinaryOperator<Integer> sum = Integer::sum;
+      NullPointerException exception = assertThrows(
+          NullPointerException.class,
+          () -> Algorithms.reduce(null, 0, sum)
+      );
+      assertEquals("no valid collection provided", exception.getMessage());
     }
   }
 
@@ -798,7 +836,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowIllegalArgumentExceptionWhenSourceListsAreTheSameInstance() {
+    void shouldThrowIllegalArgumentExceptionWhenTheSameInstance() {
       List<String> first = Arrays.asList("A", "B");
       List<Pair<String, String>> dest = Arrays.asList(null, null);
       Exception exception = assertThrows(IllegalArgumentException.class, () ->

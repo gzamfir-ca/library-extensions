@@ -1,6 +1,7 @@
 package libext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,40 @@ class PairTest {
           val -> Pair.of("session-xyz", "Value is " + val));
       assertEquals("session-xyz", result.first());
       assertEquals("Value is 10", result.second());
+    }
+  }
+
+  @Nested
+  class NullCheckTest {
+
+    @Test
+    void mapShouldThrowExceptionWhenMapperIsNull() {
+      Pair<String, Integer> pair = Pair.of("test", 1);
+      NullPointerException exception = assertThrows(
+          NullPointerException.class,
+          () -> pair.map(null)
+      );
+      assertEquals("no valid mapper provided", exception.getMessage());
+    }
+
+    @Test
+    void flatMapShouldThrowExceptionWhenMapperIsNull() {
+      Pair<String, Integer> pair = Pair.of("test", 1);
+      NullPointerException exception = assertThrows(
+          NullPointerException.class,
+          () -> pair.flatMap(null)
+      );
+      assertEquals("no valid mapper provided", exception.getMessage());
+    }
+
+    @Test
+    void flatMapShouldThrowExceptionWhenMapperReturnsNull() {
+      Pair<String, Integer> pair = Pair.of("test", 1);
+      NullPointerException exception = assertThrows(
+          NullPointerException.class,
+          () -> pair.flatMap(val -> null)
+      );
+      assertEquals("invalid mapper result", exception.getMessage());
     }
   }
 }

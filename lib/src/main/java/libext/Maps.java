@@ -1,6 +1,7 @@
 package libext;
 
 import java.io.BufferedReader;
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,6 +19,7 @@ public final class Maps {
   private static <K, V> void addAll(Map<K, V> map, Entry<K, V>... entries) {
     Objects.requireNonNull(map, "no valid map provided");
     for (Entry<K, V> entry : entries) {
+      Objects.requireNonNull(entry, "invalid entry provided");
       map.put(entry.getKey(), entry.getValue());
     }
   }
@@ -30,22 +32,24 @@ public final class Maps {
     }
   }
 
-  private static int validateSize(int size) {
-    if (size < 0) {
-      throw new IllegalArgumentException("size must be >= 0");
-    }
-    return size;
-  }
-
   public static <K, V> Entry<K, V> entry(K key, V value) {
-    return Map.entry(key, value);
+    return new AbstractMap.SimpleImmutableEntry<>(key, value);
   }
 
   @SafeVarargs
   public static <K, V> Map<K, V> newHashMap(Entry<K, V>... entries) {
     Objects.requireNonNull(entries, "no valid entries provided");
-    Map<K, V> map = HashMap.newHashMap(validateSize(entries.length));
+    Map<K, V> map = HashMap.newHashMap(entries.length);
     addAll(map, entries);
+    return map;
+  }
+
+  @SafeVarargs
+  public static <K, V> Map<K, V> newHashMap(Function<K, V> function, K... keys) {
+    Objects.requireNonNull(function, "no valid function provided");
+    Objects.requireNonNull(keys, "no valid keys provided");
+    Map<K, V> map = HashMap.newHashMap(keys.length);
+    addAll(map, function, keys);
     return map;
   }
 
@@ -59,7 +63,7 @@ public final class Maps {
   @SafeVarargs
   public static <K, V> Map<K, V> newLinkedHashMap(Entry<K, V>... entries) {
     Objects.requireNonNull(entries, "no valid entries provided");
-    Map<K, V> map = LinkedHashMap.newLinkedHashMap(validateSize(entries.length));
+    Map<K, V> map = LinkedHashMap.newLinkedHashMap(entries.length);
     addAll(map, entries);
     return map;
   }
@@ -68,7 +72,7 @@ public final class Maps {
   public static <K, V> Map<K, V> newLinkedHashMap(Function<K, V> function, K... keys) {
     Objects.requireNonNull(function, "no valid function provided");
     Objects.requireNonNull(keys, "no valid keys provided");
-    Map<K, V> map = LinkedHashMap.newLinkedHashMap(validateSize(keys.length));
+    Map<K, V> map = LinkedHashMap.newLinkedHashMap(keys.length);
     addAll(map, function, keys);
     return map;
   }
