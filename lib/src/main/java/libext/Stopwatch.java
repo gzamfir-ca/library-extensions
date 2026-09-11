@@ -1,5 +1,6 @@
 package libext;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public final class Stopwatch {
@@ -15,6 +16,7 @@ public final class Stopwatch {
   }
 
   public long getElapsedTime(TimeUnit unit) {
+    Objects.requireNonNull(unit, "no valid unit provided");
     long elapsedTime = System.nanoTime() - startTime;
     return unit.convert(elapsedTime, TimeUnit.NANOSECONDS);
   }
