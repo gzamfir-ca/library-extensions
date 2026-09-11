@@ -32,6 +32,7 @@ public final class Writers {
 
   public static PrintWriter newPrintWriter(Path path, OpenOption... options) {
     Objects.requireNonNull(path, "no valid path provided");
+    Objects.requireNonNull(options, "no valid options provided");
     final Charset charset = CHARSET;
     final boolean autoFlush = AUTO_FLUSH;
     try {

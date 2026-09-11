@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -130,7 +129,7 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateResizableArrayListFromPath() throws IOException {
+    void shouldCreateResizableArrayListFromPath() {
       Path path = Path.of("src/test/resources/readersTest.txt");
       assertNotNull(path);
 
@@ -240,7 +239,7 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateResizableLinkedListFromPath() throws IOException {
+    void shouldCreateResizableLinkedListFromPath() {
       Path path = Path.of("src/test/resources/readersTest.txt");
       assertNotNull(path);
 
@@ -369,7 +368,7 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateResizableLinkedHashSetFromPath() throws IOException {
+    void shouldCreateResizableLinkedHashSetFromPath() {
       Path path = Path.of("src/test/resources/readersTest.txt");
       assertNotNull(path);
 

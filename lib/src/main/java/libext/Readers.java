@@ -15,7 +15,10 @@ import java.util.Objects;
 
 public final class Readers {
 
-  private static int pos = 0;
+  private static final class Position {
+
+    int val = 0;
+  }
 
   private Readers() {
     throw new AssertionError("no instances");
@@ -23,35 +26,33 @@ public final class Readers {
 
   private static String readLine(BufferedReader reader) {
     Objects.requireNonNull(reader, "no valid reader provided");
-    String line = null;
     try {
-      line = reader.readLine();
+      return reader.readLine();
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
-    return line;
   }
 
-  private static String readToken(int delim, String line) {
+  private static String readToken(int delim, String line, Position pos) {
     Objects.requireNonNull(line, "no valid line provided");
-    while (pos < line.length() && line.charAt(pos) == delim) {
-      pos++;
+    while (pos.val < line.length() && line.charAt(pos.val) == delim) {
+      pos.val++;
     }
-    int end = -1;
-    if ((end = line.indexOf(delim, pos)) >= 0) {
-      String token = line.substring(pos, end);
-      pos = end + 1;
-      while (pos < line.length() && line.charAt(pos) == delim) {
-        pos++;
+    int end = line.indexOf(delim, pos.val);
+    if (end >= 0) {
+      String token = line.substring(pos.val, end);
+      pos.val = end + 1;
+      while (pos.val < line.length() && line.charAt(pos.val) == delim) {
+        pos.val++;
       }
       return token;
     }
-    if (pos < line.length()) {
-      String token = line.substring(pos);
-      pos = line.length();
+    if (pos.val < line.length()) {
+      String token = line.substring(pos.val);
+      pos.val = line.length();
       return token;
     }
-    pos = 0;
+    pos.val = 0;
     return null;
   }
 
@@ -75,14 +76,14 @@ public final class Readers {
     }
   }
 
-  public static synchronized void addAll(Collection<String> col, BufferedReader reader) {
+  public static void addAll(Collection<String> col, BufferedReader reader) {
     Objects.requireNonNull(col, "no valid collection provided");
     Objects.requireNonNull(reader, "no valid reader provided");
-    pos = 0;
-    String line, token = null;
+    Position pos = new Position();
+    String line, token;
     final int delim = DELIM;
     while ((line = readLine(reader)) != null) {
-      while ((token = readToken(delim, line)) != null) {
+      while ((token = readToken(delim, line, pos)) != null) {
         col.add(token);
       }
     }
@@ -91,12 +92,12 @@ public final class Readers {
   public static synchronized void addAll(Map<String, String> map, BufferedReader reader) {
     Objects.requireNonNull(map, "no valid map provided");
     Objects.requireNonNull(reader, "no valid reader provided");
-    pos = 0;
-    String line, token = null;
+    Position pos = new Position();
+    String line, token;
     final int delim = DELIM;
     String key = null;
     while ((line = readLine(reader)) != null) {
-      while ((token = readToken(delim, line)) != null) {
+      while ((token = readToken(delim, line, pos)) != null) {
         if (key == null) {
           key = token;
         } else {

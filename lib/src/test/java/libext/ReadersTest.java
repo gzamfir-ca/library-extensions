@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -41,64 +42,76 @@ class ReadersTest {
 
     @Test
     void shouldReadCommonTokensCorrectly() {
-      BufferedReader reader = createReader("hello world java");
-      assertNotNull(reader);
-      List<String> result = new ArrayList<>();
-      Readers.addAll(result, reader);
-      assertEquals(3, result.size());
-      assertEquals("hello", result.get(0));
-      assertEquals("world", result.get(1));
-      assertEquals("java", result.get(2));
+      try (BufferedReader reader = createReader("hello world java")) {
+        assertNotNull(reader);
+        List<String> result = new ArrayList<>();
+        Readers.addAll(result, reader);
+        assertEquals(3, result.size());
+        assertEquals("hello", result.get(0));
+        assertEquals("world", result.get(1));
+        assertEquals("java", result.get(2));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
     }
 
     @Test
     void shouldIgnoreMultipleConsecutiveDelimitersAndTrailingSpaces() {
-      BufferedReader reader = createReader("  leading  middle  trailing ");
-      assertNotNull(reader);
-      List<String> result = new ArrayList<>();
-      Readers.addAll(result, reader);
-      assertEquals(3, result.size());
-      assertEquals("leading", result.get(0));
-      assertEquals("middle", result.get(1));
-      assertEquals("trailing", result.get(2));
+      try (BufferedReader reader = createReader(" leading middle trailing ")) {
+        assertNotNull(reader);
+        List<String> result = new ArrayList<>();
+        Readers.addAll(result, reader);
+        assertEquals(3, result.size());
+        assertEquals("leading", result.get(0));
+        assertEquals("middle", result.get(1));
+        assertEquals("trailing", result.get(2));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
+
     }
 
     @Test
     void shouldReadCommonTokensAcrossMultipleLinesCorrectly() {
-      BufferedReader reader = createReader("line1 word1\nline2 word2 word3\nline3");
-      assertNotNull(reader);
-      List<String> result = new ArrayList<>();
-      Readers.addAll(result, reader);
-      assertEquals(6, result.size());
-      assertEquals("line1", result.get(0));
-      assertEquals("word3", result.get(4));
-      assertEquals("line3", result.get(5));
+      try (BufferedReader reader = createReader("line1 word1\nline2 word2 word3\nline3")) {
+        assertNotNull(reader);
+        List<String> result = new ArrayList<>();
+        Readers.addAll(result, reader);
+        assertEquals(6, result.size());
+        assertEquals("line1", result.get(0));
+        assertEquals("word3", result.get(4));
+        assertEquals("line3", result.get(5));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
     }
 
     @Test
     void shouldObserveCustomConfigurationChanges() {
       Readers.DELIM = ',';
-      BufferedReader reader = createReader("comma,separated,values,,next");
-      assertNotNull(reader);
-      List<String> result = new ArrayList<>();
-      Readers.addAll(result, reader);
-      assertEquals(4, result.size());
-      assertEquals("comma", result.get(0));
-      assertEquals("separated", result.get(1));
-      assertEquals("values", result.get(2));
-      assertEquals("next", result.get(3));
+      try (BufferedReader reader = createReader("comma,separated,values,,next")) {
+        assertNotNull(reader);
+        List<String> result = new ArrayList<>();
+        Readers.addAll(result, reader);
+        assertEquals(4, result.size());
+        assertEquals("comma", result.get(0));
+        assertEquals("separated", result.get(1));
+        assertEquals("values", result.get(2));
+        assertEquals("next", result.get(3));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
     }
 
     @Test
     void shouldThrowExceptionOnNullArgumentsForCollection() {
-      Map<String, String> map;
       try (BufferedReader reader = createReader("token")) {
-        map = new HashMap<>();
         assertThrows(NullPointerException.class,
             () -> Readers.addAll((Collection<String>) null, reader));
       } catch (IOException e) {
-        throw new RuntimeException(e);
+        fail("An unexpected IOException occurred: " + e.getMessage());
       }
+      Map<String, String> map = new HashMap<>();
       assertThrows(NullPointerException.class, () -> Readers.addAll(map, null));
     }
 
@@ -110,10 +123,10 @@ class ReadersTest {
         CountDownLatch startLatch = new CountDownLatch(1);
         CountDownLatch finishLatch = new CountDownLatch(threadCount);
         safetyFailureOccurred = new AtomicBoolean(false);
+
         for (int i = 0; i < threadCount; i++) {
           executor.submit(() -> {
-            try {
-              BufferedReader reader = createReader("concurrent processing token test");
+            try (BufferedReader reader = createReader("concurrent processing token test")) {
               List<String> result = new ArrayList<>();
               startLatch.await();
               Readers.addAll(result, reader);
@@ -128,6 +141,7 @@ class ReadersTest {
             }
           });
         }
+
         startLatch.countDown();
         finishLatch.await();
         executor.shutdown();
@@ -142,38 +156,39 @@ class ReadersTest {
 
     @Test
     void shouldReadMapPairsCorrectly() {
-      BufferedReader reader = createReader("key1 value1 key2 value2");
-      Map<String, String> map = new HashMap<>();
-      Readers.addAll(map, reader);
-      assertEquals(2, map.size());
-      assertEquals("value1", map.get("key1"));
-      assertEquals("value2", map.get("key2"));
+      try (BufferedReader reader = createReader("key1 value1 key2 value2")) {
+        Map<String, String> map = new HashMap<>();
+        Readers.addAll(map, reader);
+        assertEquals(2, map.size());
+        assertEquals("value1", map.get("key1"));
+        assertEquals("value2", map.get("key2"));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
     }
 
     @Test
     void shouldThrowExceptionOnOddNumberOfTokens() {
-      IllegalStateException exception;
       try (BufferedReader reader = createReader("key1 value1 key2")) {
         Map<String, String> map = new HashMap<>();
-        exception = assertThrows(IllegalStateException.class, () -> {
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
           Readers.addAll(map, reader);
         });
+        assertEquals("odd number of tokens", exception.getMessage());
       } catch (IOException e) {
-        throw new RuntimeException(e);
+        fail("An unexpected IOException occurred: " + e.getMessage());
       }
-      assertEquals("odd number of tokens", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionOnNullArgumentsForMap() {
-      Map<String, String> map;
       try (BufferedReader reader = createReader("key value")) {
-        map = new HashMap<>();
         assertThrows(NullPointerException.class,
             () -> Readers.addAll((Map<String, String>) null, reader));
       } catch (IOException e) {
-        throw new RuntimeException(e);
+        fail("An unexpected IOException occurred: " + e.getMessage());
       }
+      Map<String, String> map = new HashMap<>();
       assertThrows(NullPointerException.class, () -> Readers.addAll(map, null));
     }
 
@@ -184,10 +199,10 @@ class ReadersTest {
       try (ExecutorService executor = Executors.newFixedThreadPool(threadCount)) {
         CountDownLatch startLatch = new CountDownLatch(1);
         CountDownLatch finishLatch = new CountDownLatch(threadCount);
+
         for (int i = 0; i < threadCount; i++) {
           executor.submit(() -> {
-            try {
-              BufferedReader reader = createReader("k1 v1 k2 v2");
+            try (BufferedReader reader = createReader("k1 v1 k2 v2")) {
               Map<String, String> map = new ConcurrentHashMap<>();
               startLatch.await();
               Readers.addAll(map, reader);
@@ -201,6 +216,7 @@ class ReadersTest {
             }
           });
         }
+
         startLatch.countDown();
         finishLatch.await();
         executor.shutdown();
