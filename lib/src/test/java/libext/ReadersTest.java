@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
@@ -123,7 +124,6 @@ class ReadersTest {
         CountDownLatch startLatch = new CountDownLatch(1);
         CountDownLatch finishLatch = new CountDownLatch(threadCount);
         safetyFailureOccurred = new AtomicBoolean(false);
-
         for (int i = 0; i < threadCount; i++) {
           executor.submit(() -> {
             try (BufferedReader reader = createReader("concurrent processing token test")) {
@@ -141,7 +141,6 @@ class ReadersTest {
             }
           });
         }
-
         startLatch.countDown();
         finishLatch.await();
         executor.shutdown();
@@ -199,7 +198,6 @@ class ReadersTest {
       try (ExecutorService executor = Executors.newFixedThreadPool(threadCount)) {
         CountDownLatch startLatch = new CountDownLatch(1);
         CountDownLatch finishLatch = new CountDownLatch(threadCount);
-
         for (int i = 0; i < threadCount; i++) {
           executor.submit(() -> {
             try (BufferedReader reader = createReader("k1 v1 k2 v2")) {
@@ -216,13 +214,218 @@ class ReadersTest {
             }
           });
         }
-
         startLatch.countDown();
         finishLatch.await();
         executor.shutdown();
       }
       assertFalse(safetyFailureOccurred.get(),
           "Thread safety race condition detected during Map processing!");
+    }
+  }
+
+  @Nested
+  class MultisetOverloadTests {
+
+    @Test
+    void shouldReadCommonTokensCorrectly() {
+      try (BufferedReader reader = createReader("hello world java hello")) {
+        assertNotNull(reader);
+
+        Multiset<String> result = Multiset.newMultiset();
+        Readers.addAll(result, reader);
+        assertEquals(4, result.flattenedKeys().size());
+        assertEquals(2, result.keyCount("hello"));
+        assertEquals(1, result.keyCount("world"));
+        assertEquals(1, result.keyCount("java"));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
+    }
+
+    @Test
+    void shouldIgnoreMultipleConsecutiveDelimitersAndTrailingSpaces() {
+      try (BufferedReader reader = createReader(" leading middle trailing leading ")) {
+        assertNotNull(reader);
+
+        Multiset<String> result = Multiset.newMultiset();
+        Readers.addAll(result, reader);
+        assertEquals(4, result.flattenedKeys().size());
+        assertEquals(2, result.keyCount("leading"));
+        assertEquals(1, result.keyCount("middle"));
+        assertEquals(1, result.keyCount("trailing"));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
+    }
+
+    @Test
+    void shouldReadCommonTokensAcrossMultipleLinesCorrectly() {
+      try (BufferedReader reader = createReader("line1 word1\nline2 word1 word3\nline1")) {
+        assertNotNull(reader);
+
+        Multiset<String> result = Multiset.newMultiset();
+        Readers.addAll(result, reader);
+        assertEquals(6, result.flattenedKeys().size());
+        assertEquals(2, result.keyCount("line1"));
+        assertEquals(2, result.keyCount("word1"));
+        assertEquals(1, result.keyCount("line2"));
+        assertEquals(1, result.keyCount("word3"));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
+    }
+
+    @Test
+    void shouldObserveCustomConfigurationChanges() {
+      Readers.DELIM = ',';
+      try (BufferedReader reader = createReader("comma,separated,values,,next,comma")) {
+        assertNotNull(reader);
+
+        Multiset<String> result = Multiset.newMultiset();
+        Readers.addAll(result, reader);
+        assertEquals(5, result.flattenedKeys().size());
+        assertEquals(2, result.keyCount("comma"));
+        assertEquals(1, result.keyCount("separated"));
+        assertEquals(1, result.keyCount("values"));
+        assertEquals(1, result.keyCount("next"));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
+    }
+
+    @Test
+    void shouldThrowExceptionOnNullArgumentsForMultiset() {
+      try (BufferedReader reader = createReader("token")) {
+        assertThrows(NullPointerException.class,
+            () -> Readers.addAll((Multiset<String>) null, reader));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
+
+      Multiset<String> set = Multiset.newMultiset();
+      assertThrows(NullPointerException.class, () -> Readers.addAll(set, null));
+    }
+
+    @Test
+    void shouldPreserveStateUnderConcurrentAccess() throws InterruptedException {
+      int threadCount = 10;
+      AtomicBoolean safetyFailureOccurred;
+      try (ExecutorService executor = Executors.newFixedThreadPool(threadCount)) {
+        CountDownLatch startLatch = new CountDownLatch(1);
+        CountDownLatch finishLatch = new CountDownLatch(threadCount);
+        safetyFailureOccurred = new AtomicBoolean(false);
+        for (int i = 0; i < threadCount; i++) {
+          executor.submit(() -> {
+            try (BufferedReader reader = createReader(
+                "concurrent processing token test concurrent")) {
+              Multiset<String> result = Multiset.newMultiset();
+              startLatch.await();
+              Readers.addAll(result, reader);
+              if (result.flattenedKeys().size() != 5 || result.keyCount("concurrent") != 2
+                  || result.keyCount("test") != 1) {
+                safetyFailureOccurred.set(true);
+              }
+            } catch (Exception e) {
+              safetyFailureOccurred.set(true);
+            } finally {
+              finishLatch.countDown();
+            }
+          });
+        }
+        startLatch.countDown();
+        finishLatch.await();
+        executor.shutdown();
+      }
+      assertFalse(safetyFailureOccurred.get(),
+          "Thread safety race condition detected! State corruption occurred.");
+    }
+  }
+
+  @Nested
+  class MultimapOverloadTests {
+
+    @Test
+    void shouldReadMultimapPairsCorrectly() {
+      try (BufferedReader reader = createReader("key1 value1 key2 value2")) {
+        Multimap<String, String> map = Multimap.newMultimap();
+        Readers.addAll(map, reader);
+        assertEquals(2, map.size());
+        assertTrue(map.valueList("key1").contains("value1"));
+        assertTrue(map.valueList("key2").contains("value2"));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
+    }
+
+    @Test
+    void shouldAggregateMultipleValuesForSameKey() {
+      try (BufferedReader reader = createReader("key1 value1 key1 value2")) {
+        Multimap<String, String> map = Multimap.newMultimap();
+        Readers.addAll(map, reader);
+        Collection<String> values = map.valueList("key1");
+        assertEquals(2, values.size());
+        assertTrue(values.contains("value1"));
+        assertTrue(values.contains("value2"));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
+    }
+
+    @Test
+    void shouldThrowExceptionOnOddNumberOfTokens() {
+      try (BufferedReader reader = createReader("key1 value1 key2")) {
+        Multimap<String, String> map = Multimap.newMultimap();
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+          Readers.addAll(map, reader);
+        });
+        assertEquals("odd number of tokens", exception.getMessage());
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
+    }
+
+    @Test
+    void shouldThrowExceptionOnNullArgumentsForMultimap() {
+      try (BufferedReader reader = createReader("key value")) {
+        assertThrows(NullPointerException.class,
+            () -> Readers.addAll((Multimap<String, String>) null, reader));
+      } catch (IOException e) {
+        fail("An unexpected IOException occurred: " + e.getMessage());
+      }
+      Multimap<String, String> map = Multimap.newMultimap();
+      assertThrows(NullPointerException.class, () -> Readers.addAll(map, null));
+    }
+
+    @Test
+    void shouldPreserveMultimapStateUnderConcurrentAccess() throws InterruptedException {
+      int threadCount = 10;
+      AtomicBoolean safetyFailureOccurred = new AtomicBoolean(false);
+      try (ExecutorService executor = Executors.newFixedThreadPool(threadCount)) {
+        CountDownLatch startLatch = new CountDownLatch(1);
+        CountDownLatch finishLatch = new CountDownLatch(threadCount);
+        for (int i = 0; i < threadCount; i++) {
+          executor.submit(() -> {
+            try (BufferedReader reader = createReader("k1 v1 k2 v2")) {
+              Multimap<String, String> map = Multimap.newMultimap();
+              startLatch.await();
+              Readers.addAll(map, reader);
+              if (map.size() != 2 || !map.valueList("k1").contains("v1") || !map.valueList("k2")
+                  .contains("v2")) {
+                safetyFailureOccurred.set(true);
+              }
+            } catch (Exception e) {
+              safetyFailureOccurred.set(true);
+            } finally {
+              finishLatch.countDown();
+            }
+          });
+        }
+        startLatch.countDown();
+        finishLatch.await();
+        executor.shutdown();
+      }
+      assertFalse(safetyFailureOccurred.get(),
+          "Thread safety race condition detected during Multimap processing!");
     }
   }
 }

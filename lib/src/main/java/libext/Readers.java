@@ -89,19 +89,52 @@ public final class Readers {
     }
   }
 
-  public static synchronized void addAll(Map<String, String> map, BufferedReader reader) {
+  public static void addAll(Map<String, String> map, BufferedReader reader) {
     Objects.requireNonNull(map, "no valid map provided");
     Objects.requireNonNull(reader, "no valid reader provided");
     Position pos = new Position();
-    String line, token;
+    String line, token, key = null;
     final int delim = DELIM;
-    String key = null;
     while ((line = readLine(reader)) != null) {
       while ((token = readToken(delim, line, pos)) != null) {
         if (key == null) {
           key = token;
         } else {
           map.put(key, token);
+          key = null;
+        }
+      }
+    }
+    if (key != null) {
+      throw new IllegalStateException("odd number of tokens");
+    }
+  }
+
+  public static void addAll(Multiset<String> set, BufferedReader reader) {
+    Objects.requireNonNull(set, "no valid set provided");
+    Objects.requireNonNull(reader, "no valid reader provided");
+    Position pos = new Position();
+    String line, token;
+    final int delim = DELIM;
+    while ((line = readLine(reader)) != null) {
+      while ((token = readToken(delim, line, pos)) != null) {
+        set.addKey(token);
+      }
+    }
+  }
+
+  public static void addAll(Multimap<String, String> map, BufferedReader reader) {
+    Objects.requireNonNull(map, "no valid map provided");
+    Objects.requireNonNull(reader, "no valid reader provided");
+    Position pos = new Position();
+    String line, token, key = null;
+    final int delim = DELIM;
+    while ((line = readLine(reader)) != null) {
+      while ((token = readToken(delim, line, pos)) != null) {
+        if (key == null) {
+          key = token;
+        } else {
+          map.addValue(key, token);
           key = null;
         }
       }
