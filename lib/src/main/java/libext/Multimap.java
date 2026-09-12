@@ -13,7 +13,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public final class Multimap<K, V> implements Map<K, List<V>> {
+public final class Multimap<K, V> {
 
   private final Map<K, List<V>> map;
 
@@ -60,18 +60,18 @@ public final class Multimap<K, V> implements Map<K, List<V>> {
     return new Multimap<>(expectedSize, LinkedHashMap::newLinkedHashMap);
   }
 
-  public List<V> addValue(K key, V element) {
+  public List<V> addValue(K key, V value) {
     List<V> list = map.computeIfAbsent(key, k -> new ArrayList<>());
-    list.add(element);
+    list.add(value);
     return unmodifiableList(list);
   }
 
-  public List<V> removeValue(K key, V element) {
+  public List<V> removeValue(K key, V value) {
     List<V> list = map.get(key);
     if (list == null) {
       return null;
     }
-    list.remove(element);
+    list.remove(value);
     if (list.isEmpty()) {
       map.remove(key);
       return Collections.emptyList();
@@ -79,77 +79,44 @@ public final class Multimap<K, V> implements Map<K, List<V>> {
     return unmodifiableList(list);
   }
 
-  public List<V> valueList(K key) {
-    return unmodifiableList(map.getOrDefault(key, new ArrayList<>()));
+  @SuppressWarnings("SuspiciousMethodCalls")
+  public List<V> valueList(Object key) {
+    return unmodifiableList(map.getOrDefault(key, Collections.emptyList()));
   }
 
-  public Collection<V> flattenedValues() {
-    Collection<V> valueList = new ArrayList<>();
-    for (List<V> list : map.values()) {
-      valueList.addAll(list);
-    }
-    return valueList;
-  }
-
-  @Override
-  public List<V> remove(Object key) {
-    return unmodifiableList(map.remove(key));
-  }
-
-  @Override
-  public int size() {
-    return map.size();
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return map.isEmpty();
-  }
-
-  @Override
+  @SuppressWarnings("SuspiciousMethodCalls")
   public boolean containsKey(Object key) {
     return map.containsKey(key);
   }
 
-  @Override
-  public boolean containsValue(Object value) {
-    if (value instanceof List) {
-      return map.containsValue(value);
-    }
-    return false;
+  public int size() {
+    return map.size();
   }
 
-  @Override
-  public List<V> get(Object key) {
-    return unmodifiableList(map.get(key));
+  public boolean isEmpty() {
+    return map.isEmpty();
   }
 
-  @Override
   public Set<K> keySet() {
-    return Collections.unmodifiableMap(map).keySet();
+    return Collections.unmodifiableSet(map.keySet());
   }
 
-  @Override
   public Collection<List<V>> values() {
-    return Collections.unmodifiableMap(map).values();
+    return Collections.unmodifiableCollection(map.values());
   }
 
-  @Override
-  public Set<Entry<K, List<V>>> entrySet() {
+  public Set<Map.Entry<K, List<V>>> entrySet() {
     return Collections.unmodifiableMap(map).entrySet();
   }
 
-  @Override
-  public List<V> put(K key, List<V> value) {
-    throw new UnsupportedOperationException("multimap does not support put");
+  public Collection<V> flattenedValues() {
+    Collection<V> values = new ArrayList<>();
+    for (List<V> list : map.values()) {
+      values.addAll(list);
+    }
+    return values;
   }
 
-  @Override
-  public void putAll(Map<? extends K, ? extends List<V>> m) {
-    throw new UnsupportedOperationException("multimap does not support putAll");
-  }
-
-  @Override
   public void clear() {
     map.clear();
   }

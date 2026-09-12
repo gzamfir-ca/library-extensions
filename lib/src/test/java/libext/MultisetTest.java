@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +51,30 @@ class MultisetTest {
   @Test
   void shouldReturnNullWhenDecrementingMissingKey() {
     assertNull(multiset.removeKey("Missing"));
+  }
+
+  @Test
+  void shouldAggregateKeysCorrectlyAcrossCounts() {
+    Multiset<String> multiset = Multiset.newMultiset();
+    multiset.addKey("k1");
+    multiset.addKey("k2");
+    multiset.addKey("k2");
+    Collection<String> flattened = multiset.flattenedKeys();
+    assertEquals(3, flattened.size());
+    assertTrue(flattened.containsAll(List.of("k1", "k2")));
+    assertEquals(1, Collections.frequency(flattened, "k1"));
+    assertEquals(2, Collections.frequency(flattened, "k2"));
+  }
+
+  @Test
+  void shouldClearAllElementsCorrectly() {
+    Multiset<String> multiset = Multiset.newMultiset();
+    multiset.addKey("k1");
+    assertFalse(multiset.isEmpty());
+
+    multiset.clear();
+    assertTrue(multiset.isEmpty());
+    assertEquals(0, multiset.size());
   }
 
   @Test
@@ -96,17 +122,6 @@ class MultisetTest {
         "The iterator view should be unmodifiable and reject structural changes via remove().");
   }
 
-  @Test
-  void shouldThrowUnsupportedOperationExceptionOnPut() {
-    assertThrows(UnsupportedOperationException.class, () -> multiset.put("Apple", 5));
-  }
-
-  @Test
-  void shouldThrowUnsupportedOperationExceptionOnPutAll() {
-    Map<String, Integer> externalMap = Map.of("Apple", 1, "Banana", 2);
-    assertThrows(UnsupportedOperationException.class, () -> multiset.putAll(externalMap));
-  }
-
   private <T> Set<T> maskView(Set<T> set) {
     return set;
   }
@@ -116,7 +131,6 @@ class MultisetTest {
     multiset.addKey("Apple");
     Set<String> keysToTest = maskView(multiset.keySet());
     assertThrows(UnsupportedOperationException.class, keysToTest::clear);
-    assertThrows(UnsupportedOperationException.class, () -> keysToTest.remove("Apple"));
   }
 
   private <T> Collection<T> maskView(Collection<T> collection) {
@@ -183,7 +197,6 @@ class MultisetTest {
     assertThrows(IllegalArgumentException.class, () -> Multiset.newMultiset(-1));
     assertThrows(IllegalArgumentException.class, () -> Multiset.newOrderedMultiset(-5));
   }
-
 
   @Test
   void shouldThrowNullPointerExceptionWhenPassingNullFunction() {

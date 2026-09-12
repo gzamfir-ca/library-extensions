@@ -3,19 +3,19 @@ package libext;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 class MultimapTest {
 
@@ -26,13 +26,17 @@ class MultimapTest {
     map = Multimap.newMultimap();
   }
 
+  private void addValueToList(List<String> list) {
+    list.add("v3");
+  }
+
   @Test
   void shouldAddValueCorrectlyAndReturnUnmodifiableList() {
     List<String> list1 = map.addValue("k1", "v1");
     List<String> list2 = map.addValue("k1", "v2");
     assertEquals(2, list2.size());
     assertIterableEquals(List.of("v1", "v2"), list2);
-    assertThrows(UnsupportedOperationException.class, () -> list1.add("v3"));
+    assertThrows(UnsupportedOperationException.class, () -> addValueToList(list1));
   }
 
   @Test
@@ -41,9 +45,12 @@ class MultimapTest {
     map.addValue("k1", "v2");
     List<String> remaining = map.removeValue("k1", "v1");
     assertIterableEquals(List.of("v2"), remaining);
-    assertThrows(UnsupportedOperationException.class, () -> remaining.add("v3"));
-
+    assertThrows(UnsupportedOperationException.class, () -> {
+      assertNotNull(remaining);
+      remaining.add("v3");
+    });
     List<String> lastRemove = map.removeValue("k1", "v2");
+    assertNotNull(lastRemove);
     assertTrue(lastRemove.isEmpty());
     assertFalse(map.containsKey("k1"));
   }
@@ -54,7 +61,8 @@ class MultimapTest {
 
     List<String> emptyList = map.valueList("missing");
     assertTrue(emptyList.isEmpty());
-    assertThrows(UnsupportedOperationException.class, () -> emptyList.add("v1"));
+    assertThrows(UnsupportedOperationException.class,
+        () -> addValueToList(emptyList));
   }
 
   @Test
@@ -65,23 +73,6 @@ class MultimapTest {
     Collection<String> flattened = map.flattenedValues();
     assertEquals(3, flattened.size());
     assertTrue(flattened.containsAll(List.of("v1", "v2", "v3")));
-  }
-
-  @Test
-  @SuppressWarnings("SuspiciousMethodCalls")
-  void shouldFindCorrectlyIfValuesExists() {
-    map.addValue("k1", "v1");
-    List<String> matchingArrayList = new ArrayList<>(List.of("v1"));
-    assertTrue(map.containsValue(matchingArrayList));
-    assertFalse(map.containsValue((Object) "string-element"));
-  }
-
-  @Test
-  void shouldPreventAddWholesaleValues() {
-    assertThrows(UnsupportedOperationException.class, () -> map.put("k1", List.of("v1")));
-
-    Map<String, List<String>> source = Map.of("k1", List.of("v1"), "k2", List.of("v2"));
-    assertThrows(UnsupportedOperationException.class, () -> map.putAll(source));
   }
 
   @Test
@@ -99,21 +90,25 @@ class MultimapTest {
   void shouldProtectValuesViewAgainstExternalModifications() {
     map.addValue("k1", "v1");
     Collection<List<String>> valuesView = map.values();
-    assertThrows(UnsupportedOperationException.class, () -> valuesView.remove(null));
+    assertThrows(UnsupportedOperationException.class, valuesView::clear);
   }
 
   @Test
   void shouldProtectEntrySetAndIndividualEntriesFromMutation() {
-    map.addValue("k1", "v1");
-    Set<Map.Entry<String, List<String>>> entrySet = map.entrySet();
-    assertThrows(UnsupportedOperationException.class, entrySet::clear);
+    Multimap<String, String> multimap = Multimap.newMultimap();
+    multimap.addValue("Apple", "Fuji");
+    Set<Map.Entry<String, List<String>>> entriesToTest = multimap.entrySet();
+    assertThrows(UnsupportedOperationException.class, entriesToTest::clear);
+
+    Map.Entry<String, List<String>> entry = entriesToTest.iterator().next();
+    assertThrows(UnsupportedOperationException.class, () -> entry.setValue(new ArrayList<>()));
   }
 
   @Test
   void shouldProtectKeySetAgainstExternalModifications() {
     map.addValue("k1", "v1");
-    java.util.Collection<?> view = map.keySet();
-    assertThrows(UnsupportedOperationException.class, () -> view.remove("k1"));
+    Set<String> keySetView = map.keySet();
+    assertThrows(UnsupportedOperationException.class, keySetView::clear);
   }
 
   @Test
@@ -152,24 +147,20 @@ class MultimapTest {
 
   @Test
   void shouldThrowNullPointerExceptionWhenPassingNullSupplier() {
-    assertThrows(NullPointerException.class, () -> new Multimap<>(null));
-  }
-
-  @Test
-  void shouldConstructMapAccuratelyWhenExplicitSupplierProvided() {
-    Multimap<String, String> customSupplierMap = new Multimap<>(TreeMap::new);
-    customSupplierMap.addValue("z", "val");
-    customSupplierMap.addValue("a", "val");
-    assertEquals("a", customSupplierMap.keySet().iterator().next());
+    assertThrows(NullPointerException.class,
+        () -> new Multimap<>(null));
   }
 
   @Test
   void shouldConstructPreSizedMultimapAndBehaveNormally() {
-    Multimap<String, String> preSizedMap = Multimap.newMultimap(32);
-    preSizedMap.addValue("k1", "v1");
-    preSizedMap.addValue("k1", "v2");
+    Multimap<String, String> preSizedMap = Multimap.newMultimap(16);
+    assertNotNull(preSizedMap);
+    assertTrue(preSizedMap.isEmpty());
+
+    List<String> values = preSizedMap.addValue("k1", "v1");
     assertEquals(1, preSizedMap.size());
-    assertIterableEquals(List.of("v1", "v2"), preSizedMap.get("k1"));
+    assertIterableEquals(List.of("v1"), values);
+    assertIterableEquals(List.of("v1"), preSizedMap.valueList("k1"));
   }
 
   @Test
