@@ -110,7 +110,11 @@ public final class Multimap<K, V> {
   }
 
   public Collection<V> flattenedValues() {
-    Collection<V> values = new ArrayList<>();
+    int size = 0;
+    for (List<V> list : map.values()) {
+      size += list.size();
+    }
+    Collection<V> values = new ArrayList<>(size);
     for (List<V> list : map.values()) {
       values.addAll(list);
     }

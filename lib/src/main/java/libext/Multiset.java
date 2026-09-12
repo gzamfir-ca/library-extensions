@@ -103,7 +103,11 @@ public final class Multiset<K> {
   }
 
   public Collection<K> flattenedKeys() {
-    Collection<K> keys = new ArrayList<>();
+    int size = 0;
+    for (Integer count : map.values()) {
+      size += count;
+    }
+    Collection<K> keys = new ArrayList<>(size);
     for (Map.Entry<K, Integer> entry : map.entrySet()) {
       for (int i = 0; i < entry.getValue(); i++) {
         keys.add(entry.getKey());
