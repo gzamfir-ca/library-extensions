@@ -56,7 +56,7 @@ public final class Multiset<K> {
   }
 
   public Integer addKey(K key) {
-    return map.merge(key, 1, Integer::sum);
+    return map.merge(key, 1, Math::addExact);
   }
 
   public Integer removeKey(K key) {

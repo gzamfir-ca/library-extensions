@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -34,6 +35,17 @@ class MultisetTest {
     assertEquals(2, multiset.keyCount("Apple"));
     assertEquals(1, multiset.keyCount("Banana"));
     assertEquals(0, multiset.keyCount("Cherry"));
+  }
+
+  @Test
+  void shouldThrowArithmeticExceptionWhenAddKeyOverflows() {
+    Multiset<String> overflowMultiset = new Multiset<>(() -> {
+      HashMap<String, Integer> seedMap = new HashMap<>();
+      seedMap.put("OverflowKey", Integer.MAX_VALUE);
+      return seedMap;
+    });
+    assertThrows(ArithmeticException.class, () -> overflowMultiset.addKey("OverflowKey"),
+        "Expected addKey to throw an ArithmeticException when incrementing past Integer.MAX_VALUE.");
   }
 
   @Test
@@ -205,6 +217,6 @@ class MultisetTest {
 
   @Test
   void shouldThrowNullPointerExceptionWhenPassingNullFunction() {
-    assertThrows(NullPointerException.class, () -> new Multiset<>((short) 10, null));
+    assertThrows(NullPointerException.class, () -> new Multiset<>(10, null));
   }
 }
