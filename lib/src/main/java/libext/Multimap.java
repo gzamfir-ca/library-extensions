@@ -118,7 +118,7 @@ public final class Multimap<K, V> {
     for (List<V> list : map.values()) {
       values.addAll(list);
     }
-    return values;
+    return Collections.unmodifiableCollection(values);
   }
 
   public void clear() {

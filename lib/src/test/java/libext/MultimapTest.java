@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Collection;
@@ -66,13 +67,17 @@ class MultimapTest {
   }
 
   @Test
-  void shouldAggregateValueCorrectlyAcrossKeys() {
+  void shouldAggregateValueCorrectlyAcrossKeysAndReturnUnmodifiableCollection() {
     map.addValue("k1", "v1");
     map.addValue("k2", "v2");
     map.addValue("k2", "v3");
     Collection<String> flattened = map.flattenedValues();
     assertEquals(3, flattened.size());
     assertTrue(flattened.containsAll(List.of("v1", "v2", "v3")));
+
+    Consumer<Collection<String>> mutator = c -> c.add("v4");
+    assertThrows(UnsupportedOperationException.class, () -> mutator.accept(flattened));
+    assertThrows(UnsupportedOperationException.class, flattened::clear);
   }
 
   @Test

@@ -113,7 +113,7 @@ public final class Multiset<K> {
         keys.add(entry.getKey());
       }
     }
-    return keys;
+    return Collections.unmodifiableCollection(keys);
   }
 
   public void clear() {

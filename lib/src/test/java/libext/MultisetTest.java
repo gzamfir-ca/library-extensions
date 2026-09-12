@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Iterator;
@@ -54,7 +55,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldAggregateKeysCorrectlyAcrossCounts() {
+  void shouldAggregateKeysCorrectlyAcrossCountsAndReturnUnmodifiableCollection() {
     Multiset<String> multiset = Multiset.newMultiset();
     multiset.addKey("k1");
     multiset.addKey("k2");
@@ -64,6 +65,10 @@ class MultisetTest {
     assertTrue(flattened.containsAll(List.of("k1", "k2")));
     assertEquals(1, Collections.frequency(flattened, "k1"));
     assertEquals(2, Collections.frequency(flattened, "k2"));
+
+    Consumer<Collection<String>> mutator = c -> c.add("k3");
+    assertThrows(UnsupportedOperationException.class, () -> mutator.accept(flattened));
+    assertThrows(UnsupportedOperationException.class, flattened::clear);
   }
 
   @Test
