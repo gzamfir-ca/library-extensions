@@ -25,35 +25,37 @@ class AlgorithmsTest {
   class AllMatchTests {
 
     @Test
-    void shouldReturnTrueWhenAllElementsMatchPredicate() {
+    void shouldReturnTrueWhenAllElementsMatch() {
       Collection<Integer> col = Arrays.asList(2, 4, 6);
       Predicate<Integer> isEven = n -> n % 2 == 0;
       assertTrue(Algorithms.allMatch(col, isEven));
     }
 
     @Test
-    void shouldReturnFalseWhenOneElementDoesNotMatchPredicate() {
+    void shouldReturnFalseWhenAtLeastOneElementDoesNotMatch() {
       Collection<Integer> col = Arrays.asList(2, 3, 4);
       Predicate<Integer> isEven = n -> n % 2 == 0;
       assertFalse(Algorithms.allMatch(col, isEven));
     }
 
     @Test
-    void shouldReturnTrueWhenAllMatchIsCalledOnEmptyCollection() {
+    void shouldReturnTrueOnEmptyCollection() {
       Collection<Integer> col = Collections.emptyList();
       Predicate<Integer> isEven = n -> n % 2 == 0;
       assertTrue(Algorithms.allMatch(col, isEven));
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenAllMatchReceivesNullCollection() {
-      assertThrows(NullPointerException.class, () -> Algorithms.allMatch(null, n -> true));
+    void shouldThrowExceptionOnNullCollection() {
+      assertThrows(NullPointerException.class,
+          () -> Algorithms.allMatch(null, n -> true));
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenAllMatchReceivesNullPredicate() {
+    void shouldThrowExceptionOnNullPredicate() {
       Collection<Integer> col = Arrays.asList(1, 2);
-      assertThrows(NullPointerException.class, () -> Algorithms.allMatch(col, null));
+      assertThrows(NullPointerException.class,
+          () -> Algorithms.allMatch(col, null));
     }
   }
 
@@ -61,40 +63,38 @@ class AlgorithmsTest {
   class AnyMatchTests {
 
     @Test
-    void shouldReturnTrueWhenAtLeastOneElementMatchesPredicate() {
+    void shouldReturnTrueWhenAtLeastOneElementDoesMatch() {
       Collection<Integer> col = Arrays.asList(1, 3, 4);
       Predicate<Integer> isEven = n -> n % 2 == 0;
       assertTrue(Algorithms.anyMatch(col, isEven));
     }
 
     @Test
-    void shouldReturnFalseWhenNoElementsMatchPredicate() {
+    void shouldReturnFalseWhenNoElementsMatch() {
       Collection<Integer> col = Arrays.asList(1, 3, 5);
       Predicate<Integer> isEven = n -> n % 2 == 0;
       assertFalse(Algorithms.anyMatch(col, isEven));
     }
 
     @Test
-    void shouldReturnFalseWhenAnyMatchIsCalledOnEmptyCollection() {
+    void shouldReturnFalseOnEmptyCollection() {
       Collection<Integer> col = Collections.emptyList();
       Predicate<Integer> isEven = n -> n % 2 == 0;
       assertFalse(Algorithms.anyMatch(col, isEven));
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenAnyMatchReceivesNullCollection() {
-      NullPointerException exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.anyMatch(null, n -> true)
-      );
+    void shouldThrowExceptionOnNullCollection() {
+      NullPointerException exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.anyMatch(null, n -> true));
       assertEquals("no valid collection provided", exception.getMessage());
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenAnyMatchReceivesNullPredicate() {
+    void shouldThrowExceptionOnNullPredicate() {
       Collection<Integer> col = Arrays.asList(1, 2, 3);
-      NullPointerException exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.anyMatch(col, null)
-      );
+      NullPointerException exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.anyMatch(col, null));
       assertEquals("no valid predicate provided", exception.getMessage());
     }
   }
@@ -103,26 +103,27 @@ class AlgorithmsTest {
   class CountTests {
 
     @Test
-    void shouldReturnCorrectCountOfMatchingObjects() {
+    void shouldReturnCountOfMatchingElements() {
       Collection<String> col = Arrays.asList("apple", "banana", "apple", "orange");
       assertEquals(2, Algorithms.count(col, "apple"));
     }
 
     @Test
-    void shouldReturnZeroCountWhenNoObjectsMatch() {
+    void shouldReturnZeroWhenNoElementsMatch() {
       Collection<String> col = Arrays.asList("apple", "banana");
       assertEquals(0, Algorithms.count(col, "orange"));
     }
 
     @Test
-    void shouldReturnCorrectCountWhenSearchingForNullValues() {
+    void shouldReturnCountOfNullValues() {
       Collection<String> col = Arrays.asList("apple", null, "banana", null);
       assertEquals(2, Algorithms.count(col, null));
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenCountReceivesNullCollection() {
-      assertThrows(NullPointerException.class, () -> Algorithms.count(null, "target"));
+    void shouldThrowExceptionOnNullCollection() {
+      assertThrows(NullPointerException.class,
+          () -> Algorithms.count(null, "target"));
     }
   }
 
@@ -130,15 +131,16 @@ class AlgorithmsTest {
   class CountIfTests {
 
     @Test
-    void shouldReturnCorrectCountOfElementsMatchingPredicate() {
+    void shouldReturnCountOfAllElementsThatMatch() {
       Collection<Integer> col = Arrays.asList(1, 2, 3, 4, 5);
       Predicate<Integer> isEven = n -> n % 2 == 0;
       assertEquals(2, Algorithms.countIf(col, isEven));
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenCountIfReceivesNullCollection() {
-      assertThrows(NullPointerException.class, () -> Algorithms.countIf(null, n -> true));
+    void shouldThrowExceptionOnNullCollection() {
+      assertThrows(NullPointerException.class,
+          () -> Algorithms.countIf(null, n -> true));
     }
   }
 
@@ -146,7 +148,7 @@ class AlgorithmsTest {
   class DropWhileTests {
 
     @Test
-    void shouldReturnFullViewWhenFirstElementFailsRandomAccess() {
+    void shouldReturnFullViewWhenNoElementMatchOnRandomAccess() {
       List<Integer> src = Arrays.asList(2, 4, 6);
       List<Integer> dest = Arrays.asList(0, 0, 0);
       Predicate<Integer> isOdd = x -> x % 2 != 0;
@@ -157,7 +159,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldReturnFullViewWhenFirstElementFailsSequentialAccess() {
+    void shouldReturnFullViewWhenNoElementMatchOnSequentialAccess() {
       int LARGE_SIZE = 50;
       List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 2));
       List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
@@ -169,7 +171,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldDropUntilFirstFailureAndThenCopyEverythingElseWhenSizesMatch() {
+    void shouldDropUntilFirstNoMatchThenCopyRest() {
       List<Integer> src = Arrays.asList(1, 3, 4, 5);
       List<Integer> dest = Arrays.asList(0, 0, 0, 0);
       Predicate<Integer> isOdd = x -> x % 2 != 0;
@@ -181,7 +183,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldDropNoneWhenNoneMatchAndDestIsLargerThanSrc() {
+    void shouldDropNoneWhenNoneMatch() {
       List<Integer> src = Arrays.asList(2, 4, 6);
       List<Integer> dest = Arrays.asList(9, 9, 9, 9, 9);
       Predicate<Integer> isOdd = x -> x % 2 != 0;
@@ -204,18 +206,17 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowIndexOutOfBoundsExceptionWhenSrcIsLargerThanDest() {
+    void shouldThrowExceptionOnSrcLargerThanDest() {
       List<Integer> src = Arrays.asList(1, 2, 3);
       List<Integer> dest = List.of(0);
       Predicate<Integer> pred = x -> true;
-      Exception exception = assertThrows(IndexOutOfBoundsException.class, () ->
-          Algorithms.dropWhile(dest, src, pred)
-      );
+      Exception exception = assertThrows(IndexOutOfBoundsException.class,
+          () -> Algorithms.dropWhile(dest, src, pred));
       assertEquals("src size is greater than dest size", exception.getMessage());
     }
 
     @Test
-    void shouldHandleSequentialAccessListsAboveThresholdCorrectly() {
+    void shouldHandleSequentialAccessAboveThreshold() {
       int LARGE_SIZE = 50;
       List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 10));
       List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
@@ -229,7 +230,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldHandleRandomAccessListsAboveThresholdCorrectly() {
+    void shouldHandleRandomAccessAboveThreshold() {
       int LARGE_SIZE = 50;
       List<Integer> src = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 10));
       List<Integer> dest = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 0));
@@ -243,7 +244,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldHandleSequentialAccessListsBelowThresholdCorrectly() {
+    void shouldHandleSequentialAccessListsBelowThreshold() {
       List<Integer> src = new LinkedList<>(Arrays.asList(9, 5, 10));
       List<Integer> dest = new LinkedList<>(Arrays.asList(0, 0, 0, 0));
       Predicate<Integer> isGreater = x -> x > 7;
@@ -254,32 +255,29 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenDestIsNull() {
+    void shouldThrowExceptionOnNullDest() {
       List<Integer> src = Arrays.asList(1, 2);
       Predicate<Integer> pred = x -> true;
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.dropWhile(null, src, pred)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.dropWhile(null, src, pred));
       assertEquals("no valid destination provided", exception.getMessage());
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenSrcIsNull() {
+    void shouldThrowExceptionWhenOnNullSrc() {
       List<Integer> dest = Arrays.asList(1, 2);
       Predicate<Integer> pred = x -> true;
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.dropWhile(dest, null, pred)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.dropWhile(dest, null, pred));
       assertEquals("no valid source provided", exception.getMessage());
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenPredicateIsNull() {
+    void shouldThrowExceptionOnNullPredicate() {
       List<Integer> src = Arrays.asList(1, 2);
       List<Integer> dest = Arrays.asList(0, 0);
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.dropWhile(dest, src, null)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.dropWhile(dest, src, null));
       assertEquals("no valid predicate provided", exception.getMessage());
     }
   }
@@ -288,7 +286,7 @@ class AlgorithmsTest {
   class FilterTests {
 
     @Test
-    void shouldReturnEmptyViewWhenNoElementsMatchRandomAccess() {
+    void shouldReturnEmptyViewWhenNoElementsMatchOnRandomAccess() {
       List<Integer> src = Arrays.asList(2, 4, 6);
       List<Integer> dest = Arrays.asList(0, 0, 0);
       Predicate<Integer> isOdd = x -> x % 2 != 0;
@@ -299,7 +297,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldReturnEmptyViewWhenNoElementsMatchSequentialAccess() {
+    void shouldReturnEmptyViewWhenNoElementsMatchOnSequentialAccess() {
       int LARGE_SIZE = 50;
       List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 2));
       List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
@@ -311,7 +309,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldFilterElementsCorrectlyWhenSizesMatch() {
+    void shouldFilterElementsWhenSizesMatch() {
       List<Integer> src = Arrays.asList(1, 2, 3, 4);
       List<Integer> dest = Arrays.asList(0, 0, 0, 0);
       Predicate<Integer> isEven = x -> x % 2 == 0;
@@ -321,7 +319,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldFilterElementsCorrectlyWhenDestIsLargerThanSrc() {
+    void shouldFilterElementsWhenDestIsLargerThanSrc() {
       List<Integer> src = Arrays.asList(1, 2, 3);
       List<Integer> dest = Arrays.asList(9, 9, 9, 9, 9);
       Predicate<Integer> isOdd = x -> x % 2 != 0;
@@ -331,18 +329,17 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowIndexOutOfBoundsExceptionWhenSrcIsLargerThanDest() {
+    void shouldThrowExceptionOnSrcLargerThanDest() {
       List<Integer> src = Arrays.asList(1, 2, 3);
       List<Integer> dest = List.of(0);
       Predicate<Integer> pred = x -> true;
-      Exception exception = assertThrows(IndexOutOfBoundsException.class, () ->
-          Algorithms.filter(dest, src, pred)
-      );
+      Exception exception = assertThrows(IndexOutOfBoundsException.class,
+          () -> Algorithms.filter(dest, src, pred));
       assertEquals("src size is greater than dest size", exception.getMessage());
     }
 
     @Test
-    void shouldHandleSequentialAccessListsAboveThresholdCorrectly() {
+    void shouldHandleSequentialAccessAboveThreshold() {
       int LARGE_SIZE = 50;
       List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 10));
       List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
@@ -356,7 +353,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldHandleRandomAccessListsAboveThresholdCorrectly() {
+    void shouldHandleRandomAccessAboveThreshold() {
       int LARGE_SIZE = 50;
       List<Integer> src = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 10));
       List<Integer> dest = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 0));
@@ -370,7 +367,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldHandleSequentialAccessListsBelowThresholdCorrectly() {
+    void shouldHandleSequentialAccessBelowThreshold() {
       List<Integer> src = new LinkedList<>(Arrays.asList(5, 10));
       List<Integer> dest = new LinkedList<>(Arrays.asList(1, 2, 3));
       Predicate<Integer> isGreaterWithThreshold = x -> x > 7;
@@ -380,34 +377,31 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenDestIsNull() {
+    void shouldThrowExceptionOnNullDest() {
       List<Integer> src = Arrays.asList(1, 2);
       Predicate<Integer> pred = x -> true;
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.filter(null, src, pred)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.filter(null, src, pred));
       assertEquals("no valid destination provided", exception.getMessage());
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenSrcIsNull() {
+    void shouldThrowExceptionOnNullSrc() {
       List<Integer> dest = Arrays.asList(1, 2);
       Predicate<Integer> pred = x -> true;
 
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.filter(dest, null, pred)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.filter(dest, null, pred));
       assertEquals("no valid source provided", exception.getMessage());
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenPredicateIsNull() {
+    void shouldThrowExceptionOnNullPredicate() {
       List<Integer> src = Arrays.asList(1, 2);
       List<Integer> dest = Arrays.asList(0, 0);
 
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.filter(dest, src, null)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.filter(dest, src, null));
       assertEquals("no valid predicate provided", exception.getMessage());
     }
   }
@@ -416,23 +410,22 @@ class AlgorithmsTest {
   class FindTests {
 
     @Test
-    void shouldReturnFirstMatchingObject() {
+    void shouldReturnFirstElementThatDoesMatch() {
       Collection<String> col = Arrays.asList("first", "second", "first");
       String result = Algorithms.find(col, "first");
       assertEquals("first", result);
     }
 
     @Test
-    void shouldReturnNullWhenThereIsNoMatch() {
+    void shouldReturnNullWhenNoElementMatch() {
       Collection<String> col = Arrays.asList("first", "second");
       assertNull(Algorithms.find(col, "third"));
     }
 
     @Test
-    void shouldThrowExceptionWhenCollectionIsNull() {
-      NullPointerException exception = assertThrows(NullPointerException.class, () -> {
-        Algorithms.find(null, "target");
-      });
+    void shouldThrowExceptionOnNullCollection() {
+      NullPointerException exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.find(null, "target"));
       assertEquals("no valid collection provided", exception.getMessage());
     }
   }
@@ -441,34 +434,32 @@ class AlgorithmsTest {
   class FindIfTests {
 
     @Test
-    void shouldReturnFirstMatchingObject() {
+    void shouldReturnFirstElementThatDoesMatch() {
       Collection<String> col = Arrays.asList("apple", "banana", "apricot");
       String result = Algorithms.findIf(col, s -> s.startsWith("ap"));
       assertEquals("apple", result);
     }
 
     @Test
-    void shouldReturnNullWhenThereIsNoMatch() {
+    void shouldReturnNullWhenNoElementMatch() {
       Collection<String> col = Arrays.asList("apple", "banana");
       String result = Algorithms.findIf(col, s -> s.startsWith("z"));
       assertNull(result);
     }
 
     @Test
-    void shouldThrowExceptionWhenCollectionIsNull() {
+    void shouldThrowExceptionOnNullCollection() {
       Predicate<String> pred = s -> s.startsWith("a");
-      NullPointerException exception = assertThrows(NullPointerException.class, () -> {
-        Algorithms.findIf(null, pred);
-      });
+      NullPointerException exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.findIf(null, pred));
       assertEquals("no valid collection provided", exception.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenPredicateIsNull() {
+    void shouldThrowExceptionOnNullPredicate() {
       Collection<String> col = Arrays.asList("apple", "banana");
-      NullPointerException exception = assertThrows(NullPointerException.class, () -> {
-        Algorithms.findIf(col, null);
-      });
+      NullPointerException exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.findIf(col, null));
       assertEquals("no valid predicate provided", exception.getMessage());
     }
   }
@@ -477,7 +468,7 @@ class AlgorithmsTest {
   class MapTests {
 
     @Test
-    void shouldMapElementsCorrectlyWhenSizesMatch() {
+    void shouldMapElementsWhenSizesMatch() {
       List<Integer> src = Arrays.asList(1, 2, 3);
       List<String> dest = Arrays.asList("", "", "");
       Function<Integer, String> mapper = String::valueOf;
@@ -486,7 +477,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldMapElementsCorrectlyWhenDestIsLargerThanSrc() {
+    void shouldMapElementsWhenDestIsLargerThanSrc() {
       List<Integer> src = Arrays.asList(1, 2);
       List<String> dest = Arrays.asList("A", "B", "C", "D");
       Function<Integer, String> mapper = String::valueOf;
@@ -495,18 +486,17 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowIndexOutOfBoundsExceptionWhenSrcIsLargerThanDest() {
+    void shouldThrowExceptionOnSrcLargerThanDest() {
       List<Integer> src = Arrays.asList(1, 2, 3);
       List<String> dest = List.of("");
       Function<Integer, String> mapper = String::valueOf;
-      Exception exception = assertThrows(IndexOutOfBoundsException.class, () ->
-          Algorithms.map(dest, src, mapper)
-      );
+      Exception exception = assertThrows(IndexOutOfBoundsException.class,
+          () -> Algorithms.map(dest, src, mapper));
       assertEquals("src size is greater than dest size", exception.getMessage());
     }
 
     @Test
-    void shouldHandleSequentialAccessListsAboveThresholdCorrectly() {
+    void shouldHandleSequentialAccessAboveThreshold() {
       int LARGE_SIZE = 50;
       List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 10));
       List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
@@ -518,7 +508,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldHandleRandomAccessListsAboveThresholdCorrectly() {
+    void shouldHandleRandomAccessAboveThreshold() {
       int LARGE_SIZE = 50;
       List<Integer> src = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 10));
       List<Integer> dest = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 0));
@@ -530,7 +520,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldHandleSequentialAccessListsBelowThresholdCorrectly() {
+    void shouldHandleSequentialAccessBelowThreshold() {
       List<Integer> src = new LinkedList<>(Arrays.asList(10, 20));
       List<Integer> dest = new LinkedList<>(Arrays.asList(0, 0, 0));
       Function<Integer, Integer> mapper = x -> x * 2;
@@ -539,24 +529,22 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenDestIsNull() {
+    void shouldThrowExceptionOnNullDest() {
       List<Integer> src = Arrays.asList(1, 2);
       Function<Integer, Integer> mapper = x -> x;
 
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.map(null, src, mapper)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.map(null, src, mapper));
       assertEquals("no valid destination provided", exception.getMessage());
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenSrcIsNull() {
+    void shouldThrowExceptionOnNullSrc() {
       List<Integer> dest = Arrays.asList(1, 2);
       Function<Integer, Integer> mapper = x -> x;
 
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.map(dest, null, mapper)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.map(dest, null, mapper));
       assertEquals("no valid source provided", exception.getMessage());
     }
 
@@ -565,9 +553,8 @@ class AlgorithmsTest {
       List<Integer> src = Arrays.asList(1, 2);
       List<Integer> dest = Arrays.asList(0, 0);
 
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.map(dest, src, null)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.map(dest, src, null));
       assertEquals("no valid mapper provided", exception.getMessage());
     }
   }
@@ -576,35 +563,33 @@ class AlgorithmsTest {
   class NoneMatchTests {
 
     @Test
-    void shouldReturnTrueWhenNoElementsMatchPredicate() {
+    void shouldReturnTrueWhenNoElementMatch() {
       Collection<Integer> col = Arrays.asList(1, 3, 5);
       Predicate<Integer> isEven = n -> n % 2 == 0;
       assertTrue(Algorithms.noneMatch(col, isEven));
     }
 
     @Test
-    void shouldReturnFalseWhenAtLeastOneElementMatchesPredicate() {
+    void shouldReturnFalseWhenAtLeastOneElementDoesMatch() {
       Collection<Integer> col = Arrays.asList(1, 2, 3);
       Predicate<Integer> isEven = n -> n % 2 == 0;
       assertFalse(Algorithms.noneMatch(col, isEven));
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenCollectionIsNull() {
+    void shouldThrowExceptionOnNullCollection() {
       Predicate<Integer> isEven = n -> n % 2 == 0;
-      NullPointerException exception = assertThrows(
-          NullPointerException.class,
+      NullPointerException exception = assertThrows(NullPointerException.class,
           () -> Algorithms.noneMatch(null, isEven)
       );
       assertEquals("no valid collection provided", exception.getMessage());
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenPredicateIsNull() {
+    void shouldThrowExceptionOnNullPredicate() {
       Collection<Integer> col = Arrays.asList(1, 2, 3);
 
-      NullPointerException exception = assertThrows(
-          NullPointerException.class,
+      NullPointerException exception = assertThrows(NullPointerException.class,
           () -> Algorithms.noneMatch(col, null)
       );
       assertEquals("no valid predicate provided", exception.getMessage());
@@ -615,7 +600,7 @@ class AlgorithmsTest {
   class ReduceTests {
 
     @Test
-    void shouldAccumulateValuesCorrectlyFromInitialValue() {
+    void shouldAccumulateValuesFromInitialValue() {
       Collection<Integer> col = Arrays.asList(1, 2, 3, 4);
       BinaryOperator<Integer> sum = Integer::sum;
       Integer result = Algorithms.reduce(col, 0, sum);
@@ -623,7 +608,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldReturnInitialValueWhenReduceIsCalledOnEmptyCollection() {
+    void shouldReturnInitialValueOnEmptyCollection() {
       Collection<Integer> col = Collections.emptyList();
       BinaryOperator<Integer> sum = Integer::sum;
       Integer result = Algorithms.reduce(col, 42, sum);
@@ -631,20 +616,18 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenReduceReceivesNullOperator() {
+    void shouldThrowExceptionOnNullOperator() {
       Collection<Integer> col = Arrays.asList(1, 2);
-      NullPointerException exception = assertThrows(
-          NullPointerException.class,
+      NullPointerException exception = assertThrows(NullPointerException.class,
           () -> Algorithms.reduce(col, 0, null)
       );
       assertEquals("no valid operator provided", exception.getMessage());
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWithCorrectMessageWhenCollectionIsNull() {
+    void shouldThrowExceptionOnNullCollection() {
       BinaryOperator<Integer> sum = Integer::sum;
-      NullPointerException exception = assertThrows(
-          NullPointerException.class,
+      NullPointerException exception = assertThrows(NullPointerException.class,
           () -> Algorithms.reduce(null, 0, sum)
       );
       assertEquals("no valid collection provided", exception.getMessage());
@@ -655,7 +638,7 @@ class AlgorithmsTest {
   class TakeWhileTests {
 
     @Test
-    void shouldReturnEmptyViewWhenFirstElementFailsRandomAccess() {
+    void shouldReturnEmptyViewWhenNoElementMatchOnRandomAccess() {
       List<Integer> src = Arrays.asList(2, 4, 6);
       List<Integer> dest = Arrays.asList(0, 0, 0);
       Predicate<Integer> isOdd = x -> x % 2 != 0;
@@ -666,7 +649,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldReturnEmptyViewWhenFirstElementFailsSequentialAccess() {
+    void shouldReturnEmptyViewWhenNoElementMatchOnSequentialAccess() {
       int LARGE_SIZE = 50;
       List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 2));
       List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
@@ -678,7 +661,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldShortCircuitAndStopCopyingAtFirstFailureWhenSizesMatch() {
+    void shouldStopCopyingAtFirstNoMatchWhenSizesMatch() {
       List<Integer> src = Arrays.asList(1, 3, 4, 5);
       List<Integer> dest = Arrays.asList(0, 0, 0, 0);
       Predicate<Integer> isOdd = x -> x % 2 != 0;
@@ -690,7 +673,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldTakeAllElementsWhenAllMatchAndDestIsLargerThanSrc() {
+    void shouldTakeAllElementsThatMatchWhenDestIsLargerThanSrc() {
       List<Integer> src = Arrays.asList(1, 3, 5);
       List<Integer> dest = Arrays.asList(9, 9, 9, 9, 9);
       Predicate<Integer> isOdd = x -> x % 2 != 0;
@@ -702,7 +685,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowIndexOutOfBoundsExceptionWhenSrcIsLargerThanDest() {
+    void shouldThrowExceptionOnSrcLargerThanDest() {
       List<Integer> src = Arrays.asList(1, 2, 3);
       List<Integer> dest = List.of(0);
       Predicate<Integer> pred = x -> true;
@@ -713,7 +696,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldHandleSequentialAccessListsAboveThresholdCorrectly() {
+    void shouldHandleSequentialAccessAboveThreshold() {
       int LARGE_SIZE = 50;
       List<Integer> src = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 10));
       List<Integer> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 0));
@@ -727,7 +710,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldHandleRandomAccessListsAboveThresholdCorrectly() {
+    void shouldHandleRandomAccessAboveThreshold() {
       int LARGE_SIZE = 50;
       List<Integer> src = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 10));
       List<Integer> dest = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 0));
@@ -741,7 +724,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldHandleSequentialAccessListsBelowThresholdCorrectly() {
+    void shouldHandleSequentialAccessListsBelowThreshold() {
       List<Integer> src = new LinkedList<>(Arrays.asList(9, 5, 10));
       List<Integer> dest = new LinkedList<>(Arrays.asList(0, 0, 0, 0));
       Predicate<Integer> isGreater = x -> x > 7;
@@ -752,32 +735,29 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenDestIsNull() {
+    void shouldThrowExceptionOnNullDest() {
       List<Integer> src = Arrays.asList(1, 2);
       Predicate<Integer> pred = x -> true;
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.takeWhile(null, src, pred)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.takeWhile(null, src, pred));
       assertEquals("no valid destination provided", exception.getMessage());
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenSrcIsNull() {
+    void shouldThrowExceptionWhenOnNullSrc() {
       List<Integer> dest = Arrays.asList(1, 2);
       Predicate<Integer> pred = x -> true;
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.takeWhile(dest, null, pred)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.takeWhile(dest, null, pred));
       assertEquals("no valid source provided", exception.getMessage());
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenPredicateIsNull() {
+    void shouldThrowExceptionOnNullPredicate() {
       List<Integer> src = Arrays.asList(1, 2);
       List<Integer> dest = Arrays.asList(0, 0);
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.takeWhile(dest, src, null)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.takeWhile(dest, src, null));
       assertEquals("no valid predicate provided", exception.getMessage());
     }
   }
@@ -786,7 +766,7 @@ class AlgorithmsTest {
   class ZipTests {
 
     @Test
-    void shouldZipElementsCorrectlyWhenSizesMatch() {
+    void shouldZipElementsWhenSizesMatch() {
       List<String> first = Arrays.asList("A", "B", "C");
       List<Integer> second = Arrays.asList(1, 2, 3);
       List<Pair<String, Integer>> dest = Arrays.asList(null, null, null);
@@ -799,7 +779,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldZipElementsCorrectlyWhenDestIsLargerThanSrc() {
+    void shouldZipElementsWhenDestIsLargerThanSrc() {
       List<String> first = Arrays.asList("A", "B");
       List<Integer> second = Arrays.asList(1, 2);
       List<Pair<String, Integer>> dest = Arrays.asList(null, null, null, null);
@@ -812,7 +792,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldZipToShortestSourceWhenSourceSizesDoNotMatch() {
+    void shouldZipToShortestWhenSourceSizesDoNotMatch() {
       List<String> first = Arrays.asList("A", "B", "C");
       List<Integer> second = Arrays.asList(1, 2);
       List<Pair<String, Integer>> dest = Arrays.asList(null, null, null);
@@ -825,7 +805,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowIndexOutOfBoundsExceptionWhenSrcIsLargerThanDest() {
+    void shouldThrowExceptionOnSrcLargerThanDest() {
       List<String> first = Arrays.asList("A", "B", "C");
       List<Integer> second = Arrays.asList(1, 2, 3);
       List<Pair<String, Integer>> dest = Arrays.asList(null, null);
@@ -836,18 +816,17 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldThrowIllegalArgumentExceptionWhenTheSameInstance() {
+    void shouldThrowExceptionWhenSourcesAreTheSame() {
       List<String> first = Arrays.asList("A", "B");
       List<Pair<String, String>> dest = Arrays.asList(null, null);
-      Exception exception = assertThrows(IllegalArgumentException.class, () ->
-          Algorithms.zip(dest, first, first)
-      );
+      Exception exception = assertThrows(IllegalArgumentException.class,
+          () -> Algorithms.zip(dest, first, first));
       assertEquals("src lists are the same list", exception.getMessage());
     }
 
     @Test
-    void shouldHandleSequentialAccessListsAboveThresholdCorrectly() {
-      int LARGE_SIZE = 50; // Ensure this is above or below your LIST_THRESHOLD as needed
+    void shouldHandleSequentialAccessListsAboveThreshold() {
+      int LARGE_SIZE = 50;
       List<String> first = new LinkedList<>(Collections.nCopies(LARGE_SIZE, "X"));
       List<Integer> second = new LinkedList<>(Collections.nCopies(LARGE_SIZE, 9));
       List<Pair<String, Integer>> dest = new LinkedList<>(Collections.nCopies(LARGE_SIZE, null));
@@ -859,7 +838,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldHandleRandomAccessListsAboveThresholdCorrectly() {
+    void shouldHandleRandomAccessListsAboveThreshold() {
       int LARGE_SIZE = 50;
       List<String> first = new ArrayList<>(Collections.nCopies(LARGE_SIZE, "X"));
       List<Integer> second = new ArrayList<>(Collections.nCopies(LARGE_SIZE, 9));
@@ -872,7 +851,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldHandleSequentialAccessListsBelowThresholdCorrectly() {
+    void shouldHandleSequentialAccessListsBelowThreshold() {
       List<String> first = new LinkedList<>(Arrays.asList("A", "B"));
       List<Integer> second = new LinkedList<>(Arrays.asList(1, 2));
       List<Pair<String, Integer>> dest = new LinkedList<>(Arrays.asList(null, null, null));
@@ -885,7 +864,7 @@ class AlgorithmsTest {
     }
 
     @Test
-    void shouldReturnZeroAndLeaveDestUnchangedWhenSourcesAreEmpty() {
+    void shouldReturnZeroAndDestUnchangedWhenSourcesAreEmpty() {
       List<String> first = new ArrayList<>();
       List<Integer> second = new ArrayList<>();
       List<Pair<String, Integer>> dest = Arrays.asList(null, null);
@@ -898,9 +877,8 @@ class AlgorithmsTest {
     void shouldThrowNullPointerExceptionWhenDestIsNull() {
       List<String> first = List.of("A");
       List<Integer> second = List.of(1);
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.zip(null, first, second)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.zip(null, first, second));
       assertEquals("no valid destination provided", exception.getMessage());
     }
 
@@ -908,9 +886,8 @@ class AlgorithmsTest {
     void shouldThrowNullPointerExceptionWhenFirstIsNull() {
       List<Integer> second = List.of(1);
       List<Pair<String, Integer>> dest = Arrays.asList(null, null);
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.zip(dest, null, second)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.zip(dest, null, second));
       assertEquals("no valid first provided", exception.getMessage());
     }
 
@@ -918,12 +895,9 @@ class AlgorithmsTest {
     void shouldThrowNullPointerExceptionWhenSecondIsNull() {
       List<String> first = List.of("A");
       List<Pair<String, Integer>> dest = Arrays.asList(null, null);
-      Exception exception = assertThrows(NullPointerException.class, () ->
-          Algorithms.zip(dest, first, null)
-      );
+      Exception exception = assertThrows(NullPointerException.class,
+          () -> Algorithms.zip(dest, first, null));
       assertEquals("no valid second provided", exception.getMessage());
     }
   }
-
-
 }
