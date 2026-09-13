@@ -61,7 +61,7 @@ class TypesTest {
     }
 
     @Test
-    void shouldConvertLiteralToStringOptional() {
+    void shouldConvertAnyLiteralToStringOptional() {
       assertEquals(Optional.of("123"), Types.toString(123));
       assertEquals(Optional.of("12.34"), Types.toString(12.34));
       assertEquals(Optional.of("true"), Types.toString(true));
@@ -86,7 +86,7 @@ class TypesTest {
     }
 
     @Test
-    void shouldConvertLiteralToBooleanOptional() {
+    void shouldConvertAnyLiteralToBooleanOptional() {
       assertEquals(Optional.of(true), Types.toBoolean(Boolean.TRUE));
       assertEquals(Optional.of(false), Types.toBoolean(Boolean.FALSE));
       assertEquals(Optional.of(true), Types.toBoolean(1));
@@ -103,7 +103,7 @@ class TypesTest {
     }
 
     @Test
-    void shouldConvertStringToBooleanOptional() {
+    void shouldConvertStringLiteralToBooleanOptional() {
       assertEquals(Optional.of(true), Types.toBoolean("true"));
       assertEquals(Optional.of(true), Types.toBoolean("TRUE"));
       assertEquals(Optional.of(true), Types.toBoolean("TrUe"));
@@ -130,7 +130,7 @@ class TypesTest {
   class ToInstantTest {
 
     @Test
-    void shouldConvertTrueToCurrentInstant() {
+    void shouldConvertTrueLiteralToCurrentInstant() {
       Instant before = Instant.now();
       Optional<Instant> result = Types.toInstant(true);
       Instant after = Instant.now();
@@ -141,7 +141,7 @@ class TypesTest {
     }
 
     @Test
-    void shouldConvertFalseToEpochInstant() {
+    void shouldConvertFalseLiteralToEpochInstant() {
       Optional<Instant> result = Types.toInstant(false);
       assertTrue(result.isPresent());
       assertEquals(Instant.EPOCH, result.get());
@@ -156,7 +156,7 @@ class TypesTest {
     }
 
     @Test
-    void shouldConvertLongToEpochSecondInstant() {
+    void shouldConvertLongLiteralToEpochSecondInstant() {
       long epochSecond = 1692273600L;
       Optional<Instant> result = Types.toInstant(epochSecond);
       assertTrue(result.isPresent());
@@ -164,7 +164,7 @@ class TypesTest {
     }
 
     @Test
-    void shouldConvertIntegerToEpochSecondInstant() {
+    void shouldConvertIntegerLiteralToEpochSecondInstant() {
       int epochSecond = 1692273600;
       Optional<Instant> result = Types.toInstant(epochSecond);
       assertTrue(result.isPresent());
@@ -188,25 +188,21 @@ class TypesTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", "   "})
-    void shouldThrowExceptionForBlankStrings(String blankStr) {
+    void shouldThrowExceptionOnBlankStrings(String blankStr) {
       RuntimeException exception = assertThrows(RuntimeException.class,
-          () -> {
-            Types.toInstant(blankStr);
-          });
+          () -> Types.toInstant(blankStr));
       assertTrue(exception.getMessage().startsWith("failed to parse instant:"));
     }
 
     @Test
-    void shouldThrowExceptionForInvalidFormatString() {
+    void shouldThrowExceptionOnInvalidFormatString() {
       RuntimeException exception = assertThrows(RuntimeException.class,
-          () -> {
-            Types.toInstant("invalid-date-format");
-          });
+          () -> Types.toInstant("invalid-date-format"));
       assertTrue(exception.getMessage().startsWith("failed to parse instant:"));
     }
 
     @Test
-    void shouldConvertNullToEmptyOptional() {
+    void shouldConvertNullReferenceToEmptyOptional() {
       Optional<Instant> result = Types.toInstant(null);
       assertTrue(result.isEmpty());
     }
@@ -224,7 +220,7 @@ class TypesTest {
   class ToNumberTest {
 
     @Test
-    void shouldConvertBooleanToLongOptional() {
+    void shouldConvertBooleanLiteralToLongOptional() {
       Optional<Number> trueResult = Types.toNumber(true);
       assertTrue(trueResult.isPresent());
       assertInstanceOf(Long.class, trueResult.get());
@@ -247,7 +243,7 @@ class TypesTest {
 
 
     @Test
-    void shouldConvertStringToLongOptional() {
+    void shouldConvertStringLiteralToLongOptional() {
       Optional<Number> result = Types.toNumber("123");
       assertTrue(result.isPresent());
       assertInstanceOf(Long.class, result.get());
