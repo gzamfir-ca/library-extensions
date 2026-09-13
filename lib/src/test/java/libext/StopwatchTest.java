@@ -25,9 +25,8 @@ class StopwatchTest {
       long timeStop = System.nanoTime();
       long elapsed = stopwatch.getElapsedTime(TimeUnit.NANOSECONDS);
       assertNotNull(stopwatch);
-      assertTrue(elapsed >= 0, "Elapsed time should be positive");
-      assertTrue(elapsed >= (timeStop - timeStart),
-          "Elapsed time should match execution window");
+      assertTrue(elapsed >= 0);
+      assertTrue(elapsed >= (timeStop - timeStart));
     }
   }
 
@@ -42,8 +41,7 @@ class StopwatchTest {
       long elapsedMillis = stopwatch.getElapsedTime(TimeUnit.MILLISECONDS);
       assertEquals(elapsedMillis,
           TimeUnit.MILLISECONDS.convert(elapsedNanos, TimeUnit.NANOSECONDS));
-      assertTrue(elapsedMillis >= 50,
-          "Elapsed time should reflect the sleep duration");
+      assertTrue(elapsedMillis >= 50);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -55,8 +53,7 @@ class StopwatchTest {
         // Busy wait
       }
       long elapsedNanos = stopwatch.getElapsedTime(TimeUnit.NANOSECONDS);
-      assertTrue(elapsedNanos > 0,
-          "Nano-second tracking should catch sub-millisecond gaps");
+      assertTrue(elapsedNanos > 0);
     }
   }
 
@@ -64,17 +61,15 @@ class StopwatchTest {
   class GetElapsedMillisTest {
 
     @Test
-    void shouldReturnConvenienceMillisDirectly() throws InterruptedException {
+    void shouldReturnElapsedTimeInMillis() throws InterruptedException {
       Stopwatch stopwatch = Stopwatch.start();
       TimeUnit.MILLISECONDS.sleep(30);
       double elapsedMillisDirect = stopwatch.getElapsedMillis();
       long elapsedMillisFromUnit = stopwatch.getElapsedTime(TimeUnit.MILLISECONDS);
-      assertTrue(elapsedMillisDirect >= 30.0,
-          "Convenience method should reflect elapsed time");
+      assertTrue(elapsedMillisDirect >= 30.0);
 
       double difference = elapsedMillisDirect - elapsedMillisFromUnit;
-      assertTrue(difference >= 0.0 && difference < 1.0,
-          "High-precision millis should match the truncated TimeUnit baseline within a <1ms fraction");
+      assertTrue(difference >= 0.0 && difference < 1.0);
     }
   }
 
@@ -82,15 +77,11 @@ class StopwatchTest {
   class NullHandlingTest {
 
     @Test
-    void shouldThrowNullPointerExceptionWhenUnitIsNull() {
+    void shouldThrowExceptionOnNullUnit() {
       Stopwatch stopwatch = Stopwatch.start();
-      NullPointerException exception = assertThrows(
-          NullPointerException.class,
-          () -> stopwatch.getElapsedTime(null),
-          "Passing a null TimeUnit should trigger a NullPointerException"
-      );
-      assertEquals("no valid unit provided", exception.getMessage(),
-          "The exception message must match the validation check");
+      NullPointerException exception = assertThrows(NullPointerException.class,
+          () -> stopwatch.getElapsedTime(null));
+      assertEquals("no valid unit provided", exception.getMessage());
     }
   }
 }

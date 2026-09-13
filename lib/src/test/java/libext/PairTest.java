@@ -23,7 +23,7 @@ class PairTest {
   class MapTest {
 
     @Test
-    void shouldTransformSecondValueAndKeepFirst() {
+    void shouldMapSecondValueOnly() {
       Pair<String, Integer> initial = Pair.of("id-100", 5);
       Pair<String, String> result = initial.map(val -> "Count: " + val);
       assertEquals("id-100", result.first());
@@ -48,32 +48,26 @@ class PairTest {
   class NullCheckTest {
 
     @Test
-    void mapShouldThrowExceptionWhenMapperIsNull() {
+    void shouldThrowExceptionOnNullMapperInMap() {
       Pair<String, Integer> pair = Pair.of("test", 1);
-      NullPointerException exception = assertThrows(
-          NullPointerException.class,
-          () -> pair.map(null)
-      );
+      NullPointerException exception = assertThrows(NullPointerException.class,
+          () -> pair.map(null));
       assertEquals("no valid mapper provided", exception.getMessage());
     }
 
     @Test
-    void flatMapShouldThrowExceptionWhenMapperIsNull() {
+    void shouldThrowExceptionOnNullMapperInFlatMap() {
       Pair<String, Integer> pair = Pair.of("test", 1);
-      NullPointerException exception = assertThrows(
-          NullPointerException.class,
-          () -> pair.flatMap(null)
-      );
+      NullPointerException exception = assertThrows(NullPointerException.class,
+          () -> pair.flatMap(null));
       assertEquals("no valid mapper provided", exception.getMessage());
     }
 
     @Test
-    void flatMapShouldThrowExceptionWhenMapperReturnsNull() {
+    void shouldThrowExceptionWhenMapperReturnsNull() {
       Pair<String, Integer> pair = Pair.of("test", 1);
-      NullPointerException exception = assertThrows(
-          NullPointerException.class,
-          () -> pair.flatMap(val -> null)
-      );
+      NullPointerException exception = assertThrows(NullPointerException.class,
+          () -> pair.flatMap(val -> null));
       assertEquals("invalid mapper result", exception.getMessage());
     }
   }
