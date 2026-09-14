@@ -28,7 +28,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldIncrementCountCorrectly() {
+  void shouldIncrementCount() {
     assertEquals(1, multiset.addKey("Apple"));
     assertEquals(2, multiset.addKey("Apple"));
     assertEquals(1, multiset.addKey("Banana"));
@@ -38,18 +38,18 @@ class MultisetTest {
   }
 
   @Test
-  void shouldThrowArithmeticExceptionWhenAddKeyOverflows() {
+  void shouldThrowExceptionOnKeyOverflow() {
     Multiset<String> overflowMultiset = new Multiset<>(() -> {
       HashMap<String, Integer> seedMap = new HashMap<>();
       seedMap.put("OverflowKey", Integer.MAX_VALUE);
       return seedMap;
     });
-    assertThrows(ArithmeticException.class, () -> overflowMultiset.addKey("OverflowKey"),
-        "Expected addKey to throw an ArithmeticException when incrementing past Integer.MAX_VALUE.");
+    assertThrows(ArithmeticException.class,
+        () -> overflowMultiset.addKey("OverflowKey"));
   }
 
   @Test
-  void shouldDecrementCountAndRemoveElementAtZero() {
+  void shouldDecrementCount() {
     multiset.addKey("Apple");
     multiset.addKey("Apple");
     assertEquals(2, multiset.keyCount("Apple"));
@@ -67,7 +67,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldAggregateKeysCorrectlyAcrossCountsAndReturnUnmodifiableCollection() {
+  void shouldAggregateKeysAcrossCounts() {
     Multiset<String> multiset = Multiset.newMultiset();
     multiset.addKey("k1");
     multiset.addKey("k2");
@@ -79,12 +79,13 @@ class MultisetTest {
     assertEquals(2, Collections.frequency(flattened, "k2"));
 
     Consumer<Collection<String>> mutator = c -> c.add("k3");
-    assertThrows(UnsupportedOperationException.class, () -> mutator.accept(flattened));
+    assertThrows(UnsupportedOperationException.class,
+        () -> mutator.accept(flattened));
     assertThrows(UnsupportedOperationException.class, flattened::clear);
   }
 
   @Test
-  void shouldClearAllElementsCorrectly() {
+  void shouldClearAllElements() {
     Multiset<String> multiset = Multiset.newMultiset();
     multiset.addKey("k1");
     assertFalse(multiset.isEmpty());
@@ -95,7 +96,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldPreserveInsertionOrderInOrderedBag() {
+  void shouldPreserveInsertionOrder() {
     Multiset<String> orderedMultiset = Multiset.newOrderedMultiset();
     orderedMultiset.addKey("Zebra");
     orderedMultiset.addKey("Apple");
@@ -107,7 +108,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldSortElementsAlphabeticallyInSortedBag() {
+  void shouldSortElementsAlphabetically() {
     Multiset<String> sortedMultiset = Multiset.newSortedMultiset();
     sortedMultiset.addKey("Zebra");
     sortedMultiset.addKey("Apple");
@@ -119,7 +120,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldIterateOverUniqueElementsAndPreventModification() {
+  void shouldIterateOverKeys() {
     multiset.addKey("Apple");
     multiset.addKey("Apple");
     multiset.addKey("Banana");
@@ -135,8 +136,7 @@ class MultisetTest {
 
     java.util.Iterator<String> secureIterator = multiset.keySet().iterator();
     secureIterator.next();
-    assertThrows(UnsupportedOperationException.class, secureIterator::remove,
-        "The iterator view should be unmodifiable and reject structural changes via remove().");
+    assertThrows(UnsupportedOperationException.class, secureIterator::remove);
   }
 
   private <T> Set<T> maskView(Set<T> set) {
@@ -144,7 +144,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldProtectKeySetAgainstExternalModifications() {
+  void shouldKeepKeySetNonModifiable() {
     multiset.addKey("Apple");
     Set<String> keysToTest = maskView(multiset.keySet());
     assertThrows(UnsupportedOperationException.class, keysToTest::clear);
@@ -155,7 +155,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldProtectValuesViewAgainstExternalModifications() {
+  void shouldKeepValuesNonModifiable() {
     multiset.addKey("Apple");
     Collection<Integer> valuesToTest = maskView(multiset.values());
     assertThrows(UnsupportedOperationException.class, valuesToTest::clear);
@@ -166,7 +166,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldProtectEntrySetAndIndividualEntriesFromMutation() {
+  void shouldKeepEntriesNonModifiable() {
     multiset.addKey("Apple");
     Set<Map.Entry<String, Integer>> entriesToTest = maskEntries(multiset.entrySet());
     assertThrows(UnsupportedOperationException.class, entriesToTest::clear);
@@ -176,7 +176,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldObeyEqualsAndHashCodeContracts() {
+  void shouldKeepEqualsAndHashCodeContracts() {
     Multiset<String> multiset1 = Multiset.newMultiset();
     Multiset<String> multiset2 = Multiset.newMultiset();
     multiset1.addKey("Apple");
@@ -189,7 +189,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldConstructPreSizedMultisetAndBehaveNormally() {
+  void shouldConstructPreSizedMultiset() {
     Multiset<String> preSizedMultiset = Multiset.newMultiset(50);
     assertEquals(1, preSizedMultiset.addKey("Apple"));
     assertEquals(2, preSizedMultiset.addKey("Apple"));
@@ -198,7 +198,7 @@ class MultisetTest {
   }
 
   @Test
-  void shouldPreserveInsertionOrderInPreSizedOrderedBag() {
+  void shouldPreserveInsertionOrderInPreSizedSet() {
     Multiset<String> preSizedOrderedMultiset = Multiset.newOrderedMultiset(20);
     preSizedOrderedMultiset.addKey("Zebra");
     preSizedOrderedMultiset.addKey("Apple");
@@ -210,13 +210,16 @@ class MultisetTest {
   }
 
   @Test
-  void shouldThrowIllegalArgumentExceptionForNegativeInitialCapacity() {
-    assertThrows(IllegalArgumentException.class, () -> Multiset.newMultiset(-1));
-    assertThrows(IllegalArgumentException.class, () -> Multiset.newOrderedMultiset(-5));
+  void shouldThrowExceptionOnNegativeInitialCapacity() {
+    assertThrows(IllegalArgumentException.class,
+        () -> Multiset.newMultiset(-1));
+    assertThrows(IllegalArgumentException.class,
+        () -> Multiset.newOrderedMultiset(-5));
   }
 
   @Test
-  void shouldThrowNullPointerExceptionWhenPassingNullFunction() {
-    assertThrows(NullPointerException.class, () -> new Multiset<>(10, null));
+  void shouldThrowExceptionOnNullFunction() {
+    assertThrows(NullPointerException.class,
+        () -> new Multiset<>(10, null));
   }
 }
