@@ -22,7 +22,7 @@ class MapsTest {
   class HashMapTests {
 
     @Test
-    void shouldCreateResizableHashMapAndContainEntries() {
+    void shouldCreateHashMapWithGivenEntries() {
       Map<String, Integer> map = Maps.newHashMap(entry("A", 1), entry("B", 2));
       assertEquals(2, map.size());
       assertEquals(1, map.get("A"));
@@ -34,14 +34,14 @@ class MapsTest {
     }
 
     @Test
-    void shouldOverwriteDuplicateKeysUsingLastWinsRule() {
+    void shouldKeepLastValueForDuplicateKeys() {
       Map<String, Integer> map = Maps.newHashMap(entry("A", 1), entry("A", 99));
       assertEquals(1, map.size());
       assertEquals(99, map.get("A"));
     }
 
     @Test
-    void shouldCreateEmptyHashMapFromEmptyVarargs() {
+    void shouldCreateEmptyHashMapWithNoEntries() {
       Map<String, Integer> map = Maps.newHashMap();
       assertTrue(map.isEmpty());
 
@@ -51,16 +51,15 @@ class MapsTest {
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    void shouldThrowExceptionWhenVarargsArrayIsNull() {
+    void shouldThrowExceptionOnNullEntries() {
       Entry<String, Integer>[] nullArray = null;
-      NullPointerException ex = assertThrows(NullPointerException.class, () ->
-          Maps.newHashMap(nullArray)
-      );
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Maps.newHashMap(nullArray));
       assertEquals("no valid entries provided", ex.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenAnIndividualEntryIsNull() {
+    void shouldThrowExceptionOnNullEntry() {
       NullPointerException ex = assertThrows(NullPointerException.class, () ->
           Maps.newHashMap(entry("A", 1), null, entry("B", 2))
       );
@@ -68,7 +67,7 @@ class MapsTest {
     }
 
     @Test
-    void shouldCreateHashMapUsingFunction() {
+    void shouldCreateHashMapWithGivenFunction() {
       Map<String, Integer> map = Maps.newHashMap(String::length, "Apple", "Banana", "Zebra");
       assertEquals(3, map.size());
       assertEquals(5, map.get("Apple"));
@@ -80,32 +79,30 @@ class MapsTest {
     }
 
     @Test
-    void shouldCreateEmptyHashMapFromFunctionAndEmptyVarargs() {
+    void shouldCreateEmptyHashMapWithGivenFunctionAndNoEntries() {
       Map<String, Integer> map = Maps.newHashMap(String::length);
       assertTrue(map.isEmpty());
     }
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    void shouldThrowExceptionWhenFunctionIsNull() {
-      NullPointerException ex = assertThrows(NullPointerException.class, () ->
-          Maps.newHashMap(null, "Key1", "Key2")
-      );
+    void shouldThrowExceptionOnNullFunction() {
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Maps.newHashMap(null, "Key1", "Key2"));
       assertEquals("no valid function provided", ex.getMessage());
     }
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    void shouldThrowExceptionWhenFunctionVarargsArrayIsNull() {
+    void shouldThrowExceptionOnNullKeys() {
       String[] nullKeys = null;
-      NullPointerException ex = assertThrows(NullPointerException.class, () ->
-          Maps.newHashMap(String::length, nullKeys)
-      );
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Maps.newHashMap(String::length, nullKeys));
       assertEquals("no valid keys provided", ex.getMessage());
     }
 
     @Test
-    void shouldCreateResizableHashMapFromReader() {
+    void shouldCreateHashMapFromReader() {
       InputStream inputStream = new ByteArrayInputStream(MULTI_LINE_TEXT.getBytes());
       BufferedReader reader = Readers.newBufferedReader(inputStream);
       assertNotNull(reader);
@@ -120,10 +117,9 @@ class MapsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenHashMapReaderIsNull() {
-      NullPointerException ex = assertThrows(NullPointerException.class, () ->
-          Maps.newHashMap((BufferedReader) null)
-      );
+    void shouldThrowExceptionOnNullReader() {
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Maps.newHashMap((BufferedReader) null));
       assertEquals("no valid reader provided", ex.getMessage());
     }
   }
@@ -132,7 +128,7 @@ class MapsTest {
   class LinkedHashMapTests {
 
     @Test
-    void shouldCreateResizableLinkedHashMapAndPreserveOrder() {
+    void shouldCreateLinkedHashMapWithGivenEntries() {
       Map<String, Integer> map = Maps.newLinkedHashMap(entry("Z", 26), entry("A", 1),
           entry("B", 2));
       var iterator = map.entrySet().iterator();
@@ -151,38 +147,36 @@ class MapsTest {
     }
 
     @Test
-    void shouldOverwriteDuplicateKeysUsingLastWinsRule() {
+    void shouldKeepLastValueForDuplicateKeys() {
       Map<String, Integer> map = Maps.newLinkedHashMap(entry("A", 1), entry("A", 99));
       assertEquals(1, map.size());
       assertEquals(99, map.get("A"));
     }
 
     @Test
-    void shouldCreateEmptyLinkedHashMapFromEmptyVarargs() {
+    void shouldCreateEmptyLinkedHashMapWithNoEntries() {
       Map<String, Integer> map = Maps.newLinkedHashMap();
       assertTrue(map.isEmpty());
     }
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    void shouldThrowExceptionWhenVarargsArrayIsNull() {
+    void shouldThrowExceptionOnNullEntries() {
       Entry<String, Integer>[] nullArray = null;
-      NullPointerException ex = assertThrows(NullPointerException.class, () ->
-          Maps.newLinkedHashMap(nullArray)
-      );
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Maps.newLinkedHashMap(nullArray));
       assertEquals("no valid entries provided", ex.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenAnIndividualEntryIsNull() {
-      NullPointerException ex = assertThrows(NullPointerException.class, () ->
-          Maps.newLinkedHashMap(entry("A", 1), null, entry("B", 2))
-      );
+    void shouldThrowExceptionOnNullEntry() {
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Maps.newLinkedHashMap(entry("A", 1), null, entry("B", 2)));
       assertEquals("invalid entry provided", ex.getMessage());
     }
 
     @Test
-    void shouldCreateLinkedHashMapUsingFunctionAndPreserveOrder() {
+    void shouldCreateLinkedHashMapWithGivenFunction() {
       Map<String, Integer> map = Maps.newLinkedHashMap(String::length, "Apple", "Banana", "Zebra");
       assertEquals(3, map.size());
 
@@ -208,14 +202,14 @@ class MapsTest {
     }
 
     @Test
-    void shouldCreateEmptyLinkedHashMapFromFunctionAndEmptyVarargs() {
+    void shouldCreateEmptyLinkedHashMapWithGivenFunctionAndNoEntries() {
       Map<String, Integer> map = Maps.newLinkedHashMap(String::length);
       assertTrue(map.isEmpty());
     }
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    void shouldThrowExceptionWhenFunctionIsNull() {
+    void shouldThrowExceptionOnNullFunction() {
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Maps.newLinkedHashMap(null, "Key1", "Key2"));
       assertEquals("no valid function provided", ex.getMessage());
@@ -223,7 +217,7 @@ class MapsTest {
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    void shouldThrowExceptionWhenFunctionVarargsArrayIsNull() {
+    void shouldThrowExceptionOnNullKeys() {
       String[] nullKeys = null;
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Maps.newLinkedHashMap(String::length, nullKeys));
@@ -231,7 +225,7 @@ class MapsTest {
     }
 
     @Test
-    void shouldCreateResizableLinkedHashMapFromReaderAndPreserveOrder() {
+    void shouldCreateLinkedHashMapFromReader() {
       InputStream inputStream = new ByteArrayInputStream(MULTI_LINE_TEXT.getBytes());
       BufferedReader reader = Readers.newBufferedReader(inputStream);
       assertNotNull(reader);
@@ -250,10 +244,9 @@ class MapsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenLinkedHashMapReaderIsNull() {
-      NullPointerException ex = assertThrows(NullPointerException.class, () ->
-          Maps.newLinkedHashMap((BufferedReader) null)
-      );
+    void shouldThrowExceptionOnNullReader() {
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Maps.newLinkedHashMap((BufferedReader) null));
       assertEquals("no valid reader provided", ex.getMessage());
     }
   }

@@ -30,14 +30,17 @@ class ListsTest {
       return "Item" + (++count);
     }
   };
+
   private final Supplier<String> duplicateSupplier = () -> "Duplicate";
   private final IntFunction<String> stringIntFunction = index -> "Item" + (index + 1);
   private final IntFunction<String> duplicateIntFunction = index -> "Duplicate";
+
   private static final String MULTI_LINE_TEXT = """
       one   two three
               four             five six seven
                                               eight
                                               \s""";
+
   private static final List<String> EXPECTED_TOKENS = Arrays.asList(
       "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
   );
@@ -46,7 +49,7 @@ class ListsTest {
   class ArrayListTests {
 
     @Test
-    void shouldCreateResizableArrayListFromVarargs() {
+    void shouldCreateArrayListWithGivenElements() {
       List<String> list = Lists.newArrayList("A", "B", "C");
       assertIterableEquals(Arrays.asList("A", "B", "C"), list);
 
@@ -55,13 +58,13 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateEmptyArrayListFromEmptyVarargs() {
+    void shouldCreateEmptyArrayListWithNoElements() {
       List<String> list = Lists.newArrayList();
       assertTrue(list.isEmpty());
     }
 
     @Test
-    void shouldCreateResizableArrayListFromSupplier() {
+    void shouldCreateArrayListWithGivenSupplier() {
       List<String> list = Lists.newArrayList(3, stringSupplier);
       assertIterableEquals(Arrays.asList("Item1", "Item2", "Item3"), list);
 
@@ -70,7 +73,7 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateResizableArrayListFromIntFunction() {
+    void shouldCreateArrayListWithGivenFunction() {
       List<String> list = Lists.newArrayList(3, stringIntFunction);
       assertIterableEquals(Arrays.asList("Item1", "Item2", "Item3"), list);
 
@@ -79,14 +82,14 @@ class ListsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenListSizeIsNegativeWithSupplier() {
+    void shouldThrowExceptionGivenSupplierOnNegativeSize() {
       IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
           () -> Lists.newArrayList(-1, stringSupplier));
       assertEquals("size must be >= 0", ex.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenListSizeIsNegativeWithIntFunction() {
+    void shouldThrowExceptionGivenFunctionOnNegativeSize() {
       IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
           () -> Lists.newArrayList(-1, stringIntFunction));
       assertEquals("size must be >= 0", ex.getMessage());
@@ -94,7 +97,7 @@ class ListsTest {
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    void shouldThrowExceptionWhenVarargsArrayIsNull() {
+    void shouldThrowExceptionOnNullElements() {
       String[] nullArray = null;
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Lists.newArrayList(nullArray));
@@ -102,21 +105,21 @@ class ListsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenSupplierIsNull() {
+    void shouldThrowExceptionOnNullSupplier() {
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Lists.newArrayList(5, (Supplier<String>) null));
       assertEquals("no valid supplier provided", ex.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenIntFunctionIsNull() {
+    void shouldThrowExceptionOnNullFunction() {
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Lists.newArrayList(5, (IntFunction<String>) null));
       assertEquals("no valid function provided", ex.getMessage());
     }
 
     @Test
-    void shouldCreateResizableArrayListFromReader() {
+    void shouldCreateArrayListFromReader() {
       InputStream inputStream = new ByteArrayInputStream(MULTI_LINE_TEXT.getBytes());
       BufferedReader reader = Readers.newBufferedReader(inputStream);
       assertNotNull(reader);
@@ -129,7 +132,7 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateResizableArrayListFromPath() {
+    void shouldCreateArrayListFromPath() {
       Path path = Path.of("src/test/resources/readersTest.txt");
       assertNotNull(path);
 
@@ -144,10 +147,9 @@ class ListsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenReaderIsNull() {
-      NullPointerException ex = assertThrows(NullPointerException.class, () ->
-          Lists.newArrayList((BufferedReader) null)
-      );
+    void shouldThrowExceptionOnNullReader() {
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Lists.newArrayList((BufferedReader) null));
       assertEquals("no valid reader provided", ex.getMessage());
     }
   }
@@ -156,7 +158,7 @@ class ListsTest {
   class LinkedListTests {
 
     @Test
-    void shouldCreateResizableLinkedListFromVarargs() {
+    void shouldCreateLinkedListWithGivenElements() {
       List<Integer> list = Lists.newLinkedList(1, 2, 3);
       assertIterableEquals(Arrays.asList(1, 2, 3), list);
 
@@ -165,13 +167,13 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateEmptyLinkedListFromEmptyVarargs() {
+    void shouldCreateEmptyLinkedListWithNoElements() {
       List<Integer> list = Lists.newLinkedList();
       assertTrue(list.isEmpty());
     }
 
     @Test
-    void shouldCreateResizableLinkedListFromSupplier() {
+    void shouldCreateLinkedListWithGivenSupplier() {
       List<String> list = Lists.newLinkedList(2, stringSupplier);
       assertIterableEquals(Arrays.asList("Item1", "Item2"), list);
 
@@ -180,7 +182,7 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateResizableLinkedListFromIntFunction() {
+    void shouldCreateLinkedListWithGivenFunction() {
       List<String> list = Lists.newLinkedList(2, stringIntFunction);
       assertIterableEquals(Arrays.asList("Item1", "Item2"), list);
 
@@ -189,14 +191,14 @@ class ListsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenListSizeIsNegativeWithSupplier() {
+    void shouldThrowExceptionGivenSupplierOnNegativeSize() {
       IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
           () -> Lists.newLinkedList(-1, stringSupplier));
       assertEquals("size must be >= 0", ex.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenListSizeIsNegativeWithIntFunction() {
+    void shouldThrowExceptionGivenFunctionOnNegativeSize() {
       IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
           () -> Lists.newLinkedList(-1, stringIntFunction));
       assertEquals("size must be >= 0", ex.getMessage());
@@ -204,7 +206,7 @@ class ListsTest {
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    void shouldThrowExceptionWhenVarargsArrayIsNull() {
+    void shouldThrowExceptionOnNullElements() {
       String[] nullArray = null;
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Lists.newLinkedList(nullArray));
@@ -212,21 +214,21 @@ class ListsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenSupplierIsNull() {
+    void shouldThrowExceptionOnNullSupplier() {
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Lists.newLinkedList(5, (Supplier<String>) null));
       assertEquals("no valid supplier provided", ex.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenIntFunctionIsNull() {
+    void shouldThrowExceptionOnNullFunction() {
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Lists.newLinkedList(5, (IntFunction<String>) null));
       assertEquals("no valid function provided", ex.getMessage());
     }
 
     @Test
-    void shouldCreateResizableLinkedListFromReader() {
+    void shouldCreateLinkedListFromReader() {
       InputStream inputStream = new ByteArrayInputStream(MULTI_LINE_TEXT.getBytes());
       BufferedReader reader = Readers.newBufferedReader(inputStream);
       assertNotNull(reader);
@@ -239,7 +241,7 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateResizableLinkedListFromPath() {
+    void shouldCreateLinkedListFromPath() {
       Path path = Path.of("src/test/resources/readersTest.txt");
       assertNotNull(path);
 
@@ -254,10 +256,9 @@ class ListsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenReaderIsNull() {
-      NullPointerException ex = assertThrows(NullPointerException.class, () ->
-          Lists.newLinkedList((BufferedReader) null)
-      );
+    void shouldThrowExceptionOnNullReader() {
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Lists.newLinkedList((BufferedReader) null));
       assertEquals("no valid reader provided", ex.getMessage());
     }
   }
@@ -266,17 +267,14 @@ class ListsTest {
   class LinkedHashSetTests {
 
     @Test
-    void shouldCreateResizableLinkedHashSetAndPreserveOrder() {
+    void shouldCreateLinkedHashSetWithGivenElements() {
       Set<String> set = Lists.newLinkedHashSet("Z", "A", "B");
       assertIterableEquals(Arrays.asList("Z", "A", "B"), set);
 
       set.add("C");
       assertIterableEquals(Arrays.asList("Z", "A", "B", "C"), set);
-    }
 
-    @Test
-    void shouldCreateResizableLinkedHashSetNoDuplicatesFromVarargs() {
-      Set<String> set = Lists.newLinkedHashSet("A", "A", "B");
+      set = Lists.newLinkedHashSet("A", "A", "B");
       assertIterableEquals(Arrays.asList("A", "B"), set);
 
       set.add("A");
@@ -286,7 +284,13 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateResizableLinkedHashSetNoDuplicatesFromSupplier() {
+    void shouldCreateEmptyLinkedHashSetWithNoElements() {
+      Set<String> set = Lists.newLinkedHashSet();
+      assertTrue(set.isEmpty());
+    }
+
+    @Test
+    void shouldCreateLinkedHashSetWithGivenSupplier() {
       Set<String> set = Lists.newLinkedHashSet(3, duplicateSupplier);
       assertEquals(1, set.size());
       assertTrue(set.contains("Duplicate"));
@@ -299,7 +303,7 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateResizableLinkedHashSetNoDuplicatesFromIntFunction() {
+    void shouldCreateResizableLinkedHashSetWithGivenFunction() {
       Set<String> set = Lists.newLinkedHashSet(3, duplicateIntFunction);
       assertEquals(1, set.size());
       assertTrue(set.contains("Duplicate"));
@@ -311,21 +315,16 @@ class ListsTest {
       assertTrue(set.contains("Not A Duplicate"));
     }
 
-    @Test
-    void shouldCreateEmptyLinkedHashSetFromEmptyVarargs() {
-      Set<String> set = Lists.newLinkedHashSet();
-      assertTrue(set.isEmpty());
-    }
 
     @Test
-    void shouldThrowExceptionWhenSetSizeIsNegativeWithSupplier() {
+    void shouldThrowExceptionGivenSupplierOnNegativeSize() {
       IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
           () -> Lists.newLinkedHashSet(-5, stringSupplier));
       assertEquals("size must be >= 0", ex.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenSetSizeIsNegativeWithIntFunction() {
+    void shouldThrowExceptionGivenFunctionOnNegativeSize() {
       IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
           () -> Lists.newLinkedHashSet(-5, stringIntFunction));
       assertEquals("size must be >= 0", ex.getMessage());
@@ -333,7 +332,7 @@ class ListsTest {
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    void shouldThrowExceptionWhenVarargsArrayIsNull() {
+    void shouldThrowExceptionOnNullElements() {
       String[] nullArray = null;
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Lists.newLinkedHashSet(nullArray));
@@ -341,21 +340,21 @@ class ListsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenSupplierIsNull() {
+    void shouldThrowExceptionOnNullSupplier() {
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Lists.newLinkedHashSet(5, (Supplier<String>) null));
       assertEquals("no valid supplier provided", ex.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenIntFunctionIsNull() {
+    void shouldThrowExceptionOnNullFunction() {
       NullPointerException ex = assertThrows(NullPointerException.class,
           () -> Lists.newLinkedHashSet(5, (IntFunction<String>) null));
       assertEquals("no valid function provided", ex.getMessage());
     }
 
     @Test
-    void shouldCreateResizableLinkedHashSetFromReader() {
+    void shouldCreateLinkedHashSetFromReader() {
       InputStream inputStream = new ByteArrayInputStream(MULTI_LINE_TEXT.getBytes());
       BufferedReader reader = Readers.newBufferedReader(inputStream);
       assertNotNull(reader);
@@ -368,7 +367,7 @@ class ListsTest {
     }
 
     @Test
-    void shouldCreateResizableLinkedHashSetFromPath() {
+    void shouldCreateLinkedHashSetFromPath() {
       Path path = Path.of("src/test/resources/readersTest.txt");
       assertNotNull(path);
 
@@ -383,10 +382,9 @@ class ListsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenReaderIsNull() {
-      NullPointerException ex = assertThrows(NullPointerException.class, () ->
-          Lists.newLinkedHashSet((BufferedReader) null)
-      );
+    void shouldThrowExceptionOnNullReader() {
+      NullPointerException ex = assertThrows(NullPointerException.class,
+          () -> Lists.newLinkedHashSet((BufferedReader) null));
       assertEquals("no valid reader provided", ex.getMessage());
     }
   }
@@ -395,56 +393,56 @@ class ListsTest {
   class ConversionTests {
 
     @Test
-    void shouldConvertToLongArray() {
+    void shouldConvertStringListToLongArray() {
       List<String> input = Arrays.asList("10", "20", "30");
       long[] expected = {10L, 20L, 30L};
       assertArrayEquals(expected, Lists.toLongArray(input));
     }
 
     @Test
-    void shouldReturnEmptyLongArrayForEmptyList() {
+    void shouldReturnEmptyLongArrayWhenGivenEmptyStringList() {
       long[] result = Lists.toLongArray(Collections.emptyList());
       assertNotNull(result);
       assertEquals(0, result.length);
     }
 
     @Test
-    void shouldConvertToLongList() {
+    void shouldConvertStringListToLongList() {
       List<String> input = Arrays.asList("100", "200");
       List<Long> expected = Arrays.asList(100L, 200L);
       assertIterableEquals(expected, Lists.toLongList(input));
     }
 
     @Test
-    void shouldReturnEmptyLongListForEmptyList() {
+    void shouldReturnEmptyLongListWhenGivenEmptyStringList() {
       List<Long> result = Lists.toLongList(Collections.emptyList());
       assertNotNull(result);
       assertTrue(result.isEmpty());
     }
 
     @Test
-    void shouldConvertToDoubleArray() {
+    void shouldConvertStringListToDoubleArray() {
       List<String> input = Arrays.asList("1.5", "2.75", "3.0");
       double[] expected = {1.5, 2.75, 3.0};
       assertArrayEquals(expected, Lists.toDoubleArray(input));
     }
 
     @Test
-    void shouldReturnEmptyDoubleArrayForEmptyList() {
+    void shouldReturnEmptyDoubleArrayWhenGivenEmptyStringList() {
       double[] result = Lists.toDoubleArray(Collections.emptyList());
       assertNotNull(result);
       assertEquals(0, result.length);
     }
 
     @Test
-    void shouldConvertToDoubleList() {
+    void shouldConvertStringListToDoubleList() {
       List<String> input = Arrays.asList("0.1", "0.2");
       List<Double> expected = Arrays.asList(0.1, 0.2);
       assertIterableEquals(expected, Lists.toDoubleList(input));
     }
 
     @Test
-    void shouldReturnEmptyDoubleListForEmptyList() {
+    void shouldReturnEmptyDoubleListWhenGivenEmptyStringList() {
       List<Double> result = Lists.toDoubleList(Collections.emptyList());
       assertNotNull(result);
       assertTrue(result.isEmpty());
@@ -452,7 +450,7 @@ class ListsTest {
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    void shouldThrowNullPointerExceptionWhenListIsNull() {
+    void shouldThrowExceptionOnNullList() {
       NullPointerException exLongArray = assertThrows(NullPointerException.class,
           () -> Lists.toLongArray(null));
       assertEquals("no valid list provided", exLongArray.getMessage());
@@ -471,7 +469,7 @@ class ListsTest {
     }
 
     @Test
-    void shouldThrowNumberFormatExceptionForInvalidNumericStrings() {
+    void shouldThrowExceptionOnInvalidNumericStrings() {
       List<String> invalidInput = Arrays.asList("123", "abc");
       assertThrows(NumberFormatException.class,
           () -> Lists.toLongArray(invalidInput));
