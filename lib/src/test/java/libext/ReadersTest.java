@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,11 @@ class ReadersTest {
 
   @BeforeEach
   void setUp() {
+    Readers.updateConfig(StandardCharsets.UTF_8, ' ');
+  }
+
+  @AfterEach
+  void tearDown() {
     Readers.updateConfig(StandardCharsets.UTF_8, ' ');
   }
 

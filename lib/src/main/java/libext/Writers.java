@@ -19,13 +19,36 @@ public final class Writers {
     throw new AssertionError("no instances");
   }
 
-  public static volatile Charset CHARSET = StandardCharsets.UTF_8;
-  public static volatile boolean AUTO_FLUSH = true;
+  private static volatile Config config = new Config();
+
+  public record Config(Charset charset, boolean autoFlush) {
+
+    public Config() {
+      this(StandardCharsets.UTF_8, true);
+    }
+
+    public Config(boolean autoFlush) {
+      this(StandardCharsets.UTF_8, autoFlush);
+    }
+  }
+
+  public static Config config() {
+    return config;
+  }
+
+  public static void updateConfig(boolean autoFlush) {
+    config = new Config(autoFlush);
+  }
+
+  public static void updateConfig(Charset charset, boolean autoFlush) {
+    config = new Config(charset, autoFlush);
+  }
 
   public static PrintWriter newPrintWriter(OutputStream output) {
     Objects.requireNonNull(output, "no valid output provided");
-    final Charset charset = CHARSET;
-    final boolean autoFlush = AUTO_FLUSH;
+    final Config currentConfig = config;
+    final Charset charset = currentConfig.charset();
+    final boolean autoFlush = currentConfig.autoFlush();
     OutputStreamWriter writer = new OutputStreamWriter(output, charset);
     return new PrintWriter(new BufferedWriter(writer), autoFlush);
   }
@@ -33,8 +56,9 @@ public final class Writers {
   public static PrintWriter newPrintWriter(Path path, OpenOption... options) {
     Objects.requireNonNull(path, "no valid path provided");
     Objects.requireNonNull(options, "no valid options provided");
-    final Charset charset = CHARSET;
-    final boolean autoFlush = AUTO_FLUSH;
+    final Config currentConfig = config;
+    final Charset charset = currentConfig.charset();
+    final boolean autoFlush = currentConfig.autoFlush();
     try {
       return new PrintWriter(Files.newBufferedWriter(path, charset, options), autoFlush);
     } catch (IOException e) {

@@ -56,7 +56,7 @@ public final class Readers {
     return null;
   }
 
-  private static Config config = new Config();
+  private static volatile Config config = new Config();
 
   public record Config(Charset charset, int delim) {
 
@@ -83,14 +83,16 @@ public final class Readers {
 
   public static BufferedReader newBufferedReader(InputStream input) {
     Objects.requireNonNull(input, "no valid input provided");
-    final Charset charset = config.charset();
+    final Config currentConfig = config;
+    final Charset charset = currentConfig.charset();
     InputStreamReader reader = new InputStreamReader(input, charset);
     return new BufferedReader(reader);
   }
 
   public static BufferedReader newBufferedReader(Path path) {
     Objects.requireNonNull(path, "no valid path provided");
-    final Charset charset = config.charset();
+    final Config currentConfig = config;
+    final Charset charset = currentConfig.charset();
     try {
       return Files.newBufferedReader(path, charset);
     } catch (IOException e) {
@@ -103,7 +105,8 @@ public final class Readers {
     Objects.requireNonNull(reader, "no valid reader provided");
     Position pos = new Position();
     String line, token;
-    final int delim = config.delim();
+    final Config currentConfig = config;
+    final int delim = currentConfig.delim();
     while ((line = readLine(reader)) != null) {
       while ((token = readToken(delim, line, pos)) != null) {
         col.add(token);
@@ -116,7 +119,8 @@ public final class Readers {
     Objects.requireNonNull(reader, "no valid reader provided");
     Position pos = new Position();
     String line, token, key = null;
-    final int delim = config.delim();
+    final Config currentConfig = config;
+    final int delim = currentConfig.delim();
     while ((line = readLine(reader)) != null) {
       while ((token = readToken(delim, line, pos)) != null) {
         if (key == null) {
@@ -137,7 +141,8 @@ public final class Readers {
     Objects.requireNonNull(reader, "no valid reader provided");
     Position pos = new Position();
     String line, token;
-    final int delim = config.delim();
+    final Config currentConfig = config;
+    final int delim = currentConfig.delim();
     while ((line = readLine(reader)) != null) {
       while ((token = readToken(delim, line, pos)) != null) {
         set.addKey(token);
@@ -150,7 +155,8 @@ public final class Readers {
     Objects.requireNonNull(reader, "no valid reader provided");
     Position pos = new Position();
     String line, token, key = null;
-    final int delim = config.delim();
+    final Config currentConfig = config;
+    final int delim = currentConfig.delim();
     while ((line = readLine(reader)) != null) {
       while ((token = readToken(delim, line, pos)) != null) {
         if (key == null) {

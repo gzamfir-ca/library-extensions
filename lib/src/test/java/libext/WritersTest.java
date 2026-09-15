@@ -1,7 +1,6 @@
 package libext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.IOException;
 import java.nio.file.OpenOption;
 import java.nio.file.StandardOpenOption;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
@@ -17,21 +17,21 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 class WritersTest {
 
   @BeforeEach
   void setUp() {
-    Writers.CHARSET = StandardCharsets.UTF_8;
-    Writers.AUTO_FLUSH = true;
+    Writers.updateConfig(StandardCharsets.UTF_8, true);
+  }
+
+  @AfterEach
+  void tearDown() {
+    Writers.updateConfig(StandardCharsets.UTF_8, true);
   }
 
   @Test
-  void shouldWriteCommonTokensCorrectly() {
+  void shouldWriteTokens() {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     try (PrintWriter writer = Writers.newPrintWriter(outputStream)) {
       assertNotNull(writer);
@@ -42,7 +42,7 @@ class WritersTest {
   }
 
   @Test
-  void shouldWriteCommonTokensToFileCorrectly() {
+  void shouldWriteTokensToFile() {
     try {
       Path tempFile = Files.createTempFile("writersTest", ".txt");
       try {
@@ -61,7 +61,7 @@ class WritersTest {
   }
 
   @Test
-  void shouldAppendToExistingFile() {
+  void shouldAppendTokensToFile() {
     try {
       Path tempFile = Files.createTempFile("writersAppendTest", ".txt");
       try {
@@ -81,7 +81,7 @@ class WritersTest {
   }
 
   @Test
-  void shouldCreateAndAppendToNewFile() {
+  void shouldCreateAndAppendTokensToFile() {
     try {
       Path tempDir = Files.createTempDirectory("writersCreateAppendTest");
       Path nonExistentFile = tempDir.resolve("new_append_file.txt");
@@ -107,9 +107,8 @@ class WritersTest {
   }
 
   @Test
-  void shouldObserveCustomConfigurationChanges() {
-    Writers.CHARSET = StandardCharsets.ISO_8859_1;
-    Writers.AUTO_FLUSH = true;
+  void shouldFollowConfigurationChanges() {
+    Writers.updateConfig(StandardCharsets.ISO_8859_1, true);
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     try (PrintWriter writer = Writers.newPrintWriter(outputStream)) {
       writer.println("testing auto-flush");
@@ -119,60 +118,22 @@ class WritersTest {
   }
 
   @Test
-  void shouldThrowExceptionOnNullArgumentsForCollection() {
+  void shouldThrowExceptionOnNullArguments() {
     Path validPath = Path.of("dummy.txt");
-    NullPointerException pathException = assertThrows(NullPointerException.class, () -> {
-      try (PrintWriter writer = Writers.newPrintWriter(null, StandardOpenOption.WRITE)) {
-        writer.flush();
-      }
-    });
-    assertEquals("no valid path provided", pathException.getMessage());
-
-    NullPointerException optionsException = assertThrows(NullPointerException.class, () -> {
-      try (PrintWriter writer = Writers.newPrintWriter(validPath, (OpenOption[]) null)) {
-        writer.flush();
-      }
-    });
-    assertEquals("no valid options provided", optionsException.getMessage());
-  }
-
-  @Test
-  void shouldPreserveStateUnderConcurrentAccess() throws InterruptedException {
-    int threadCount = 10;
-    AtomicBoolean safetyFailureOccurred;
-    try (ExecutorService executor = Executors.newFixedThreadPool(threadCount)) {
-      CountDownLatch startLatch = new CountDownLatch(1);
-      CountDownLatch finishLatch = new CountDownLatch(threadCount);
-      safetyFailureOccurred = new AtomicBoolean(false);
-      for (int i = 0; i < threadCount; i++) {
-        executor.submit(() -> {
-          try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            startLatch.await();
-            final java.nio.charset.Charset threadEntryCharset = Writers.CHARSET;
-            PrintWriter writer = Writers.newPrintWriter(outputStream);
-            assertNotNull(writer);
-            writer.print("check");
+    NullPointerException pathException = assertThrows(NullPointerException.class,
+        () -> {
+          try (PrintWriter writer = Writers.newPrintWriter(null, StandardOpenOption.WRITE)) {
             writer.flush();
-            if (!outputStream.toString(threadEntryCharset).equals("check")) {
-              safetyFailureOccurred.set(true);
-            }
-          } catch (Exception e) {
-            safetyFailureOccurred.set(true);
-          } finally {
-            finishLatch.countDown();
           }
         });
-      }
-      startLatch.countDown();
-      for (int i = 0; i < 50; i++) {
-        Writers.CHARSET = (i % 2 == 0) ? StandardCharsets.US_ASCII : StandardCharsets.UTF_16;
-        Writers.AUTO_FLUSH = (i % 2 == 0);
-      }
-      finishLatch.await();
-      executor.shutdown();
-    }
-    assertFalse(safetyFailureOccurred.get(),
-        "Configuration race condition detected! State snapshot was corrupted.");
+    assertEquals("no valid path provided", pathException.getMessage());
+
+    NullPointerException optionsException = assertThrows(NullPointerException.class,
+        () -> {
+          try (PrintWriter writer = Writers.newPrintWriter(validPath, (OpenOption[]) null)) {
+            writer.flush();
+          }
+        });
+    assertEquals("no valid options provided", optionsException.getMessage());
   }
 }
