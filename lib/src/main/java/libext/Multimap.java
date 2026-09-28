@@ -13,6 +13,8 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+///
+/// Provides a simple multimap data structure.
 public final class Multimap<K, V> {
 
   private final Map<K, List<V>> map;

@@ -13,6 +13,8 @@ import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.Objects;
 
+///
+/// Provides simple writing utilities to streams/files.
 public final class Writers {
 
   private Writers() {

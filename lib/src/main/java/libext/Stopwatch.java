@@ -3,6 +3,8 @@ package libext;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+///
+/// Provides a simple time measurement utility.
 public final class Stopwatch {
 
   private final long startTime;

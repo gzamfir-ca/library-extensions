@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
+///
+/// Provides conversion utility methods for types.
 public final class Types {
 
   private Types() {

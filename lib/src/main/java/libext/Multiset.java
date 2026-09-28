@@ -12,6 +12,8 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+///
+/// Provides a simple multiset data structure.
 public final class Multiset<K> {
 
   private final Map<K, Integer> map;

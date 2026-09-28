@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 
+///
+/// Provides simple reading utilities from streams/files.
 public final class Readers {
 
   private static final class Position {

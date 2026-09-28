@@ -3,6 +3,8 @@ package libext;
 import java.util.Objects;
 import java.util.function.Function;
 
+///
+/// Provides an immutable pair data type.
 public record Pair<U, V>(U first, V second) {
 
   public static <U, V> Pair<U, V> of(U first, V second) {

@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.function.IntFunction;
 import java.util.function.Supplier;
 
+///
+/// Provides factory utility methods for lists.
 public final class Lists {
 
   private Lists() {
@@ -132,7 +134,7 @@ public final class Lists {
     return set;
   }
 
-  public static long[] toLongArray(List<String> list) {
+  public static long[] newLongArray(List<String> list) {
     Objects.requireNonNull(list, "no valid list provided");
     int size = list.size();
     long[] array = new long[size];
@@ -143,7 +145,7 @@ public final class Lists {
     return array;
   }
 
-  public static List<Long> toLongList(List<String> list) {
+  public static List<Long> newLongList(List<String> list) {
     Objects.requireNonNull(list, "no valid list provided");
     List<Long> result = new ArrayList<>(list.size());
     for (String s : list) {
@@ -152,7 +154,7 @@ public final class Lists {
     return result;
   }
 
-  public static double[] toDoubleArray(List<String> list) {
+  public static double[] newDoubleArray(List<String> list) {
     Objects.requireNonNull(list, "no valid list provided");
     int size = list.size();
     double[] array = new double[size];
@@ -163,7 +165,7 @@ public final class Lists {
     return array;
   }
 
-  public static List<Double> toDoubleList(List<String> list) {
+  public static List<Double> newDoubleList(List<String> list) {
     Objects.requireNonNull(list, "no valid list provided");
     List<Double> result = new ArrayList<>(list.size());
     for (String s : list) {

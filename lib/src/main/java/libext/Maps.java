@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.function.Function;
 
+///
+/// Provides factory utility methods for maps.
 public final class Maps {
 
   private Maps() {

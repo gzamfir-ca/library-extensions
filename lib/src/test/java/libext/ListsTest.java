@@ -396,12 +396,12 @@ class ListsTest {
     void shouldConvertStringListToLongArray() {
       List<String> input = Arrays.asList("10", "20", "30");
       long[] expected = {10L, 20L, 30L};
-      assertArrayEquals(expected, Lists.toLongArray(input));
+      assertArrayEquals(expected, Lists.newLongArray(input));
     }
 
     @Test
     void shouldReturnEmptyLongArrayWhenGivenEmptyStringList() {
-      long[] result = Lists.toLongArray(Collections.emptyList());
+      long[] result = Lists.newLongArray(Collections.emptyList());
       assertNotNull(result);
       assertEquals(0, result.length);
     }
@@ -410,12 +410,12 @@ class ListsTest {
     void shouldConvertStringListToLongList() {
       List<String> input = Arrays.asList("100", "200");
       List<Long> expected = Arrays.asList(100L, 200L);
-      assertIterableEquals(expected, Lists.toLongList(input));
+      assertIterableEquals(expected, Lists.newLongList(input));
     }
 
     @Test
     void shouldReturnEmptyLongListWhenGivenEmptyStringList() {
-      List<Long> result = Lists.toLongList(Collections.emptyList());
+      List<Long> result = Lists.newLongList(Collections.emptyList());
       assertNotNull(result);
       assertTrue(result.isEmpty());
     }
@@ -424,12 +424,12 @@ class ListsTest {
     void shouldConvertStringListToDoubleArray() {
       List<String> input = Arrays.asList("1.5", "2.75", "3.0");
       double[] expected = {1.5, 2.75, 3.0};
-      assertArrayEquals(expected, Lists.toDoubleArray(input));
+      assertArrayEquals(expected, Lists.newDoubleArray(input));
     }
 
     @Test
     void shouldReturnEmptyDoubleArrayWhenGivenEmptyStringList() {
-      double[] result = Lists.toDoubleArray(Collections.emptyList());
+      double[] result = Lists.newDoubleArray(Collections.emptyList());
       assertNotNull(result);
       assertEquals(0, result.length);
     }
@@ -438,12 +438,12 @@ class ListsTest {
     void shouldConvertStringListToDoubleList() {
       List<String> input = Arrays.asList("0.1", "0.2");
       List<Double> expected = Arrays.asList(0.1, 0.2);
-      assertIterableEquals(expected, Lists.toDoubleList(input));
+      assertIterableEquals(expected, Lists.newDoubleList(input));
     }
 
     @Test
     void shouldReturnEmptyDoubleListWhenGivenEmptyStringList() {
-      List<Double> result = Lists.toDoubleList(Collections.emptyList());
+      List<Double> result = Lists.newDoubleList(Collections.emptyList());
       assertNotNull(result);
       assertTrue(result.isEmpty());
     }
@@ -452,19 +452,19 @@ class ListsTest {
     @SuppressWarnings("ConstantConditions")
     void shouldThrowExceptionOnNullList() {
       NullPointerException exLongArray = assertThrows(NullPointerException.class,
-          () -> Lists.toLongArray(null));
+          () -> Lists.newLongArray(null));
       assertEquals("no valid list provided", exLongArray.getMessage());
 
       NullPointerException exLongList = assertThrows(NullPointerException.class,
-          () -> Lists.toLongList(null));
+          () -> Lists.newLongList(null));
       assertEquals("no valid list provided", exLongList.getMessage());
 
       NullPointerException exDoubleArray = assertThrows(NullPointerException.class,
-          () -> Lists.toDoubleArray(null));
+          () -> Lists.newDoubleArray(null));
       assertEquals("no valid list provided", exDoubleArray.getMessage());
 
       NullPointerException exDoubleList = assertThrows(NullPointerException.class,
-          () -> Lists.toDoubleList(null));
+          () -> Lists.newDoubleList(null));
       assertEquals("no valid list provided", exDoubleList.getMessage());
     }
 
@@ -472,13 +472,13 @@ class ListsTest {
     void shouldThrowExceptionOnInvalidNumericStrings() {
       List<String> invalidInput = Arrays.asList("123", "abc");
       assertThrows(NumberFormatException.class,
-          () -> Lists.toLongArray(invalidInput));
+          () -> Lists.newLongArray(invalidInput));
       assertThrows(NumberFormatException.class,
-          () -> Lists.toLongList(invalidInput));
+          () -> Lists.newLongList(invalidInput));
       assertThrows(NumberFormatException.class,
-          () -> Lists.toDoubleArray(invalidInput));
+          () -> Lists.newDoubleArray(invalidInput));
       assertThrows(NumberFormatException.class,
-          () -> Lists.toDoubleList(invalidInput));
+          () -> Lists.newDoubleList(invalidInput));
     }
   }
 }

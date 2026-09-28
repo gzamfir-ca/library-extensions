@@ -9,6 +9,8 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+///
+/// Provides eager utility methods for collections.
 public final class Algorithms {
 
   private Algorithms() {
