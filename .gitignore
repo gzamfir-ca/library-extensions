@@ -1,4 +1,2 @@
 .gradle
-.idea/**/gradle.xml
-.idea/**/workspace.xml
 build
