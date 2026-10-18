@@ -12,7 +12,7 @@
             <option value="$PROJECT_DIR$/lib" />
           </set>
         </option>
-        <option name="myGradleHome" value="/opt/homebrew/Cellar/gradle/9.8.0/libexec" />
+        <option name="myGradleHome" value="/opt/homebrew/Cellar/gradle/9.8.1/libexec" />
       </GradleProjectSettings>
     </option>
   </component>
