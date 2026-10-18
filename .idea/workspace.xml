@@ -4,14 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b940131-ad80-4de5-89ee-48bf388dc120" name="Changes" comment="" />
+    <list default="true" id="8b940131-ad80-4de5-89ee-48bf388dc120" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lib/build.gradle" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="45" />
+    <option name="cachedIndexableFilesCount" value="47" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="ExternalProjectsData">
@@ -65,7 +69,7 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="customMavenHome" value="/opt/homebrew/Cellar/maven/3.9.16/libexec" />
+        <option name="customMavenHome" value="/opt/homebrew/Cellar/maven/3.10.0/libexec" />
         <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
       </MavenGeneralSettings>
     </option>
@@ -76,62 +80,65 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="1.8472614429450835E-85" />
-      <entry key="S5" value="1.2782368871684741E-34" />
-      <entry key="S10" value="1.1305913899009916E-17" />
-      <entry key="S30" value="2.2474237128554663E-6" />
-      <entry key="S60" value="0.0016126369490229093" />
-      <entry key="M2" value="0.0717292924910847" />
-      <entry key="M5" value="1.5537055565513258" />
-      <entry key="M10" value="5.930707001861252" />
-      <entry key="M15" value="10.874787182362121" />
-      <entry key="M30" value="27.13831385322398" />
-      <entry key="H1" value="66.16683344100781" />
-      <entry key="H2" value="222.11357088977488" />
-      <entry key="H4" value="674.528038154476" />
-      <entry key="D1" value="2513.6886057318147" />
-      <entry key="W1" value="3426.228044443872" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.000002424300614" />
+      <entry key="S2" value="1.0399700810505184" />
+      <entry key="S5" value="1.3347004511009017" />
+      <entry key="S10" value="1.867791679919325" />
+      <entry key="S30" value="3.762934448562319" />
+      <entry key="S60" value="7.010155015085651" />
+      <entry key="M2" value="13.575504745434682" />
+      <entry key="M5" value="26.93029435724584" />
+      <entry key="M10" value="38.33096017815011" />
+      <entry key="M15" value="45.85573582552263" />
+      <entry key="M30" value="63.871565222042484" />
+      <entry key="H1" value="98.87469983057132" />
+      <entry key="H2" value="215.08327458133263" />
+      <entry key="H4" value="601.6712271457986" />
+      <entry key="D1" value="2503.7680366121367" />
+      <entry key="W1" value="3518.094347663153" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0" />
-      <entry key="S5" value="1.0" />
-      <entry key="S10" value="1.0000000000000266" />
-      <entry key="S30" value="1.0000300671625988" />
-      <entry key="S60" value="1.0059293286022397" />
-      <entry key="M2" value="1.0954981346466308" />
-      <entry key="M5" value="1.5761201256965935" />
-      <entry key="M10" value="2.380922465044182" />
-      <entry key="M15" value="3.4838480581404463" />
-      <entry key="M30" value="7.451269744887827" />
-      <entry key="H1" value="13.815973050910213" />
-      <entry key="H2" value="21.66943963816207" />
-      <entry key="H4" value="34.3515685499711" />
-      <entry key="D1" value="137.84069932261335" />
-      <entry key="W1" value="221.7688886159804" />
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="7.065276926752312E-233" />
+      <entry key="S5" value="1.3793047408363678E-93" />
+      <entry key="S10" value="3.73368396943685E-47" />
+      <entry key="S30" value="4.397097842746062E-16" />
+      <entry key="S60" value="3.5783683513463E-8" />
+      <entry key="M2" value="3.637085471324278E-4" />
+      <entry key="M5" value="0.09991277533198754" />
+      <entry key="M10" value="0.7743598523820769" />
+      <entry key="M15" value="1.782460846721972" />
+      <entry key="M30" value="5.477438084542604" />
+      <entry key="H1" value="13.001295256121072" />
+      <entry key="H2" value="24.303552943158433" />
+      <entry key="H4" value="40.29482858659104" />
+      <entry key="D1" value="148.45516826654483" />
+      <entry key="W1" value="238.08354894130161" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="4.0097065699277594E-7" />
-      <entry key="MS500" value="0.05255602595335716" />
-      <entry key="S2" value="0.47880164034928685" />
-      <entry key="S5" value="0.7448387315613512" />
-      <entry key="S10" value="0.8630403997272609" />
-      <entry key="S30" value="0.9521185842167196" />
-      <entry key="S60" value="0.9831260477483782" />
-      <entry key="M2" value="1.1535230714404023" />
-      <entry key="M5" value="3.1197399289210646" />
-      <entry key="M10" value="8.301717529907325" />
-      <entry key="M15" value="14.347856319760778" />
-      <entry key="M30" value="34.576369110013886" />
-      <entry key="H1" value="79.96894978925786" />
-      <entry key="H2" value="243.770531133833" />
-      <entry key="H4" value="708.867928759823" />
-      <entry key="D1" value="2651.5197934016032" />
-      <entry key="W1" value="3647.994712409646" />
+      <entry key="MS100" value="0.9201876506248751" />
+      <entry key="MS500" value="0.9835044550278723" />
+      <entry key="S2" value="1.0356403258840214" />
+      <entry key="S5" value="1.3324422230572162" />
+      <entry key="S10" value="1.8661945189657376" />
+      <entry key="S30" value="3.761845307379096" />
+      <entry key="S60" value="7.009103214702402" />
+      <entry key="M2" value="13.574508096689343" />
+      <entry key="M5" value="27.02661670686886" />
+      <entry key="M10" value="39.097426039566294" />
+      <entry key="M15" value="47.62701302041809" />
+      <entry key="M30" value="69.33267728456693" />
+      <entry key="H1" value="111.85756045882549" />
+      <entry key="H2" value="239.36980379195424" />
+      <entry key="H4" value="641.9512679062252" />
+      <entry key="D1" value="2652.2129542992825" />
+      <entry key="W1" value="3756.1755141563776" />
     </decayedShown>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4,
@@ -154,6 +161,7 @@
     &quot;Gradle.ArrayListTests.shouldThrowExceptionWhenListSizeIsNegative.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.ArrayListTests.shouldThrowExceptionWhenSupplierIsNull.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.ArrayListTests.shouldThrowExceptionWhenVarargsArrayIsNull.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.AssertTest.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.BagTest.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.BagTest.shouldDecrementCountAndRemoveItemAtZero.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.BagTest.shouldDecrementCountAndRemoveKeyAtZero.executor&quot;: &quot;Run&quot;,
@@ -174,6 +182,7 @@
     &quot;Gradle.FindTests.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.FirstElementGuardTest.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.GetElapsedMillisTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.IsInstanceOfTests.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.KeyCountMapTest.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.LinkedHashMapTests.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.LinkedHashSetTests.executor&quot;: &quot;Run&quot;,
@@ -265,6 +274,9 @@
     &quot;Gradle.ZipTests.shouldThrowNullPointerExceptionWhenSecondIsNull.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.library-extensions [:lib:publishToMavenLocal].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.library-extensions [publishToMavenLocal].executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AlgorithmsTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AssertTest$IsInstanceOfTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AssertTest.executor&quot;: &quot;Run&quot;,
     &quot;KEY_CHAT_IN_TOOLWINDOW&quot;: &quot;false&quot;,
     &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -304,9 +316,10 @@
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="TypesTest" />
+      <command value="AlgorithmsTest" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.WritersTest">
+  <component name="RunManager" selected="JUnit.AssertTest">
     <configuration name="AlgorithmsTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -334,7 +347,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="StopwatchTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="AssertTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -347,7 +360,7 @@
           <list>
             <option value=":lib:test" />
             <option value="--tests" />
-            <option value="&quot;libext.StopwatchTest&quot;" />
+            <option value="&quot;libext.AssertTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -361,7 +374,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="TypesTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IsInstanceOfTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -374,7 +387,7 @@
           <list>
             <option value=":lib:test" />
             <option value="--tests" />
-            <option value="&quot;libext.TypesTest&quot;" />
+            <option value="&quot;libext.AssertTest$IsInstanceOfTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -388,72 +401,50 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="WritersTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":lib:test" />
-            <option value="--tests" />
-            <option value="&quot;libext.WritersTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
+    <configuration name="AssertTest$IsInstanceOfTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="libext.lib.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="libext.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="libext.AssertTest" />
+      <option name="MAIN_CLASS_NAME" value="libext.AssertTest$IsInstanceOfTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
-    <configuration name="library-extensions [publishToMavenLocal]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="publishToMavenLocal" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
+    <configuration name="AssertTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="libext.lib.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="libext.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="libext" />
+      <option name="MAIN_CLASS_NAME" value="libext.AssertTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <list>
+      <item itemvalue="Gradle.AssertTest" />
+      <item itemvalue="Gradle.IsInstanceOfTests" />
       <item itemvalue="Gradle.AlgorithmsTest" />
-      <item itemvalue="Gradle.library-extensions [publishToMavenLocal]" />
-      <item itemvalue="Gradle.StopwatchTest" />
-      <item itemvalue="Gradle.TypesTest" />
-      <item itemvalue="Gradle.WritersTest" />
+      <item itemvalue="JUnit.AssertTest" />
+      <item itemvalue="JUnit.AssertTest$IsInstanceOfTests" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.WritersTest" />
+        <item itemvalue="JUnit.AssertTest" />
+        <item itemvalue="Gradle.AssertTest" />
+        <item itemvalue="JUnit.AssertTest$IsInstanceOfTests" />
+        <item itemvalue="Gradle.IsInstanceOfTests" />
         <item itemvalue="Gradle.AlgorithmsTest" />
-        <item itemvalue="Gradle.library-extensions [publishToMavenLocal]" />
-        <item itemvalue="Gradle.TypesTest" />
-        <item itemvalue="Gradle.StopwatchTest" />
       </list>
     </recent_temporary>
   </component>
@@ -633,6 +624,26 @@
       <workItem from="1790609720499" duration="1855000" />
       <workItem from="1790629512425" duration="45000" />
       <workItem from="1790723684549" duration="77000" />
+      <workItem from="1790959933074" duration="130000" />
+      <workItem from="1791233046744" duration="2103000" />
+      <workItem from="1791235840740" duration="1867000" />
+      <workItem from="1791311042446" duration="1673000" />
+      <workItem from="1791314871355" duration="552000" />
+      <workItem from="1791315759825" duration="43000" />
+      <workItem from="1791316665674" duration="10000" />
+      <workItem from="1791316678019" duration="16000" />
+      <workItem from="1791318790624" duration="93000" />
+      <workItem from="1791318964491" duration="122000" />
+      <workItem from="1791330649292" duration="856000" />
+      <workItem from="1791331598892" duration="64000" />
+      <workItem from="1791387728202" duration="86000" />
+      <workItem from="1791388106123" duration="574000" />
+      <workItem from="1792258934088" duration="5000" />
+      <workItem from="1792258942332" duration="1041000" />
+      <workItem from="1792289309273" duration="124000" />
+      <workItem from="1792350579195" duration="5069000" />
+      <workItem from="1792355871419" duration="419000" />
+      <workItem from="1792364328160" duration="1940000" />
     </task>
     <servers />
   </component>
