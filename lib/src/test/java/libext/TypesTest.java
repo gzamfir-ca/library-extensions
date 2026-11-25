@@ -73,6 +73,25 @@ class TypesTest {
       assertTrue(result.isPresent());
       assertTrue(result.get().startsWith("java.lang.Object@"));
     }
+
+    @Test
+    void shouldConvertTypeToStringOptional() {
+      assertEquals(Optional.of("String"), Types.toString(String.class));
+      assertEquals(Optional.of("List"), Types.toString(java.util.List.class));
+      assertEquals(Optional.of("int"), Types.toString(int.class));
+      assertEquals(Optional.of("String[]"), Types.toString(String[].class));
+    }
+
+    @Test
+    void shouldConvertAnonymousClassToEmptyOptional() {
+      Class<?> anonymousClass = new Runnable() {
+        @Override
+        public void run() {
+        }
+      }.getClass();
+
+      assertTrue(Types.toString(anonymousClass).isEmpty());
+    }
   }
 
   @Nested

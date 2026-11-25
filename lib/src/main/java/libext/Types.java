@@ -118,6 +118,9 @@ public final class Types {
     if (obj instanceof String str && "null".equalsIgnoreCase(str)) {
       return Optional.empty();
     }
+    if (obj instanceof Class<?> clazz) {
+      return Optional.of(clazz.getSimpleName()).filter(s -> !s.isEmpty());
+    }
     return Optional.of(String.valueOf(obj));
   }
 }
