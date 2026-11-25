@@ -18,13 +18,13 @@ class TypesTest {
   class ToStringTest {
 
     @Test
-    void shouldConvertBooleanLiteralToStringOptional() {
+    void shouldConvertBooleanToStringOptional() {
       assertEquals(Optional.of("true"), Types.toString(true));
       assertEquals(Optional.of("false"), Types.toString(Boolean.FALSE));
     }
 
     @Test
-    void shouldConvertLongLiteralToStringOptional() {
+    void shouldConvertLongToStringOptional() {
       assertEquals(Optional.of("123456789"), Types.toString(123456789L));
       assertEquals(Optional.of("-987654321"), Types.toString(-987654321L));
     }
@@ -39,14 +39,14 @@ class TypesTest {
     }
 
     @Test
-    void shouldConvertNullReferenceToNullStringOptional() {
+    void shouldConvertNullToNullStringOptional() {
       Optional<String> result = Types.toString(null);
       assertTrue(result.isPresent());
       assertEquals("null", result.get());
     }
 
     @Test
-    void shouldConvertNullStringToEmptyOptional() {
+    void shouldConvertNullToEmptyOptional() {
       assertTrue(Types.toString("null").isEmpty());
       assertTrue(Types.toString("NULL").isEmpty());
       assertTrue(Types.toString("Null").isEmpty());
@@ -103,21 +103,16 @@ class TypesTest {
     }
 
     @Test
-    void shouldConvertStringLiteralToBooleanOptional() {
+    void shouldConvertStringToBooleanOptional() {
       assertEquals(Optional.of(true), Types.toBoolean("true"));
       assertEquals(Optional.of(true), Types.toBoolean("TRUE"));
       assertEquals(Optional.of(true), Types.toBoolean("TrUe"));
       assertEquals(Optional.of(false), Types.toBoolean("false"));
       assertEquals(Optional.of(false), Types.toBoolean(" true "));
       assertEquals(Optional.of(false), Types.toBoolean("not-a-boolean"));
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"", "   ", "\n"})
-    void shouldThrowExceptionOnBlankString(String blankInput) {
-      RuntimeException exception = assertThrows(RuntimeException.class,
-          () -> Types.toBoolean(blankInput));
-      assertTrue(exception.getMessage().startsWith("failed to parse boolean:"));
+      assertEquals(Optional.of(false), Types.toBoolean(""));
+      assertEquals(Optional.of(false), Types.toBoolean("   "));
+      assertEquals(Optional.of(false), Types.toBoolean("\n"));
     }
 
     @Test
@@ -130,7 +125,7 @@ class TypesTest {
   class ToInstantTest {
 
     @Test
-    void shouldConvertTrueLiteralToCurrentInstant() {
+    void shouldConvertTrueToCurrentInstant() {
       Instant before = Instant.now();
       Optional<Instant> result = Types.toInstant(true);
       Instant after = Instant.now();
@@ -141,7 +136,7 @@ class TypesTest {
     }
 
     @Test
-    void shouldConvertFalseLiteralToEpochInstant() {
+    void shouldConvertFalseToEpochInstant() {
       Optional<Instant> result = Types.toInstant(false);
       assertTrue(result.isPresent());
       assertEquals(Instant.EPOCH, result.get());
@@ -156,7 +151,7 @@ class TypesTest {
     }
 
     @Test
-    void shouldConvertLongLiteralToEpochSecondInstant() {
+    void shouldConvertLongToEpochSecondInstant() {
       long epochSecond = 1692273600L;
       Optional<Instant> result = Types.toInstant(epochSecond);
       assertTrue(result.isPresent());
@@ -164,7 +159,7 @@ class TypesTest {
     }
 
     @Test
-    void shouldConvertIntegerLiteralToEpochSecondInstant() {
+    void shouldConvertIntegerToEpochSecondInstant() {
       int epochSecond = 1692273600;
       Optional<Instant> result = Types.toInstant(epochSecond);
       assertTrue(result.isPresent());
@@ -172,37 +167,28 @@ class TypesTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"null", "NULL", "Null"})
-    void shouldConvertNullStringToEmptyOptional(String nullStr) {
+    @ValueSource(strings = {"null", "NULL", "Null", "", "   "})
+    void shouldConvertInvalidToEmptyOptional(String nullStr) {
       Optional<Instant> result = Types.toInstant(nullStr);
       assertTrue(result.isEmpty());
     }
 
     @Test
-    void shouldConvertValidIsoStringToInstant() {
+    void shouldConvertValidIsoToInstant() {
       String isoString = "2026-08-17T12:00:00Z";
       Optional<Instant> result = Types.toInstant(isoString);
       assertTrue(result.isPresent());
       assertEquals(Instant.parse(isoString), result.get());
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"", "   "})
-    void shouldThrowExceptionOnBlankStrings(String blankStr) {
-      RuntimeException exception = assertThrows(RuntimeException.class,
-          () -> Types.toInstant(blankStr));
-      assertTrue(exception.getMessage().startsWith("failed to parse instant:"));
+    @Test
+    void shouldConvertInvalidFormatToEmptyOptional() {
+      Optional<Instant> result = Types.toInstant("invalid-date-format");
+      assertTrue(result.isEmpty());
     }
 
     @Test
-    void shouldThrowExceptionOnInvalidFormatString() {
-      RuntimeException exception = assertThrows(RuntimeException.class,
-          () -> Types.toInstant("invalid-date-format"));
-      assertTrue(exception.getMessage().startsWith("failed to parse instant:"));
-    }
-
-    @Test
-    void shouldConvertNullReferenceToEmptyOptional() {
+    void shouldConvertNullToEmptyOptional() {
       Optional<Instant> result = Types.toInstant(null);
       assertTrue(result.isEmpty());
     }
@@ -220,7 +206,7 @@ class TypesTest {
   class ToNumberTest {
 
     @Test
-    void shouldConvertBooleanLiteralToLongOptional() {
+    void shouldConvertBooleanToLongOptional() {
       Optional<Number> trueResult = Types.toNumber(true);
       assertTrue(trueResult.isPresent());
       assertInstanceOf(Long.class, trueResult.get());
@@ -243,7 +229,7 @@ class TypesTest {
 
 
     @Test
-    void shouldConvertStringLiteralToLongOptional() {
+    void shouldConvertStringToLongOptional() {
       Optional<Number> result = Types.toNumber("123");
       assertTrue(result.isPresent());
       assertInstanceOf(Long.class, result.get());
@@ -268,17 +254,17 @@ class TypesTest {
     @Test
     void shouldConvertNullToEmptyOptional() {
       assertTrue(Types.toNumber("null").isEmpty());
+      assertTrue(Types.toNumber(" null ").isEmpty());
       assertTrue(Types.toNumber("NULL").isEmpty());
       assertTrue(Types.toNumber("Null").isEmpty());
       assertTrue(Types.toNumber(null).isEmpty());
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "   ", "+", "-", "12.3.4", "abc"})
-    void shouldThrowExceptionOnInvalidString(String invalidInput) {
-      RuntimeException exception = assertThrows(RuntimeException.class,
-          () -> Types.toNumber(invalidInput));
-      assertTrue(exception.getMessage().startsWith("failed to parse number:"));
+    @ValueSource(strings = {"", "   ", "+", "-", "12.3.4", "abc", "0.05M", "0M005"})
+    void shouldConvertInvalidToEmptyOptional(String invalidInput) {
+      Optional<Number> result = Types.toNumber(invalidInput);
+      assertTrue(result.isEmpty());
     }
 
     @ParameterizedTest
@@ -288,14 +274,6 @@ class TypesTest {
       assertTrue(result.isPresent());
       assertInstanceOf(Double.class, result.get());
       assertEquals(0.05, result.get().doubleValue(), 0.000001);
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"0.05M", "0M005"})
-    void shouldThrowExceptionOnInvalidLiteral(String invalidInput) {
-      RuntimeException exception = assertThrows(RuntimeException.class,
-          () -> Types.toNumber(invalidInput));
-      assertTrue(exception.getMessage().startsWith("failed to parse number:"));
     }
 
     @Test

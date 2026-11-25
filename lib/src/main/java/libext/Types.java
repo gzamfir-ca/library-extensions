@@ -41,21 +41,15 @@ public final class Types {
           case Number number -> number;
           case String str when "null".equalsIgnoreCase(str) -> null;
           case String str -> {
-            if (str.isBlank()) {
-              throw new IllegalArgumentException("failed to parse number: " + str);
-            }
             str = str.trim();
-            if (integerLike(str)) {
-              try {
-                yield Long.parseLong(str);
-              } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("failed to parse number: " + str);
-              }
-            }
             try {
-              yield Double.parseDouble(str);
+              if (integerLike(str)) {
+                yield Long.parseLong(str);
+              } else {
+                yield Double.parseDouble(str);
+              }
             } catch (NumberFormatException e) {
-              throw new IllegalArgumentException("failed to parse number: " + str);
+              yield null;
             }
           }
           case null, default -> null;
@@ -70,12 +64,7 @@ public final class Types {
           case Instant instant -> !instant.equals(Instant.EPOCH);
           case Number number -> number.longValue() != 0L;
           case String str when "null".equalsIgnoreCase(str) -> null;
-          case String str -> {
-            if (str.isBlank()) {
-              throw new IllegalArgumentException("failed to parse boolean: " + str);
-            }
-            yield Boolean.parseBoolean(str);
-          }
+          case String str -> Boolean.parseBoolean(str);
           case null, default -> null;
         }
     );
@@ -89,13 +78,10 @@ public final class Types {
           case Number number -> Instant.ofEpochSecond(number.longValue());
           case String str when "null".equalsIgnoreCase(str) -> null;
           case String str -> {
-            if (str.isBlank()) {
-              throw new IllegalArgumentException("failed to parse instant: " + str);
-            }
             try {
               yield Instant.parse(str);
             } catch (DateTimeParseException e) {
-              throw new IllegalArgumentException("failed to parse instant: " + str);
+              yield null;
             }
           }
           case null, default -> null;
