@@ -18,7 +18,7 @@ public record Pair<U, V>(U first, V second) {
 
   public <R> Pair<U, R> flatMap(Function<V, Pair<U, R>> mapper) {
     Objects.requireNonNull(mapper, "no valid mapper provided");
-    Pair<U, R> result = Objects.requireNonNull(mapper.apply(second), "invalid mapper result");
+    Pair<U, R> result = Objects.requireNonNull(mapper.apply(second()), "invalid mapper result");
     return new Pair<>(first(), result.second());
   }
 }
