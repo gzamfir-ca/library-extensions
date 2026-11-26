@@ -2,6 +2,7 @@ package libext;
 
 import java.time.Instant;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.Optional;
 
 ///
@@ -115,12 +116,23 @@ public final class Types {
   }
 
   public static Optional<String> toString(Object obj) {
-    if (obj instanceof String str && "null".equalsIgnoreCase(str)) {
+    return Optional.ofNullable(
+        switch (obj) {
+          case String str when "null".equalsIgnoreCase(str) -> null;
+          case Class<?> clazz -> {
+            String name = clazz.getSimpleName();
+            yield name.isEmpty() ? null : name;
+          }
+          case Object[] array -> Arrays.deepToString(array);
+          case null, default -> String.valueOf(obj);
+        }
+    );
+  }
+
+  public static <T> Optional<T> toType(Class<T> type, Object obj) {
+    if (type == null || !type.isInstance(obj)) {
       return Optional.empty();
     }
-    if (obj instanceof Class<?> clazz) {
-      return Optional.of(clazz.getSimpleName()).filter(s -> !s.isEmpty());
-    }
-    return Optional.of(String.valueOf(obj));
+    return Optional.of(type.cast(obj));
   }
 }

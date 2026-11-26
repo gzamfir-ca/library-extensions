@@ -7,7 +7,8 @@
     <list default="true" id="8b940131-ad80-4de5-89ee-48bf388dc120" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lib/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/main/java/libext/Assert.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/main/java/libext/Assert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/main/java/libext/Types.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/main/java/libext/Types.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/test/java/libext/TypesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/test/java/libext/TypesTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,60 +82,60 @@
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
       <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0000000000212463" />
-      <entry key="S2" value="1.0021469435887291" />
-      <entry key="S5" value="1.085650174748" />
-      <entry key="S10" value="1.2926605145500252" />
-      <entry key="S30" value="1.6677627099712546" />
-      <entry key="S60" value="1.9651720684366347" />
-      <entry key="M2" value="3.0894803966670015" />
-      <entry key="M5" value="8.230503647469732" />
-      <entry key="M10" value="15.575312708621919" />
-      <entry key="M15" value="21.335706185197445" />
-      <entry key="M30" value="38.45545900560907" />
-      <entry key="H1" value="75.0534972622062" />
-      <entry key="H2" value="176.09838661281427" />
-      <entry key="H4" value="519.3042174602581" />
-      <entry key="D1" value="2455.8222115496806" />
-      <entry key="W1" value="3550.5254864354843" />
+      <entry key="MS500" value="1.0000000000000042" />
+      <entry key="S2" value="1.0002561896832467" />
+      <entry key="S5" value="1.0365952446332978" />
+      <entry key="S10" value="1.1912988359433945" />
+      <entry key="S30" value="1.5761967121086649" />
+      <entry key="S60" value="1.7590762688418224" />
+      <entry key="M2" value="1.8718710732784194" />
+      <entry key="M5" value="2.215421111868891" />
+      <entry key="M10" value="4.8209124940425845" />
+      <entry key="M15" value="9.010158746782162" />
+      <entry key="M30" value="24.41172558179011" />
+      <entry key="H1" value="59.429205873031194" />
+      <entry key="H2" value="155.012749383081" />
+      <entry key="H4" value="482.9877432352003" />
+      <entry key="D1" value="2428.092025514537" />
+      <entry key="W1" value="3551.896255663149" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="8.367342321463421E-184" />
-      <entry key="S2" value="1.7007750814813105E-46" />
-      <entry key="S5" value="4.923359395316289E-19" />
-      <entry key="S10" value="7.041369747979453E-10" />
-      <entry key="S30" value="0.0011249727173303034" />
-      <entry key="S60" value="0.06114334735680103" />
-      <entry key="M2" value="0.6471060401419333" />
-      <entry key="M5" value="3.5598632379402537" />
-      <entry key="M10" value="7.064334822876775" />
-      <entry key="M15" value="9.289757705955214" />
-      <entry key="M30" value="13.933377261087754" />
-      <entry key="H1" value="21.82043481967755" />
-      <entry key="H2" value="34.764992029400645" />
-      <entry key="H4" value="53.296833605898236" />
-      <entry key="D1" value="166.11608792523919" />
-      <entry key="W1" value="260.6413840994338" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="2.8049113067180714E-244" />
+      <entry key="S5" value="3.79461442427458E-98" />
+      <entry key="S10" value="1.9479770081483455E-49" />
+      <entry key="S30" value="5.796901774146129E-17" />
+      <entry key="S60" value="7.638040131920228E-9" />
+      <entry key="M2" value="1.0016056477755795E-4" />
+      <entry key="M5" value="0.07070302005899011" />
+      <entry key="M10" value="0.9652257671520068" />
+      <entry key="M15" value="2.4819287395862224" />
+      <entry key="M30" value="7.308104295645675" />
+      <entry key="H1" value="15.944374609816819" />
+      <entry key="H2" value="29.882910018965244" />
+      <entry key="H4" value="49.62547739576181" />
+      <entry key="D1" value="164.6248764824461" />
+      <entry key="W1" value="261.0804387645354" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="6.9036190352616585E-9" />
-      <entry key="MS500" value="0.023324662239258914" />
-      <entry key="S2" value="0.39150220518854223" />
-      <entry key="S5" value="0.7415183634244901" />
-      <entry key="S10" value="1.0627717528857235" />
-      <entry key="S30" value="1.5603945357621545" />
-      <entry key="S60" value="1.9623152650895996" />
-      <entry key="M2" value="3.688916090459088" />
-      <entry key="M5" value="11.742377303389542" />
-      <entry key="M10" value="22.595723953601713" />
-      <entry key="M15" value="30.587210284925995" />
-      <entry key="M30" value="52.35986588172436" />
-      <entry key="H1" value="96.85015747641108" />
-      <entry key="H2" value="210.8431979444837" />
-      <entry key="H4" value="572.5841832167437" />
-      <entry key="D1" value="2621.927509309099" />
-      <entry key="W1" value="3811.1643645044583" />
+      <entry key="MS100" value="0.8705505632961241" />
+      <entry key="MS500" value="0.9726549474122896" />
+      <entry key="S2" value="0.9933469154888767" />
+      <entry key="S5" value="1.0337251729512682" />
+      <entry key="S10" value="1.1896484892821573" />
+      <entry key="S30" value="1.575468522831067" />
+      <entry key="S60" value="1.758669889697365" />
+      <entry key="M2" value="1.8717491675644102" />
+      <entry key="M5" value="2.2848318111314008" />
+      <entry key="M10" value="5.779167208472386" />
+      <entry key="M15" value="11.480665159180168" />
+      <entry key="M30" value="31.703523669713345" />
+      <entry key="H1" value="75.3554839523264" />
+      <entry key="H2" value="184.87791929849735" />
+      <entry key="H4" value="532.597326130226" />
+      <entry key="D1" value="2592.70618716642" />
+      <entry key="W1" value="3812.9741813999785" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -149,171 +150,173 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.AlgorithmsTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ArrayConversionTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ArrayListTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ArrayListTests.shouldCreateArrayListFromSupplier.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ArrayListTests.shouldCreateArrayListFromVarargs.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ArrayListTests.shouldCreateResizableArrayListFromPath.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ArrayListTests.shouldCreateResizableArrayListFromReader.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ArrayListTests.shouldThrowExceptionWhenListSizeIsNegative.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ArrayListTests.shouldThrowExceptionWhenSupplierIsNull.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ArrayListTests.shouldThrowExceptionWhenVarargsArrayIsNull.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.AssertTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.BagTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.BagTest.shouldDecrementCountAndRemoveItemAtZero.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.BagTest.shouldDecrementCountAndRemoveKeyAtZero.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.BagTest.shouldIterateOverUniqueElementsAndPreventModification.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.BagTest.shouldProtectEntrySetAndIndividualEntriesFromMutation.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.BagTest.shouldProtectKeySetAgainstExternalModifications.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.BagTest.shouldProtectValuesViewAgainstExternalModifications.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.BufferedReaderTests.shouldCreateCollectionsFromReader.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build library-extensions.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ConversionTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.DropWhileTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FilterTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FilterTests.shouldFilterElementsCorrectlyWhenDestIsLargerThanSrc.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FilterTests.shouldFilterElementsCorrectlyWhenSizesMatch.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FilterTests.shouldHandleSequentialAccessListsBelowThresholdCorrectly.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FindIfTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FindIfTests.shouldThrowExceptionOnNullPredicate.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FindTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FirstElementGuardTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GetElapsedMillisTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.IsInstanceOfTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.KeyCountMapTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LinkedHashMapTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LinkedHashSetTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LinkedHashSetTests.shouldCreateResizableLinkedHashSetAndPreserveOrder.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LinkedHashSetTests.shouldCreateResizableLinkedHashSetFromReader.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LinkedHashSetTests.shouldCreateResizableLinkedHashSetWithNoDuplicates.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LinkedHashSetTests.shouldThrowExceptionWhenReaderIsNull.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LinkedListTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LinkedListTests.shouldCreateResizableLinkedListFromPath.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LinkedListTests.shouldCreateResizableLinkedListFromReader (1).executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LinkedListTests.shouldCreateResizableLinkedListFromReader.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LinkedListTests.shouldThrowExceptionWhenReaderIsNull.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ListsTest (1).executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ListsTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ListsTest.shouldThrowExceptionWhenReaderIsNull.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MapOverloadTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MapTests.shouldHandleRandomAccessListsCorrectly.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MapTests.shouldHandleSequentialAccessListsAboveThresholdCorrectly.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MapTests.shouldThrowIndexOutOfBoundsExceptionWhenSrcIsLargerThanDest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MapTests.shouldTrueBranch_WhenSizeIsBelowThreshold_RegardlessOfRandomAccess.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MapsTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultimapOverloadTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultimapTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultimapTest.shouldAggregateValueCorrectlyAcrossKeys.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultimapTest.shouldAggregateValueCorrectlyAcrossKeysAndReturnUnmodifiableCollection.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultimapTest.shouldEnforceEqualityCheckingForInternalTypesInsidecontainsValue.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultimapTest.shouldHandleCorrectlyNullValuesAndPreventMutationAttempts.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultimapTest.shouldPreventAddWholesaleValues.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultimapTest.shouldProtectEntrySetAndIndividualEntriesFromMutation.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultimapTest.shouldProtectKeySetAgainstExternalModifications.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultimapTest.shouldProtectValuesViewAgainstExternalModifications.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultimapTest.shouldRecoverValueCorrectlyForMissingKeys.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultisetOverloadTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultisetTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultisetTest.shouldAggregateKeysCorrectlyAcrossCountsAndReturnUnmodifiableCollection.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultisetTest.shouldConstructPreSizedMultisetAndBehaveNormally.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultisetTest.shouldPreserveInsertionOrderInPreSizedOrderedBag.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultisetTest.shouldThrowArithmeticExceptionWhenAddKeyOverflows.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MultisetTest.shouldThrowNullPointerExceptionWhenPassingNullFunction.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.NarrowingTypeTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.NarrowingTypeTest.shouldConvertBooleanToSpecificNumberOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.NarrowingTypeTest.shouldConvertInstantToSpecificNumberOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.NarrowingTypeTest.shouldConvertLongToSpecificNumberOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.NarrowingTypeTest.shouldPropagateEmptyOptionalTriggersDownstream.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.NarrowingTypeTest.shouldReturnEmptyOptionalForArbitraryObjectsDownstream.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PairTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ReadersTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ReadersTest.newBufferedReaderFromStream.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ReadersTest.shouldIsolateInternalStateAndPreventCorruptionWhenAccessedConcurrently.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.StartTest.shouldInitializeWithCurrentTime.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.StopwatchTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.TakeWhileTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToBooleanTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToBooleanTest.shouldConvertInstantToBooleanOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToBooleanTest.shouldConvertLiteralToBooleanOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToBooleanTest.shouldConvertStringLiteralToBooleanOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToBooleanTest.shouldConvertStringToBooleanOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToBooleanTest.shouldThrowExceptionOnBlankString.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToBooleanTest.shouldThrowExceptionOnBlankStrings.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToBooleanTests.shouldMatchPlatformDefaultBooleanParseBehavior.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToInstantTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToInstantTest.shouldConvertFalseToEpochInstant.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToInstantTest.shouldConvertInvalidStringToEmptyOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToInstantTest.shouldThrowExceptionForBlankStrings.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToInstantTest.shouldThrowExceptionForInvalidFormatString.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToNumberTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToNumberTest.shouldConvertBooleanToLongOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToNumberTest.shouldConvertInstantToEpochSecondOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToNumberTest.shouldConvertInvalidOrBlankToEmptyOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToNumberTest.shouldConvertInvalidToEmptyOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToNumberTest.shouldConvertLiteralStringToDoubleOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToNumberTest.shouldThrowExceptionOnInvalidNumericInputs.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToNumberTest.shouldThrowOnUnsupportedDecimalSuffixes.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToStringTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToStringTest.shouldConvertBooleanLiteralToStringOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToStringTest.shouldConvertInstantToStringOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToStringTest.shouldConvertLongLiteralToStringOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToStringTest.shouldConvertStandardObjectsToStringOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToStringTest.shouldConvertTypeToStringOptional.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ToStringTest.shouldMapNullReferenceToOptionalContainingStringNull.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.TypesTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.TypesTest.testToString.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.TypesTest.toNumber.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ValueListMapTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.WritersTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.WritersTest.shouldAppendToExistingFile.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.WritersTest.shouldCreateAndAppendToNewFile.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.WritersTest.shouldIsolateInternalSnapshotStateAndPreventConfigurationRaceConditions.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.WritersTest.shouldKeepConcurrentProofState.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.WritersTest.shouldPreserveStateUnderConcurrentAccess.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.WritersTest.shouldWriteCommonTokensToFileCorrectly.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ZipTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ZipTests.shouldThrowIllegalArgumentExceptionWhenTheSameInstance.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ZipTests.shouldThrowNullPointerExceptionWhenDestIsNull.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ZipTests.shouldThrowNullPointerExceptionWhenFirstIsNull.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ZipTests.shouldThrowNullPointerExceptionWhenSecondIsNull.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.library-extensions [:lib:publishToMavenLocal].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.library-extensions [publishToMavenLocal].executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AlgorithmsTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AssertTest$IsInstanceOfTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AssertTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PairTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TypesTest$ToInstantTest.shouldConvertFalseToEpochInstant.executor&quot;: &quot;Run&quot;,
-    &quot;KEY_CHAT_IN_TOOLWINDOW&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/georgezamfir/Developer/JdkLab/library-extensions&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;/Users/georgezamfir/.nodenv/shims/node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.build&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.AlgorithmsTest.executor": "Run",
+    "Gradle.ArrayConversionTests.executor": "Run",
+    "Gradle.ArrayListTests.executor": "Run",
+    "Gradle.ArrayListTests.shouldCreateArrayListFromSupplier.executor": "Run",
+    "Gradle.ArrayListTests.shouldCreateArrayListFromVarargs.executor": "Run",
+    "Gradle.ArrayListTests.shouldCreateResizableArrayListFromPath.executor": "Run",
+    "Gradle.ArrayListTests.shouldCreateResizableArrayListFromReader.executor": "Run",
+    "Gradle.ArrayListTests.shouldThrowExceptionWhenListSizeIsNegative.executor": "Run",
+    "Gradle.ArrayListTests.shouldThrowExceptionWhenSupplierIsNull.executor": "Run",
+    "Gradle.ArrayListTests.shouldThrowExceptionWhenVarargsArrayIsNull.executor": "Run",
+    "Gradle.AssertTest.executor": "Run",
+    "Gradle.BagTest.executor": "Run",
+    "Gradle.BagTest.shouldDecrementCountAndRemoveItemAtZero.executor": "Run",
+    "Gradle.BagTest.shouldDecrementCountAndRemoveKeyAtZero.executor": "Run",
+    "Gradle.BagTest.shouldIterateOverUniqueElementsAndPreventModification.executor": "Run",
+    "Gradle.BagTest.shouldProtectEntrySetAndIndividualEntriesFromMutation.executor": "Run",
+    "Gradle.BagTest.shouldProtectKeySetAgainstExternalModifications.executor": "Run",
+    "Gradle.BagTest.shouldProtectValuesViewAgainstExternalModifications.executor": "Run",
+    "Gradle.BufferedReaderTests.shouldCreateCollectionsFromReader.executor": "Run",
+    "Gradle.Build library-extensions.executor": "Run",
+    "Gradle.ConversionTests.executor": "Run",
+    "Gradle.DropWhileTests.executor": "Run",
+    "Gradle.FilterTests.executor": "Run",
+    "Gradle.FilterTests.shouldFilterElementsCorrectlyWhenDestIsLargerThanSrc.executor": "Run",
+    "Gradle.FilterTests.shouldFilterElementsCorrectlyWhenSizesMatch.executor": "Run",
+    "Gradle.FilterTests.shouldHandleSequentialAccessListsBelowThresholdCorrectly.executor": "Run",
+    "Gradle.FindIfTests.executor": "Run",
+    "Gradle.FindIfTests.shouldThrowExceptionOnNullPredicate.executor": "Run",
+    "Gradle.FindTests.executor": "Run",
+    "Gradle.FirstElementGuardTest.executor": "Run",
+    "Gradle.GetElapsedMillisTest.executor": "Run",
+    "Gradle.IsInstanceOfTests.executor": "Run",
+    "Gradle.KeyCountMapTest.executor": "Run",
+    "Gradle.LinkedHashMapTests.executor": "Run",
+    "Gradle.LinkedHashSetTests.executor": "Run",
+    "Gradle.LinkedHashSetTests.shouldCreateResizableLinkedHashSetAndPreserveOrder.executor": "Run",
+    "Gradle.LinkedHashSetTests.shouldCreateResizableLinkedHashSetFromReader.executor": "Run",
+    "Gradle.LinkedHashSetTests.shouldCreateResizableLinkedHashSetWithNoDuplicates.executor": "Run",
+    "Gradle.LinkedHashSetTests.shouldThrowExceptionWhenReaderIsNull.executor": "Run",
+    "Gradle.LinkedListTests.executor": "Run",
+    "Gradle.LinkedListTests.shouldCreateResizableLinkedListFromPath.executor": "Run",
+    "Gradle.LinkedListTests.shouldCreateResizableLinkedListFromReader (1).executor": "Run",
+    "Gradle.LinkedListTests.shouldCreateResizableLinkedListFromReader.executor": "Run",
+    "Gradle.LinkedListTests.shouldThrowExceptionWhenReaderIsNull.executor": "Run",
+    "Gradle.ListsTest (1).executor": "Run",
+    "Gradle.ListsTest.executor": "Run",
+    "Gradle.ListsTest.shouldThrowExceptionWhenReaderIsNull.executor": "Run",
+    "Gradle.MapOverloadTests.executor": "Run",
+    "Gradle.MapTests.shouldHandleRandomAccessListsCorrectly.executor": "Run",
+    "Gradle.MapTests.shouldHandleSequentialAccessListsAboveThresholdCorrectly.executor": "Run",
+    "Gradle.MapTests.shouldThrowIndexOutOfBoundsExceptionWhenSrcIsLargerThanDest.executor": "Run",
+    "Gradle.MapTests.shouldTrueBranch_WhenSizeIsBelowThreshold_RegardlessOfRandomAccess.executor": "Run",
+    "Gradle.MapsTest.executor": "Run",
+    "Gradle.MultimapOverloadTests.executor": "Run",
+    "Gradle.MultimapTest.executor": "Run",
+    "Gradle.MultimapTest.shouldAggregateValueCorrectlyAcrossKeys.executor": "Run",
+    "Gradle.MultimapTest.shouldAggregateValueCorrectlyAcrossKeysAndReturnUnmodifiableCollection.executor": "Run",
+    "Gradle.MultimapTest.shouldEnforceEqualityCheckingForInternalTypesInsidecontainsValue.executor": "Run",
+    "Gradle.MultimapTest.shouldHandleCorrectlyNullValuesAndPreventMutationAttempts.executor": "Run",
+    "Gradle.MultimapTest.shouldPreventAddWholesaleValues.executor": "Run",
+    "Gradle.MultimapTest.shouldProtectEntrySetAndIndividualEntriesFromMutation.executor": "Run",
+    "Gradle.MultimapTest.shouldProtectKeySetAgainstExternalModifications.executor": "Run",
+    "Gradle.MultimapTest.shouldProtectValuesViewAgainstExternalModifications.executor": "Run",
+    "Gradle.MultimapTest.shouldRecoverValueCorrectlyForMissingKeys.executor": "Run",
+    "Gradle.MultisetOverloadTests.executor": "Run",
+    "Gradle.MultisetTest.executor": "Run",
+    "Gradle.MultisetTest.shouldAggregateKeysCorrectlyAcrossCountsAndReturnUnmodifiableCollection.executor": "Run",
+    "Gradle.MultisetTest.shouldConstructPreSizedMultisetAndBehaveNormally.executor": "Run",
+    "Gradle.MultisetTest.shouldPreserveInsertionOrderInPreSizedOrderedBag.executor": "Run",
+    "Gradle.MultisetTest.shouldThrowArithmeticExceptionWhenAddKeyOverflows.executor": "Run",
+    "Gradle.MultisetTest.shouldThrowNullPointerExceptionWhenPassingNullFunction.executor": "Run",
+    "Gradle.NarrowingTypeTest.executor": "Run",
+    "Gradle.NarrowingTypeTest.shouldConvertBooleanToSpecificNumberOptional.executor": "Run",
+    "Gradle.NarrowingTypeTest.shouldConvertInstantToSpecificNumberOptional.executor": "Run",
+    "Gradle.NarrowingTypeTest.shouldConvertLongToSpecificNumberOptional.executor": "Run",
+    "Gradle.NarrowingTypeTest.shouldPropagateEmptyOptionalTriggersDownstream.executor": "Run",
+    "Gradle.NarrowingTypeTest.shouldReturnEmptyOptionalForArbitraryObjectsDownstream.executor": "Run",
+    "Gradle.PairTest.executor": "Run",
+    "Gradle.ReadersTest.executor": "Run",
+    "Gradle.ReadersTest.newBufferedReaderFromStream.executor": "Run",
+    "Gradle.ReadersTest.shouldIsolateInternalStateAndPreventCorruptionWhenAccessedConcurrently.executor": "Run",
+    "Gradle.StartTest.shouldInitializeWithCurrentTime.executor": "Run",
+    "Gradle.StopwatchTest.executor": "Run",
+    "Gradle.TakeWhileTests.executor": "Run",
+    "Gradle.ToBooleanTest.executor": "Run",
+    "Gradle.ToBooleanTest.shouldConvertInstantToBooleanOptional.executor": "Run",
+    "Gradle.ToBooleanTest.shouldConvertLiteralToBooleanOptional.executor": "Run",
+    "Gradle.ToBooleanTest.shouldConvertStringLiteralToBooleanOptional.executor": "Run",
+    "Gradle.ToBooleanTest.shouldConvertStringToBooleanOptional.executor": "Run",
+    "Gradle.ToBooleanTest.shouldThrowExceptionOnBlankString.executor": "Run",
+    "Gradle.ToBooleanTest.shouldThrowExceptionOnBlankStrings.executor": "Run",
+    "Gradle.ToBooleanTests.shouldMatchPlatformDefaultBooleanParseBehavior.executor": "Run",
+    "Gradle.ToInstantTest.executor": "Run",
+    "Gradle.ToInstantTest.shouldConvertFalseToEpochInstant.executor": "Run",
+    "Gradle.ToInstantTest.shouldConvertInvalidStringToEmptyOptional.executor": "Run",
+    "Gradle.ToInstantTest.shouldThrowExceptionForBlankStrings.executor": "Run",
+    "Gradle.ToInstantTest.shouldThrowExceptionForInvalidFormatString.executor": "Run",
+    "Gradle.ToNumberTest.executor": "Run",
+    "Gradle.ToNumberTest.shouldConvertBooleanToLongOptional.executor": "Run",
+    "Gradle.ToNumberTest.shouldConvertInstantToEpochSecondOptional.executor": "Run",
+    "Gradle.ToNumberTest.shouldConvertInvalidOrBlankToEmptyOptional.executor": "Run",
+    "Gradle.ToNumberTest.shouldConvertInvalidToEmptyOptional.executor": "Run",
+    "Gradle.ToNumberTest.shouldConvertLiteralStringToDoubleOptional.executor": "Run",
+    "Gradle.ToNumberTest.shouldThrowExceptionOnInvalidNumericInputs.executor": "Run",
+    "Gradle.ToNumberTest.shouldThrowOnUnsupportedDecimalSuffixes.executor": "Run",
+    "Gradle.ToStringTest.executor": "Run",
+    "Gradle.ToStringTest.shouldConvertBooleanLiteralToStringOptional.executor": "Run",
+    "Gradle.ToStringTest.shouldConvertInstantToStringOptional.executor": "Run",
+    "Gradle.ToStringTest.shouldConvertLongLiteralToStringOptional.executor": "Run",
+    "Gradle.ToStringTest.shouldConvertStandardObjectsToStringOptional.executor": "Run",
+    "Gradle.ToStringTest.shouldConvertTypeToStringOptional.executor": "Run",
+    "Gradle.ToStringTest.shouldMapNullReferenceToOptionalContainingStringNull.executor": "Run",
+    "Gradle.ToTypeTest.shouldConvertArraysToOptional.executor": "Run",
+    "Gradle.TypesTest.executor": "Run",
+    "Gradle.TypesTest.testToString.executor": "Run",
+    "Gradle.TypesTest.toNumber.executor": "Run",
+    "Gradle.ValueListMapTest.executor": "Run",
+    "Gradle.WritersTest.executor": "Run",
+    "Gradle.WritersTest.shouldAppendToExistingFile.executor": "Run",
+    "Gradle.WritersTest.shouldCreateAndAppendToNewFile.executor": "Run",
+    "Gradle.WritersTest.shouldIsolateInternalSnapshotStateAndPreventConfigurationRaceConditions.executor": "Run",
+    "Gradle.WritersTest.shouldKeepConcurrentProofState.executor": "Run",
+    "Gradle.WritersTest.shouldPreserveStateUnderConcurrentAccess.executor": "Run",
+    "Gradle.WritersTest.shouldWriteCommonTokensToFileCorrectly.executor": "Run",
+    "Gradle.ZipTests.executor": "Run",
+    "Gradle.ZipTests.shouldThrowIllegalArgumentExceptionWhenTheSameInstance.executor": "Run",
+    "Gradle.ZipTests.shouldThrowNullPointerExceptionWhenDestIsNull.executor": "Run",
+    "Gradle.ZipTests.shouldThrowNullPointerExceptionWhenFirstIsNull.executor": "Run",
+    "Gradle.ZipTests.shouldThrowNullPointerExceptionWhenSecondIsNull.executor": "Run",
+    "Gradle.library-extensions [:lib:publishToMavenLocal].executor": "Run",
+    "Gradle.library-extensions [publishToMavenLocal].executor": "Run",
+    "JUnit.AlgorithmsTest.executor": "Run",
+    "JUnit.AssertTest$IsInstanceOfTests.executor": "Run",
+    "JUnit.AssertTest.executor": "Run",
+    "JUnit.PairTest.executor": "Run",
+    "JUnit.TypesTest$ToInstantTest.shouldConvertFalseToEpochInstant.executor": "Run",
+    "JUnit.TypesTest.executor": "Run",
+    "KEY_CHAT_IN_TOOLWINDOW": "false",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "main",
+    "javascript.preferred.runtime.type.id": "node",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/georgezamfir/Developer/JdkLab/library-extensions",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "/Users/georgezamfir/.nodenv/shims/node",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "configurable.group.build",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -328,7 +331,7 @@
       <command value="AlgorithmsTest" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.AssertTest">
+  <component name="RunManager" selected="Gradle.TypesTest">
     <configuration name="AssertTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -356,7 +359,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="ToStringTest.shouldConvertTypeToStringOptional" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ToTypeTest.shouldConvertArraysToOptional" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -369,7 +372,7 @@
           <list>
             <option value=":lib:test" />
             <option value="--tests" />
-            <option value="&quot;libext.TypesTest$ToStringTest.shouldConvertTypeToStringOptional&quot;" />
+            <option value="&quot;libext.TypesTest$ToTypeTest.shouldConvertArraysToOptional&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -410,31 +413,6 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="library-extensions [publishToMavenLocal]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="publishToMavenLocal" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
-    </configuration>
     <configuration name="AssertTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="libext.lib.test" />
       <extension name="coverage">
@@ -450,20 +428,35 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TypesTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="libext.lib.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="libext.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="libext" />
+      <option name="MAIN_CLASS_NAME" value="libext.TypesTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
+      <item itemvalue="Gradle.ToTypeTest.shouldConvertArraysToOptional" />
       <item itemvalue="Gradle.AssertTest" />
-      <item itemvalue="Gradle.ToStringTest.shouldConvertTypeToStringOptional" />
       <item itemvalue="Gradle.TypesTest" />
-      <item itemvalue="Gradle.library-extensions [publishToMavenLocal]" />
+      <item itemvalue="JUnit.TypesTest" />
       <item itemvalue="JUnit.AssertTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.TypesTest" />
+        <item itemvalue="JUnit.TypesTest" />
+        <item itemvalue="Gradle.ToTypeTest.shouldConvertArraysToOptional" />
         <item itemvalue="Gradle.AssertTest" />
         <item itemvalue="JUnit.AssertTest" />
-        <item itemvalue="Gradle.library-extensions [publishToMavenLocal]" />
-        <item itemvalue="Gradle.TypesTest" />
-        <item itemvalue="Gradle.ToStringTest.shouldConvertTypeToStringOptional" />
       </list>
     </recent_temporary>
   </component>
@@ -692,6 +685,7 @@
       <workItem from="1795626916873" duration="57000" />
       <workItem from="1795627099062" duration="62000" />
       <workItem from="1795712214935" duration="1542000" />
+      <workItem from="1795714119544" duration="3649000" />
     </task>
     <servers />
   </component>

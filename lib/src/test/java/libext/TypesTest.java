@@ -6,6 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -72,6 +78,27 @@ class TypesTest {
       Optional<String> result = Types.toString(new Object());
       assertTrue(result.isPresent());
       assertTrue(result.get().startsWith("java.lang.Object@"));
+    }
+
+    @Test
+    void shouldConvertReferenceArrayToStringOptional() {
+      assertEquals(Optional.of("[a, b, c]"), Types.toString(new String[]{"a", "b", "c"}));
+      assertEquals(Optional.of("[1, 2, 3]"), Types.toString(new Integer[]{1, 2, 3}));
+      assertEquals(Optional.of("[]"), Types.toString(new Object[0]));
+      assertEquals(Optional.of("[a, null, b]"), Types.toString(new String[]{"a", null, "b"}));
+      assertEquals(Optional.of("[[1, 2], [3, 4]]"), Types.toString(new int[][]{{1, 2}, {3, 4}}));
+    }
+
+    @Test
+    void shouldConvertCollectionsToStringOptional() {
+      assertEquals(Optional.of("[1, 2, 3]"), Types.toString(new ArrayList<>(List.of(1, 2, 3))));
+      assertEquals(Optional.of("[]"), Types.toString(List.of()));
+      assertEquals(Optional.of("[a, b]"), Types.toString(new LinkedHashSet<>(List.of("a", "b"))));
+      Map<String, Integer> map = new LinkedHashMap<>();
+      map.put("one", 1);
+      map.put("two", 2);
+      assertEquals(Optional.of("{one=1, two=2}"), Types.toString(map));
+      assertEquals(Optional.of("{}"), Types.toString(Map.of()));
     }
 
     @Test
@@ -379,6 +406,61 @@ class TypesTest {
       assertTrue(Types.toLong(defaultObj).isEmpty());
       assertTrue(Types.toFloat(defaultObj).isEmpty());
       assertTrue(Types.toDouble(defaultObj).isEmpty());
+    }
+  }
+
+  @Nested
+  class ToTypeTest {
+
+    @Test
+    void shouldConvertMatchingReferenceTypeToOptional() {
+      assertEquals(Optional.of("hello"), Types.toType(String.class, "hello"));
+      assertEquals(Optional.of(42), Types.toType(Integer.class, 42));
+      assertEquals(Optional.of(Boolean.TRUE), Types.toType(Boolean.class, true));
+      java.time.Instant now = java.time.Instant.now();
+      assertEquals(Optional.of(now), Types.toType(java.time.Instant.class, now));
+    }
+
+    @Test
+    void shouldConvertSubtypeToSupertypeOptional() {
+      List<String> list = List.of("a", "b");
+      assertEquals(Optional.of(list), Types.toType(Collection.class, list));
+      assertEquals(Optional.of(list), Types.toType(Iterable.class, list));
+      assertEquals(Optional.of("text"), Types.toType(CharSequence.class, "text"));
+      assertEquals(Optional.of(123), Types.toType(Number.class, 123));
+    }
+
+    @Test
+    void shouldConvertNullArgumentsToEmptyOptional() {
+      assertTrue(Types.toType(null, "hello").isEmpty());
+      assertTrue(Types.toType(String.class, null).isEmpty());
+      assertTrue(Types.toType(null, null).isEmpty());
+    }
+
+    @Test
+    void shouldConvertMismatchedTypeToEmptyOptional() {
+      assertTrue(Types.toType(Integer.class, "123").isEmpty());
+      assertTrue(Types.toType(String.class, 123).isEmpty());
+      assertTrue(Types.toType(List.class, new Object()).isEmpty());
+      assertTrue(Types.toType(Long.class, 42).isEmpty());
+    }
+
+    @Test
+    void shouldConvertPrimitivesToEmptyOptional() {
+      assertTrue(Types.toType(int.class, 42).isEmpty());
+      assertTrue(Types.toType(boolean.class, true).isEmpty());
+      assertTrue(Types.toType(double.class, 3.14).isEmpty());
+      assertTrue(Types.toType(void.class, null).isEmpty());
+    }
+
+    @Test
+    void shouldConvertArraysToOptional() {
+      Integer[] wrapperArray = new Integer[]{1, 2, 3};
+      assertEquals(Optional.of(wrapperArray), Types.toType(Integer[].class, wrapperArray));
+      assertEquals(Optional.of(wrapperArray), Types.toType(Number[].class, wrapperArray));
+      assertEquals(Optional.of(wrapperArray), Types.toType(Object[].class, wrapperArray));
+      assertTrue(Types.toType(Long[].class, wrapperArray).isEmpty());
+      assertTrue(Types.toType(int[].class, wrapperArray).isEmpty());
     }
   }
 }
