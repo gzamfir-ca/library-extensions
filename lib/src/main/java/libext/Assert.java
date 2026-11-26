@@ -17,75 +17,87 @@ public final class Assert {
     return supplier == null ? "assertion failed" : supplier.get();
   }
 
-  public static void isTrue(boolean condition, Supplier<String> supplier) {
+  public static boolean isTrue(boolean condition, Supplier<String> supplier) {
     if (!condition) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return true;
   }
 
-  public static void notNull(Object object, Supplier<String> supplier) {
+  public static <T> T notNull(T object, Supplier<String> supplier) {
     if (object == null) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return object;
   }
 
-  public static void hasContent(String text, Supplier<String> supplier) {
-    if (text == null || text.trim().isEmpty()) {
+  public static String hasContent(String text, Supplier<String> supplier) {
+    if (text == null || text.isBlank()) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return text;
   }
 
-  public static <T extends Number> void isPositive(T number, Supplier<String> supplier) {
+  public static <T extends Number> T isPositive(T number, Supplier<String> supplier) {
     if (number == null || number.doubleValue() < 0) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return number;
   }
 
-  public static <T extends Number> void isNegative(T number, Supplier<String> supplier) {
+  public static <T extends Number> T isNegative(T number, Supplier<String> supplier) {
     if (number == null || number.doubleValue() >= 0) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return number;
   }
 
-  public static void isPast(Instant instant, Supplier<String> supplier) {
+  public static Instant isPast(Instant instant, Supplier<String> supplier) {
     if (instant == null || instant.isAfter(Instant.now())) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return instant;
   }
 
-  public static void isFuture(Instant instant, Supplier<String> supplier) {
+  public static Instant isFuture(Instant instant, Supplier<String> supplier) {
     if (instant == null || instant.isBefore(Instant.now())) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return instant;
   }
 
-  public static void notEmpty(Collection<?> collection, Supplier<String> supplier) {
+  public static <T extends Collection<?>> T notEmpty(T collection, Supplier<String> supplier) {
     if (collection == null || collection.isEmpty()) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return collection;
   }
 
-  public static void notEmpty(Multiset<?> multiset, Supplier<String> supplier) {
+  public static <T extends Multiset<?>> T notEmpty(T multiset, Supplier<String> supplier) {
     if (multiset == null || multiset.isEmpty()) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return multiset;
   }
 
-  public static void notEmpty(Map<?, ?> map, Supplier<String> supplier) {
+  public static <T extends Map<?, ?>> T notEmpty(T map, Supplier<String> supplier) {
     if (map == null || map.isEmpty()) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return map;
   }
 
-  public static void notEmpty(Multimap<?, ?> multimap, Supplier<String> supplier) {
+  public static <T extends Multimap<?, ?>> T notEmpty(T multimap, Supplier<String> supplier) {
     if (multimap == null || multimap.isEmpty()) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return multimap;
   }
 
-  public static <T> void isInstanceOf(Class<T> type, Object object, Supplier<String> supplier) {
+  public static <T> T isInstanceOf(Class<T> type, Object object, Supplier<String> supplier) {
     if (type == null || !type.isInstance(object)) {
       throw new IllegalArgumentException(resolveMessage(supplier));
     }
+    return type.cast(object);
   }
 }
