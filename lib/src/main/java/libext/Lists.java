@@ -26,14 +26,16 @@ public final class Lists {
     Collections.addAll(col, elements);
   }
 
-  private static <T> void addAll(Collection<T> col, int size, Supplier<T> supplier) {
+  private static <T> void addAll(Collection<T> col, int size,
+      Supplier<? extends T> supplier) {
     Objects.requireNonNull(col, "no valid collection provided");
     for (int i = 0; i < size; i++) {
       col.add(supplier.get());
     }
   }
 
-  private static <T> void addAll(Collection<T> col, int size, IntFunction<T> function) {
+  private static <T> void addAll(Collection<T> col, int size,
+      IntFunction<? extends T> function) {
     Objects.requireNonNull(col, "no valid collection provided");
     for (int i = 0; i < size; i++) {
       col.add(function.apply(i));
@@ -55,14 +57,14 @@ public final class Lists {
     return list;
   }
 
-  public static <T> List<T> newArrayList(int size, Supplier<T> supplier) {
+  public static <T> List<T> newArrayList(int size, Supplier<? extends T> supplier) {
     Objects.requireNonNull(supplier, "no valid supplier provided");
     List<T> list = new ArrayList<>(validateSize(size));
     addAll(list, size, supplier);
     return list;
   }
 
-  public static <T> List<T> newArrayList(int size, IntFunction<T> function) {
+  public static <T> List<T> newArrayList(int size, IntFunction<? extends T> function) {
     Objects.requireNonNull(function, "no valid function provided");
     List<T> list = new ArrayList<>(validateSize(size));
     addAll(list, size, function);
@@ -84,14 +86,14 @@ public final class Lists {
     return list;
   }
 
-  public static <T> List<T> newLinkedList(int size, Supplier<T> supplier) {
+  public static <T> List<T> newLinkedList(int size, Supplier<? extends T> supplier) {
     Objects.requireNonNull(supplier, "no valid supplier provided");
     List<T> list = new LinkedList<>();
     addAll(list, validateSize(size), supplier);
     return list;
   }
 
-  public static <T> List<T> newLinkedList(int size, IntFunction<T> function) {
+  public static <T> List<T> newLinkedList(int size, IntFunction<? extends T> function) {
     Objects.requireNonNull(function, "no valid function provided");
     List<T> list = new LinkedList<>();
     addAll(list, validateSize(size), function);
@@ -113,14 +115,14 @@ public final class Lists {
     return set;
   }
 
-  public static <T> Set<T> newLinkedHashSet(int size, Supplier<T> supplier) {
+  public static <T> Set<T> newLinkedHashSet(int size, Supplier<? extends T> supplier) {
     Objects.requireNonNull(supplier, "no valid supplier provided");
     Set<T> set = LinkedHashSet.newLinkedHashSet(validateSize(size));
     addAll(set, size, supplier);
     return set;
   }
 
-  public static <T> Set<T> newLinkedHashSet(int size, IntFunction<T> function) {
+  public static <T> Set<T> newLinkedHashSet(int size, IntFunction<? extends T> function) {
     Objects.requireNonNull(function, "no valid function provided");
     Set<T> set = LinkedHashSet.newLinkedHashSet(validateSize(size));
     addAll(set, size, function);
@@ -134,42 +136,46 @@ public final class Lists {
     return set;
   }
 
-  public static long[] newLongArray(List<String> list) {
-    Objects.requireNonNull(list, "no valid list provided");
-    int size = list.size();
+  public static long[] newLongArray(Collection<String> col) {
+    Objects.requireNonNull(col, "no valid collection provided");
+    int size = col.size();
     long[] array = new long[size];
     int i = 0;
-    for (String s : list) {
-      array[i++] = Long.parseLong(s);
+    for (String s : col) {
+      Objects.requireNonNull(s, "no valid string provided");
+      array[i++] = Long.parseLong(s.trim());
     }
     return array;
   }
 
-  public static List<Long> newLongList(List<String> list) {
-    Objects.requireNonNull(list, "no valid list provided");
-    List<Long> result = new ArrayList<>(list.size());
-    for (String s : list) {
-      result.add(Long.valueOf(s));
+  public static List<Long> newLongList(Collection<String> col) {
+    Objects.requireNonNull(col, "no valid collection provided");
+    List<Long> result = new ArrayList<>(col.size());
+    for (String s : col) {
+      Objects.requireNonNull(s, "no valid string provided");
+      result.add(Long.valueOf(s.trim()));
     }
     return result;
   }
 
-  public static double[] newDoubleArray(List<String> list) {
-    Objects.requireNonNull(list, "no valid list provided");
-    int size = list.size();
+  public static double[] newDoubleArray(Collection<String> col) {
+    Objects.requireNonNull(col, "no valid collection provided");
+    int size = col.size();
     double[] array = new double[size];
     int i = 0;
-    for (String s : list) {
-      array[i++] = Double.parseDouble(s);
+    for (String s : col) {
+      Objects.requireNonNull(s, "no valid string provided");
+      array[i++] = Double.parseDouble(s.trim());
     }
     return array;
   }
 
-  public static List<Double> newDoubleList(List<String> list) {
-    Objects.requireNonNull(list, "no valid list provided");
-    List<Double> result = new ArrayList<>(list.size());
-    for (String s : list) {
-      result.add(Double.valueOf(s));
+  public static List<Double> newDoubleList(Collection<String> col) {
+    Objects.requireNonNull(col, "no valid collection provided");
+    List<Double> result = new ArrayList<>(col.size());
+    for (String s : col) {
+      Objects.requireNonNull(s, "no valid string provided");
+      result.add(Double.valueOf(s.trim()));
     }
     return result;
   }

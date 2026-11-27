@@ -450,22 +450,22 @@ class ListsTest {
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    void shouldThrowExceptionOnNullList() {
+    void shouldThrowExceptionOnNullCollection() {
       NullPointerException exLongArray = assertThrows(NullPointerException.class,
           () -> Lists.newLongArray(null));
-      assertEquals("no valid list provided", exLongArray.getMessage());
+      assertEquals("no valid collection provided", exLongArray.getMessage());
 
       NullPointerException exLongList = assertThrows(NullPointerException.class,
           () -> Lists.newLongList(null));
-      assertEquals("no valid list provided", exLongList.getMessage());
+      assertEquals("no valid collection provided", exLongList.getMessage());
 
       NullPointerException exDoubleArray = assertThrows(NullPointerException.class,
           () -> Lists.newDoubleArray(null));
-      assertEquals("no valid list provided", exDoubleArray.getMessage());
+      assertEquals("no valid collection provided", exDoubleArray.getMessage());
 
       NullPointerException exDoubleList = assertThrows(NullPointerException.class,
           () -> Lists.newDoubleList(null));
-      assertEquals("no valid list provided", exDoubleList.getMessage());
+      assertEquals("no valid collection provided", exDoubleList.getMessage());
     }
 
     @Test

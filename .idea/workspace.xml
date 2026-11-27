@@ -7,8 +7,8 @@
     <list default="true" id="8b940131-ad80-4de5-89ee-48bf388dc120" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lib/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/main/java/libext/Types.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/main/java/libext/Types.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/test/java/libext/TypesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/test/java/libext/TypesTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/main/java/libext/Lists.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/main/java/libext/Lists.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/test/java/libext/ListsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/test/java/libext/ListsTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,60 +82,60 @@
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
       <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0000000000000042" />
-      <entry key="S2" value="1.0002561896832467" />
-      <entry key="S5" value="1.0365952446332978" />
-      <entry key="S10" value="1.1912988359433945" />
-      <entry key="S30" value="1.5761967121086649" />
-      <entry key="S60" value="1.7590762688418224" />
-      <entry key="M2" value="1.8718710732784194" />
-      <entry key="M5" value="2.215421111868891" />
-      <entry key="M10" value="4.8209124940425845" />
-      <entry key="M15" value="9.010158746782162" />
-      <entry key="M30" value="24.41172558179011" />
-      <entry key="H1" value="59.429205873031194" />
-      <entry key="H2" value="155.012749383081" />
-      <entry key="H4" value="482.9877432352003" />
-      <entry key="D1" value="2428.092025514537" />
-      <entry key="W1" value="3551.896255663149" />
+      <entry key="MS500" value="1.000000037513887" />
+      <entry key="S2" value="1.0139170765719794" />
+      <entry key="S5" value="1.1808919359427716" />
+      <entry key="S10" value="1.4253139264053734" />
+      <entry key="S30" value="1.7524548286365305" />
+      <entry key="S60" value="1.9062512554247122" />
+      <entry key="M2" value="2.6115043912768012" />
+      <entry key="M5" value="6.66540586635367" />
+      <entry key="M10" value="11.679680784294591" />
+      <entry key="M15" value="15.6239720861719" />
+      <entry key="M30" value="28.44196159870047" />
+      <entry key="H1" value="59.93341963476951" />
+      <entry key="H2" value="149.1283808411726" />
+      <entry key="H4" value="462.021655493308" />
+      <entry key="D1" value="2412.8606022742747" />
+      <entry key="W1" value="3564.4933976749485" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
-      <entry key="S2" value="2.8049113067180714E-244" />
-      <entry key="S5" value="3.79461442427458E-98" />
-      <entry key="S10" value="1.9479770081483455E-49" />
-      <entry key="S30" value="5.796901774146129E-17" />
-      <entry key="S60" value="7.638040131920228E-9" />
-      <entry key="M2" value="1.0016056477755795E-4" />
-      <entry key="M5" value="0.07070302005899011" />
-      <entry key="M10" value="0.9652257671520068" />
-      <entry key="M15" value="2.4819287395862224" />
-      <entry key="M30" value="7.308104295645675" />
-      <entry key="H1" value="15.944374609816819" />
-      <entry key="H2" value="29.882910018965244" />
-      <entry key="H4" value="49.62547739576181" />
-      <entry key="D1" value="164.6248764824461" />
-      <entry key="W1" value="261.0804387645354" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="1.4432444142013158E-207" />
+      <entry key="S10" value="3.799005678070667E-104" />
+      <entry key="S30" value="3.3616924609904453E-35" />
+      <entry key="S60" value="5.8165163773843615E-18" />
+      <entry key="M2" value="2.763995135778038E-9" />
+      <entry key="M5" value="0.0010611436238007834" />
+      <entry key="M10" value="0.11824887265696554" />
+      <entry key="M15" value="0.6122113487147334" />
+      <entry key="M30" value="3.629616751417078" />
+      <entry key="H1" value="11.236615144083755" />
+      <entry key="H2" value="25.08631640659639" />
+      <entry key="H4" value="45.46861252828281" />
+      <entry key="D1" value="162.24200179774195" />
+      <entry key="W1" value="260.5371983746831" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.8705505632961241" />
-      <entry key="MS500" value="0.9726549474122896" />
-      <entry key="S2" value="0.9933469154888767" />
-      <entry key="S5" value="1.0337251729512682" />
-      <entry key="S10" value="1.1896484892821573" />
-      <entry key="S30" value="1.575468522831067" />
-      <entry key="S60" value="1.758669889697365" />
-      <entry key="M2" value="1.8717491675644102" />
-      <entry key="M5" value="2.2848318111314008" />
-      <entry key="M10" value="5.779167208472386" />
-      <entry key="M15" value="11.480665159180168" />
-      <entry key="M30" value="31.703523669713345" />
-      <entry key="H1" value="75.3554839523264" />
-      <entry key="H2" value="184.87791929849735" />
-      <entry key="H4" value="532.597326130226" />
-      <entry key="D1" value="2592.70618716642" />
-      <entry key="W1" value="3812.9741813999785" />
+      <entry key="MS100" value="2.2585936881756746E-8" />
+      <entry key="MS500" value="0.029564301889860332" />
+      <entry key="S2" value="0.419212668212434" />
+      <entry key="S5" value="0.8188917265151278" />
+      <entry key="S10" value="1.178708047731959" />
+      <entry key="S30" value="1.6414726510131026" />
+      <entry key="S60" value="1.8454315622827382" />
+      <entry key="M2" value="2.5768445064736785" />
+      <entry key="M5" value="6.643519156730892" />
+      <entry key="M10" value="11.780250096394806" />
+      <entry key="M15" value="16.22023982535529" />
+      <entry key="M30" value="32.05569346669352" />
+      <entry key="H1" value="71.15302038170769" />
+      <entry key="H2" value="174.1975731571976" />
+      <entry key="H4" value="507.4745627174727" />
+      <entry key="D1" value="2575.0918501865076" />
+      <entry key="W1" value="3825.028060421512" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -173,6 +173,9 @@
     "Gradle.BufferedReaderTests.shouldCreateCollectionsFromReader.executor": "Run",
     "Gradle.Build library-extensions.executor": "Run",
     "Gradle.ConversionTests.executor": "Run",
+    "Gradle.ConversionTests.shouldThrowExceptionOnInvalidNumericStrings.executor": "Run",
+    "Gradle.ConversionTests.shouldThrowExceptionOnNullCollection.executor": "Run",
+    "Gradle.ConversionTests.shouldThrowExceptionOnNullList.executor": "Run",
     "Gradle.DropWhileTests.executor": "Run",
     "Gradle.FilterTests.executor": "Run",
     "Gradle.FilterTests.shouldFilterElementsCorrectlyWhenDestIsLargerThanSrc.executor": "Run",
@@ -286,6 +289,7 @@
     "JUnit.AlgorithmsTest.executor": "Run",
     "JUnit.AssertTest$IsInstanceOfTests.executor": "Run",
     "JUnit.AssertTest.executor": "Run",
+    "JUnit.ListsTest.executor": "Run",
     "JUnit.PairTest.executor": "Run",
     "JUnit.TypesTest$ToInstantTest.shouldConvertFalseToEpochInstant.executor": "Run",
     "JUnit.TypesTest.executor": "Run",
@@ -331,8 +335,8 @@
       <command value="AlgorithmsTest" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.TypesTest">
-    <configuration name="AssertTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="JUnit.ListsTest">
+    <configuration name="ConversionTests.shouldThrowExceptionOnInvalidNumericStrings" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -345,7 +349,7 @@
           <list>
             <option value=":lib:test" />
             <option value="--tests" />
-            <option value="&quot;libext.AssertTest&quot;" />
+            <option value="&quot;libext.ListsTest$ConversionTests.shouldThrowExceptionOnInvalidNumericStrings&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -359,7 +363,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="ToTypeTest.shouldConvertArraysToOptional" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ConversionTests.shouldThrowExceptionOnNullCollection" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -372,7 +376,7 @@
           <list>
             <option value=":lib:test" />
             <option value="--tests" />
-            <option value="&quot;libext.TypesTest$ToTypeTest.shouldConvertArraysToOptional&quot;" />
+            <option value="&quot;libext.ListsTest$ConversionTests.shouldThrowExceptionOnNullCollection&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -386,7 +390,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="TypesTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ConversionTests.shouldThrowExceptionOnNullList" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -399,7 +403,7 @@
           <list>
             <option value=":lib:test" />
             <option value="--tests" />
-            <option value="&quot;libext.TypesTest&quot;" />
+            <option value="&quot;libext.ListsTest$ConversionTests.shouldThrowExceptionOnNullList&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -413,7 +417,34 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="AssertTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ListsTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":lib:test" />
+            <option value="--tests" />
+            <option value="&quot;libext.ListsTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="ListsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="libext.lib.test" />
       <extension name="coverage">
         <pattern>
@@ -422,41 +453,26 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="libext" />
-      <option name="MAIN_CLASS_NAME" value="libext.AssertTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TypesTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="libext.lib.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="libext.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="libext" />
-      <option name="MAIN_CLASS_NAME" value="libext.TypesTest" />
+      <option name="MAIN_CLASS_NAME" value="libext.ListsTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="Gradle.ToTypeTest.shouldConvertArraysToOptional" />
-      <item itemvalue="Gradle.AssertTest" />
-      <item itemvalue="Gradle.TypesTest" />
-      <item itemvalue="JUnit.TypesTest" />
-      <item itemvalue="JUnit.AssertTest" />
+      <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnInvalidNumericStrings" />
+      <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnNullCollection" />
+      <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnNullList" />
+      <item itemvalue="Gradle.ListsTest" />
+      <item itemvalue="JUnit.ListsTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.TypesTest" />
-        <item itemvalue="JUnit.TypesTest" />
-        <item itemvalue="Gradle.ToTypeTest.shouldConvertArraysToOptional" />
-        <item itemvalue="Gradle.AssertTest" />
-        <item itemvalue="JUnit.AssertTest" />
+        <item itemvalue="JUnit.ListsTest" />
+        <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnNullCollection" />
+        <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnInvalidNumericStrings" />
+        <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnNullList" />
+        <item itemvalue="Gradle.ListsTest" />
       </list>
     </recent_temporary>
   </component>
@@ -686,6 +702,9 @@
       <workItem from="1795627099062" duration="62000" />
       <workItem from="1795712214935" duration="1542000" />
       <workItem from="1795714119544" duration="3649000" />
+      <workItem from="1795718032655" duration="41000" />
+      <workItem from="1795727407571" duration="696000" />
+      <workItem from="1795809012071" duration="2402000" />
     </task>
     <servers />
   </component>
