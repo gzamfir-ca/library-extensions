@@ -27,7 +27,8 @@ public final class Maps {
   }
 
   @SafeVarargs
-  private static <K, V> void addAll(Map<K, V> map, Function<K, V> function, K... keys) {
+  private static <K, V> void addAll(Map<K, V> map, Function<? super K, ? extends V> function,
+      K... keys) {
     Objects.requireNonNull(map, "no valid map provided");
     for (K key : keys) {
       map.put(key, function.apply(key));
@@ -47,7 +48,8 @@ public final class Maps {
   }
 
   @SafeVarargs
-  public static <K, V> Map<K, V> newHashMap(Function<K, V> function, K... keys) {
+  public static <K, V> Map<K, V> newHashMap(Function<? super K, ? extends V> function,
+      K... keys) {
     Objects.requireNonNull(function, "no valid function provided");
     Objects.requireNonNull(keys, "no valid keys provided");
     Map<K, V> map = HashMap.newHashMap(keys.length);
@@ -71,7 +73,8 @@ public final class Maps {
   }
 
   @SafeVarargs
-  public static <K, V> Map<K, V> newLinkedHashMap(Function<K, V> function, K... keys) {
+  public static <K, V> Map<K, V> newLinkedHashMap(Function<? super K, ? extends V> function,
+      K... keys) {
     Objects.requireNonNull(function, "no valid function provided");
     Objects.requireNonNull(keys, "no valid keys provided");
     Map<K, V> map = LinkedHashMap.newLinkedHashMap(keys.length);

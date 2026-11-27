@@ -7,8 +7,7 @@
     <list default="true" id="8b940131-ad80-4de5-89ee-48bf388dc120" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lib/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/main/java/libext/Lists.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/main/java/libext/Lists.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/test/java/libext/ListsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/test/java/libext/ListsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/main/java/libext/Maps.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/main/java/libext/Maps.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,61 +80,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.000000037513887" />
-      <entry key="S2" value="1.0139170765719794" />
-      <entry key="S5" value="1.1808919359427716" />
-      <entry key="S10" value="1.4253139264053734" />
-      <entry key="S30" value="1.7524548286365305" />
-      <entry key="S60" value="1.9062512554247122" />
-      <entry key="M2" value="2.6115043912768012" />
-      <entry key="M5" value="6.66540586635367" />
-      <entry key="M10" value="11.679680784294591" />
-      <entry key="M15" value="15.6239720861719" />
-      <entry key="M30" value="28.44196159870047" />
-      <entry key="H1" value="59.93341963476951" />
-      <entry key="H2" value="149.1283808411726" />
-      <entry key="H4" value="462.021655493308" />
-      <entry key="D1" value="2412.8606022742747" />
-      <entry key="W1" value="3564.4933976749485" />
+      <entry key="MS100" value="1.0000000000000193" />
+      <entry key="MS500" value="1.0018072352110114" />
+      <entry key="S2" value="1.2061833871525205" />
+      <entry key="S5" value="1.5317436158691093" />
+      <entry key="S10" value="1.7309160321630563" />
+      <entry key="S30" value="2.1751753030717698" />
+      <entry key="S60" value="3.044733631856687" />
+      <entry key="M2" value="4.269982491336141" />
+      <entry key="M5" value="6.11232214433009" />
+      <entry key="M10" value="9.400270896077977" />
+      <entry key="M15" value="13.003510026009295" />
+      <entry key="M30" value="25.101341077142646" />
+      <entry key="H1" value="55.02470917272899" />
+      <entry key="H2" value="140.61049199540048" />
+      <entry key="H4" value="444.39903761099526" />
+      <entry key="D1" value="2397.9620479419264" />
+      <entry key="W1" value="3566.8542113041212" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
       <entry key="S2" value="0.0" />
-      <entry key="S5" value="1.4432444142013158E-207" />
-      <entry key="S10" value="3.799005678070667E-104" />
-      <entry key="S30" value="3.3616924609904453E-35" />
-      <entry key="S60" value="5.8165163773843615E-18" />
-      <entry key="M2" value="2.763995135778038E-9" />
-      <entry key="M5" value="0.0010611436238007834" />
-      <entry key="M10" value="0.11824887265696554" />
-      <entry key="M15" value="0.6122113487147334" />
-      <entry key="M30" value="3.629616751417078" />
-      <entry key="H1" value="11.236615144083755" />
-      <entry key="H2" value="25.08631640659639" />
-      <entry key="H4" value="45.46861252828281" />
-      <entry key="D1" value="162.24200179774195" />
-      <entry key="W1" value="260.5371983746831" />
+      <entry key="S5" value="5.700759696206323E-276" />
+      <entry key="S10" value="2.3876263728243426E-138" />
+      <entry key="S30" value="1.3365651153049996E-46" />
+      <entry key="S60" value="1.1597891085856463E-23" />
+      <entry key="M2" value="3.9029708689099425E-12" />
+      <entry key="M5" value="7.686300916705298E-5" />
+      <entry key="M10" value="0.03182501493228402" />
+      <entry key="M15" value="0.2552010443769024" />
+      <entry key="M30" value="2.3434263359490193" />
+      <entry key="H1" value="9.028815413022942" />
+      <entry key="H2" value="22.487155833948197" />
+      <entry key="H4" value="43.04874737038884" />
+      <entry key="D1" value="160.76990889400523" />
+      <entry key="W1" value="260.1981679590093" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="2.2585936881756746E-8" />
-      <entry key="MS500" value="0.029564301889860332" />
-      <entry key="S2" value="0.419212668212434" />
-      <entry key="S5" value="0.8188917265151278" />
-      <entry key="S10" value="1.178708047731959" />
-      <entry key="S30" value="1.6414726510131026" />
-      <entry key="S60" value="1.8454315622827382" />
-      <entry key="M2" value="2.5768445064736785" />
-      <entry key="M5" value="6.643519156730892" />
-      <entry key="M10" value="11.780250096394806" />
-      <entry key="M15" value="16.22023982535529" />
-      <entry key="M30" value="32.05569346669352" />
-      <entry key="H1" value="71.15302038170769" />
-      <entry key="H2" value="174.1975731571976" />
-      <entry key="H4" value="507.4745627174727" />
-      <entry key="D1" value="2575.0918501865076" />
-      <entry key="W1" value="3825.028060421512" />
+      <entry key="MS100" value="7.198580162554231E-4" />
+      <entry key="MS500" value="0.23551469387847426" />
+      <entry key="S2" value="0.8288998382591779" />
+      <entry key="S5" value="1.3107892680119877" />
+      <entry key="S10" value="1.599315909289394" />
+      <entry key="S30" value="2.1210200769020138" />
+      <entry key="S60" value="3.0098210050877796" />
+      <entry key="M2" value="4.246808730870173" />
+      <entry key="M5" value="6.098874869494245" />
+      <entry key="M10" value="9.420795309713055" />
+      <entry key="M15" value="13.247550531301316" />
+      <entry key="M30" value="27.432173159688197" />
+      <entry key="H1" value="64.03866284353475" />
+      <entry key="H2" value="163.08169733061524" />
+      <entry key="H4" value="487.4326138446782" />
+      <entry key="D1" value="2558.7212500537544" />
+      <entry key="W1" value="3827.0498397196466" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -290,6 +289,7 @@
     "JUnit.AssertTest$IsInstanceOfTests.executor": "Run",
     "JUnit.AssertTest.executor": "Run",
     "JUnit.ListsTest.executor": "Run",
+    "JUnit.MapsTest.executor": "Run",
     "JUnit.PairTest.executor": "Run",
     "JUnit.TypesTest$ToInstantTest.shouldConvertFalseToEpochInstant.executor": "Run",
     "JUnit.TypesTest.executor": "Run",
@@ -335,34 +335,7 @@
       <command value="AlgorithmsTest" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.ListsTest">
-    <configuration name="ConversionTests.shouldThrowExceptionOnInvalidNumericStrings" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":lib:test" />
-            <option value="--tests" />
-            <option value="&quot;libext.ListsTest$ConversionTests.shouldThrowExceptionOnInvalidNumericStrings&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="JUnit.MapsTest">
     <configuration name="ConversionTests.shouldThrowExceptionOnNullCollection" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -390,7 +363,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="ConversionTests.shouldThrowExceptionOnNullList" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="MapsTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -403,7 +376,7 @@
           <list>
             <option value=":lib:test" />
             <option value="--tests" />
-            <option value="&quot;libext.ListsTest$ConversionTests.shouldThrowExceptionOnNullList&quot;" />
+            <option value="&quot;libext.MapsTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -417,7 +390,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="ListsTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="library-extensions [publishToMavenLocal]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -428,18 +401,16 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value=":lib:test" />
-            <option value="--tests" />
-            <option value="&quot;libext.ListsTest&quot;" />
+            <option value="publishToMavenLocal" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
+      <RunAsTest>false</RunAsTest>
       <GradleProfilingDisabled>false</GradleProfilingDisabled>
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
@@ -459,20 +430,35 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MapsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="libext.lib.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="libext.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="libext" />
+      <option name="MAIN_CLASS_NAME" value="libext.MapsTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
-      <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnInvalidNumericStrings" />
+      <item itemvalue="Gradle.MapsTest" />
+      <item itemvalue="Gradle.library-extensions [publishToMavenLocal]" />
       <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnNullCollection" />
-      <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnNullList" />
-      <item itemvalue="Gradle.ListsTest" />
+      <item itemvalue="JUnit.MapsTest" />
       <item itemvalue="JUnit.ListsTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MapsTest" />
+        <item itemvalue="Gradle.MapsTest" />
+        <item itemvalue="Gradle.library-extensions [publishToMavenLocal]" />
         <item itemvalue="JUnit.ListsTest" />
         <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnNullCollection" />
-        <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnInvalidNumericStrings" />
-        <item itemvalue="Gradle.ConversionTests.shouldThrowExceptionOnNullList" />
-        <item itemvalue="Gradle.ListsTest" />
       </list>
     </recent_temporary>
   </component>
@@ -705,6 +691,8 @@
       <workItem from="1795718032655" duration="41000" />
       <workItem from="1795727407571" duration="696000" />
       <workItem from="1795809012071" duration="2402000" />
+      <workItem from="1795811617589" duration="25000" />
+      <workItem from="1795817425122" duration="1918000" />
     </task>
     <servers />
   </component>
